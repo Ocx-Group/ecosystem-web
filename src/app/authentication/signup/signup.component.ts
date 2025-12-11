@@ -8,7 +8,7 @@ import {
   FormGroup,
   Validators,
   AbstractControl,
-  ValidationErrors
+  ValidationErrors,
 } from '@angular/forms';
 import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.service';
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
@@ -80,26 +80,46 @@ export class SignupComponent implements OnInit {
       return;
     }
     this.registerForm.patchValue({
-      phone: country.phoneCode
+      phone: country.phoneCode,
     });
   }
 
   loadValidations() {
-    this.registerForm = this.formBuilder.group({
-      user_name: ['', [Validators.required, NoWhitespaceValidator]],
-      password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&^_-]).{8,}/)]],
-      repitpassword: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&^_-]).{8,}/)]],
-      name: ['', Validators.required],
-      last_name: ['', [Validators.required]],
-      phone: ['', Validators.required],
-      country: ['', Validators.required],
-      affiliate_type: ['', Validators.required],
-      email: ['', Validators.required],
-      terms_conditions: [false, Validators.required]
-    },
+    this.registerForm = this.formBuilder.group(
       {
-        validator: passwordMatchValidator
-      });
+        user_name: ['', [Validators.required, NoWhitespaceValidator]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.pattern(
+              /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&^_-]).{8,}/
+            ),
+          ],
+        ],
+        repitpassword: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.pattern(
+              /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&^_-]).{8,}/
+            ),
+          ],
+        ],
+        name: ['', Validators.required],
+        last_name: ['', [Validators.required]],
+        phone: ['', Validators.required],
+        country: ['', Validators.required],
+        affiliate_type: ['', Validators.required],
+        email: ['', Validators.required],
+        terms_conditions: [false, Validators.required],
+      },
+      {
+        validator: passwordMatchValidator,
+      }
+    );
   }
 
   get create_user_controls(): { [key: string]: AbstractControl } {
@@ -132,15 +152,13 @@ export class SignupComponent implements OnInit {
     let termis_conditions = this.registerForm.value.terms_conditions;
 
     if (this.registerForm.invalid) {
-      this.showError("Formulario invalido.");
+      this.showError('Formulario invalido.');
       return;
     }
     if (termis_conditions === false) {
-      this.showError("Los terminos y condiciones son requeridos.");
+      this.showError('Los terminos y condiciones son requeridos.');
       return;
     }
-
-
 
     let user = new CreateAffiliate();
 
@@ -175,7 +193,7 @@ export class SignupComponent implements OnInit {
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'xl',
-      scrollable: true
+      scrollable: true,
     });
   }
 
@@ -198,11 +216,12 @@ export function passwordMatchValidator(formGroup: FormGroup) {
   return password === confirmPassword ? null : { passwordMismatch: true };
 }
 
-export function NoWhitespaceValidator(control: AbstractControl): ValidationErrors | null {
-  if (control.value.indexOf(' ') >= 0) {
-    return { 'whitespace': true };
+export function NoWhitespaceValidator(
+  control: AbstractControl
+): ValidationErrors | null {
+  if (control.value.includes(' ')) {
+    return { whitespace: true };
   } else {
     return null;
   }
 }
-
