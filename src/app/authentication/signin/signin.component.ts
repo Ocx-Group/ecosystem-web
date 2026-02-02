@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Signin } from '@app/core/models/signin-model/signin.model';
 import { LogoService } from '@app/core/service/logo-service/logo.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-signin',
@@ -41,7 +42,7 @@ export class SigninComponent implements OnInit {
     private toastr: ToastrService,
     private logoService: LogoService,
     private translate: TranslateService,
-    private deviceService: DeviceDetectorService
+    private deviceService: DeviceDetectorService,
   ) {}
 
   ngOnInit() {
@@ -50,7 +51,7 @@ export class SigninComponent implements OnInit {
     particlesJS.load(
       'particles-js',
       'assets/particles/particles.json',
-      function () {}
+      function () {},
     );
     this.setLabels();
     this.setErrorMessages();
@@ -79,16 +80,16 @@ export class SigninComponent implements OnInit {
   setErrorMessages() {
     if (this.translate.currentLang != undefined) {
       this.passwordIsRequerid = this.translate.instant(
-        'SIGNIN.PASS-IS-REQUIRED.TEXT'
+        'SIGNIN.PASS-IS-REQUIRED.TEXT',
       );
       this.userNameIsRequerid = this.translate.instant(
-        'SIGNIN.USER-NAME-IS-REQUIRED.TEXT'
+        'SIGNIN.USER-NAME-IS-REQUIRED.TEXT',
       );
       this.passwordErrorMessage = this.translate.instant(
-        'SIGNIN.PASS-MESSAGE-ERROR.TEXT'
+        'SIGNIN.PASS-MESSAGE-ERROR.TEXT',
       );
       this.userNameErrorMessage = this.translate.instant(
-        'SIGNIN.USER-NAME-MESSAGE-ERROR.TEXT'
+        'SIGNIN.USER-NAME-MESSAGE-ERROR.TEXT',
       );
     }
   }
@@ -114,6 +115,7 @@ export class SigninComponent implements OnInit {
 
       this.authService.loginUser(signin).subscribe((response: Response) => {
         if (response.success) {
+          this.showInformativeBulletin();
           if (response.data.is_affiliate) {
             this.router.navigate(['/app/home']);
           } else {
@@ -166,5 +168,31 @@ export class SigninComponent implements OnInit {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
     }
+  }
+
+  showInformativeBulletin() {
+    Swal.fire({
+      title: '<strong>Boletín Informativo</strong>',
+      icon: 'info',
+      html: `
+        <div style="text-align: left;">
+          <p>📅 <b>Fecha:</b> Domingo 1 de Marzo</p>
+          <p>💻 <b>Plataforma:</b> Zoom</p>
+          <hr>
+          <p><b>Temas a tratar:</b></p>
+          <ul>
+            <li>Información detallada sobre la <b>retribución</b> y su proceso.</li>
+            <li>Pasos a seguir para los participantes.</li>
+            <li>Presentación del <b>Plan Definitivo</b>.</li>
+          </ul>
+          <p style="font-size: 0.9em; color: #555;"><i>No faltes, tu participación es fundamental para el cierre del proceso.</i></p>
+        </div>
+      `,
+      showCloseButton: true,
+      focusConfirm: false,
+      confirmButtonText: '<i class="fa fa-thumbs-up"></i> Entendido',
+      confirmButtonAriaLabel: 'Thumbs up, entendido',
+      confirmButtonColor: '#3085d6',
+    });
   }
 }
