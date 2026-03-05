@@ -176,7 +176,7 @@ export class SigninComponent implements OnInit {
       icon: 'info',
       html: `
         <div style="text-align: left;">
-          <p>📅 <b>Fecha:</b> Domingo 1 de Marzo</p>
+          <p>📅 <b>Fecha:</b> Domingo 15 de Marzo</p>
           <p>💻 <b>Plataforma:</b> Zoom</p>
           <hr>
           <p><b>Temas a tratar:</b></p>
