@@ -11,6 +11,7 @@ import { CoinpaymentService } from '@app/core/service/coinpayment-service/coinpa
 import { TransactionInfo } from '@app/core/models/coinpayment-model/transaction-info.model'
 import { ConpaymentTransaction } from '@app/core/models/coinpayment-model/conpayment-transaction.model';
 import { MembershipManagerService } from '@app/core/service/membership-manager-service/membership-manager.service';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-coinpayments',
@@ -63,7 +64,7 @@ export class CoinpaymentsComponent {
     request.buyer_email = this.user.email;
     request.buyer_name = this.user.name + ' ' + this.user.last_name;
     request.item_number = this.user.id.toString();
-    request.ipn_url = 'https://wallet.ecosystemfx.net/api/v1/ConPayments/coinPaymentsIPN';
+    request.ipn_url = `${environment.apis.walletService}/ConPayments/coinPaymentsIPN`;
     request.currency1 = 'USDT.TRC20';
     request.currency2 = 'USDT.TRC20';
     request.item_name = this.user.user_name;

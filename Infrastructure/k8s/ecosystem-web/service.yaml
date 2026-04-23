@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecosystem-web
+  namespace: ecosystem
+  labels:
+    app: ecosystem-web
+spec:
+  type: ClusterIP
+  selector:
+    app: ecosystem-web
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80

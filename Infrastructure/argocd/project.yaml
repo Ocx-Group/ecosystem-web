@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: ecosystem-frontends
+  namespace: argocd
+spec:
+  description: Frontend workloads for the Ecosystem cluster
+  sourceRepos:
+    - https://github.com/Ocx-Group/ecosystem-web
+  destinations:
+    - namespace: ecosystem
+      server: https://kubernetes.default.svc
+    - namespace: argocd
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: ''
+      kind: Namespace
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'

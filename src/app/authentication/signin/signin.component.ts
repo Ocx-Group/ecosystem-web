@@ -176,16 +176,10 @@ export class SigninComponent implements OnInit {
       icon: 'info',
       html: `
         <div style="text-align: left;">
-          <p>📅 <b>Fecha:</b> Domingo 15 de Marzo</p>
-          <p>💻 <b>Plataforma:</b> Zoom</p>
+          <p>📅 <b>A partir de Mayo</b>, el <b>1er Domingo de cada mes</b> estaré dando informes por <b>Zoom</b> sobre el avance del crecimiento del capital.</p>
           <hr>
-          <p><b>Temas a tratar:</b></p>
-          <ul>
-            <li>Información detallada sobre la <b>retribución</b> y su proceso.</li>
-            <li>Pasos a seguir para los participantes.</li>
-            <li>Presentación del <b>Plan Definitivo</b>.</li>
-          </ul>
-          <p style="font-size: 0.9em; color: #555;"><i>No faltes, tu participación es fundamental para el cierre del proceso.</i></p>
+          <p>🕑 <b>Hora:</b> 2:30 pm</p>
+          <p>💻 <b>Plataforma:</b> Zoom</p>
         </div>
       `,
       showCloseButton: true,

@@ -42,8 +42,12 @@ export class TicketHubService {
   }
 
   public async startConnection(): Promise<void> {
+    if (this.hubConnection && this.hubConnection.state !== HubConnectionState.Disconnected) {
+      return;
+    }
+
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`https://account.ecosystemfx.net/ticketHub`, { withCredentials: true })
+      .withUrl(this.urlApi, { withCredentials: true })
       .withAutomaticReconnect()
       .build();
 

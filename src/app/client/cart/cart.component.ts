@@ -27,6 +27,7 @@ import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.
 import { PagaditoService } from '@app/core/service/pagadito-service/pagadito.service';
 import { PagaditoTransactionDetailRequest } from '@app/core/models/pagadito-model/pagadito-transaction-detail-request.model';
 import { Subscription, switchMap, timer } from 'rxjs';
+import { environment } from '@environments/environment';
 
 
 @Component({
@@ -343,7 +344,7 @@ export class CartComponent implements OnInit, OnDestroy {
     request.buyer_email = this.user.email;
     request.buyer_name = this.user.name + ' ' + this.user.last_name;
     request.item_number = this.user.id.toString();
-    request.ipn_url = 'https://wallet.ecosystemfx.net/api/v1/ConPayments/coinPaymentsIPN';
+    request.ipn_url = `${environment.apis.walletService}/ConPayments/coinPaymentsIPN`;
     request.currency1 = 'USDT.TRC20';
     request.currency2 = 'USDT.TRC20';
     request.item_name = this.user.user_name;
