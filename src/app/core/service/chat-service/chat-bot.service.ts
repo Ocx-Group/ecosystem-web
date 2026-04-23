@@ -1,22 +1,27 @@
 import { environment } from '@environments/environment';
 import { Injectable } from '@angular/core';
 import { Configuration, OpenAIApi } from 'openai';
-import { Observable, filter, from, map } from 'rxjs';
+import { Observable, filter, from, map, throwError } from 'rxjs';
 
 
-const APIKEY = environment.openAI.apiKey;
 @Injectable({
   providedIn: 'root'
 })
 export class ChatBotService {
-  private readonly openai: OpenAIApi;
+  private readonly openai: OpenAIApi | null;
 
   constructor() {
-    const configuration = new Configuration({ apiKey: APIKEY });
-    this.openai = new OpenAIApi(configuration);
+    const apiKey = environment.openAI?.apiKey ?? '';
+    this.openai = apiKey
+      ? new OpenAIApi(new Configuration({ apiKey }))
+      : null;
   }
 
   getDataFromOpenAI(text: string): Observable<string> {
+    if (!this.openai) {
+      return throwError(() => new Error('OpenAI API key is not configured.'));
+    }
+
     return from(this.openai.createCompletion({
       model: 'text-davinci-003',
       prompt: text,

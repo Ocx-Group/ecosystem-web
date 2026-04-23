@@ -13,6 +13,9 @@ export const environment = {
     walletService: `${gatewayBaseUrl}/api/v1`,
     coinPayment: 'https://www.coinpayments.net/index.php',
   },
+  openAI: {
+    apiKey: '',
+  },
   tokens: {
     coinPayment: 'bfd40db8f711397a6c5b7653175afc38',
     accountService:
