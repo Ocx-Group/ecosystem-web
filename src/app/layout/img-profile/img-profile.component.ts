@@ -1,7 +1,6 @@
 import { ImageProfileService } from './../../core/service/image-profile-service/image-profile.service';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
 import { AuthService } from '@app/core/service/authentication-service/auth.service';
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
 import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.service';
@@ -9,6 +8,7 @@ import { UpdateImageProfile } from '@app/core/models/user-affiliate-model/update
 import { ToastrService } from 'ngx-toastr';
 import { User } from '@app/core/models/user-model/user.model';
 import { UserService } from '@app/core/service/user-service/user.service';
+import { ObjectStorageService } from '@app/core/service/object-storage-service/object-storage.service';
 
 
 @Component({
@@ -24,7 +24,7 @@ export class ImgProfileComponent implements OnInit {
   userAdmin: User = new User();
 
   constructor(private modalService: NgbModal,
-    private storage: Storage,
+    private objectStorageService: ObjectStorageService,
     private authService: AuthService,
     private affiliateService: AffiliateService,
     private toastr: ToastrService,
@@ -59,21 +59,13 @@ export class ImgProfileComponent implements OnInit {
   onFileSelected(event: any): void {
     this.file = event.addedFiles[0];
     const isUserAffiliate = this.user && this.user.id;
-    const filePath = isUserAffiliate
-      ? 'affiliates/profile/' + `${this.user.user_name}/` + `${this.user.id}`
-      : 'admins/profile/' + `${this.userAdmin.user_name}/` + `${this.userAdmin.id}`;
+    const folder = isUserAffiliate
+      ? 'affiliates/profile/' + `${this.user.user_name}`
+      : 'admins/profile/' + `${this.userAdmin.user_name}`;
+    const fileName = `${isUserAffiliate ? this.user.id : this.userAdmin.id}`;
 
-    this.fileRef = ref(this.storage, filePath);
-    const uploadTask = uploadBytesResumable(this.fileRef, this.file);
-
-    uploadTask.on('state_changed',
-      (snapshot) => { },
-      (error) => {
-        console.log(error);
-        this.showError('Error al subir la imagen');
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+    this.objectStorageService.uploadAccountImage(this.file, folder, fileName).subscribe({
+      next: (downloadURL) => {
           let updateImage = new UpdateImageProfile();
           updateImage.image_profile_url = downloadURL;
 
@@ -100,9 +92,9 @@ export class ImgProfileComponent implements OnInit {
               }
             });
           }
-        });
-      }
-    );
+      },
+      error: () => this.showError('Error al subir la imagen')
+    });
   }
 
   removeImage(): void {

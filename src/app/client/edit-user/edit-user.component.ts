@@ -2,7 +2,6 @@
 import { FaceApiService } from '@app/core/service/face-api-service/face-api.service';
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
-import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
 import { ToastrService } from 'ngx-toastr';
 import {
   FormBuilder,
@@ -18,6 +17,7 @@ import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.
 import { AuthService } from '@app/core/service/authentication-service/auth.service';
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
 import { Subject, takeUntil } from 'rxjs';
+import { ObjectStorageService } from '@app/core/service/object-storage-service/object-storage.service';
 @Component({
   selector: 'app-edit-user',
   templateUrl: './edit-user.component.html',
@@ -46,7 +46,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private affiliateService: AffiliateService,
     private formBuilder: FormBuilder,
-    private storage: Storage,
+    private objectStorageService: ObjectStorageService,
     private faceApiService: FaceApiService
   ) {
   }
@@ -263,8 +263,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
       this.updateCardIdAuthorization(0);
     }
 
-    const filePath = 'affiliates/' + `${this.user.user_name}/` + `${this.user.id}`;
-    this.fileRef = ref(this.storage, filePath);
   }
 
   private updateProgress(snapshot): void {
@@ -276,9 +274,11 @@ export class EditUserComponent implements OnInit, OnDestroy {
   }
 
   private handleComplete(): void {
-    getDownloadURL(this.uploadTask.snapshot.ref)
-      .then(downloadURL => this.updateAffiliateImage(downloadURL))
-      .catch(err => this.handleUpdateError(err));
+    const folder = `affiliates/${this.user.user_name}`;
+    this.objectStorageService.uploadAccountImage(this.files[0], folder, `${this.user.id}`).subscribe({
+      next: (downloadURL) => this.updateAffiliateImage(downloadURL),
+      error: (err) => this.handleUpdateError(err)
+    });
   }
 
   private async updateAffiliateImage(downloadURL: string): Promise<void> {
@@ -309,13 +309,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
   startUpload(): void {
     this.isUploadCompleted = false;
-    this.uploadTask = uploadBytesResumable(this.fileRef, this.files[0]);
-
-    this.uploadTask.on('state_changed',
-      snapshot => this.updateProgress(snapshot),
-      error => this.handleError(error),
-      () => this.handleComplete()
-    );
+    this.handleComplete();
   }
 
   deleteImage() {

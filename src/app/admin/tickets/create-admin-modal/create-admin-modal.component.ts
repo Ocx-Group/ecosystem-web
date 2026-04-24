@@ -5,14 +5,14 @@ import {TicketRequest} from "@app/core/models/ticket-model/ticketRequest.model";
 import {UserAffiliate} from "@app/core/models/user-affiliate-model/user.affiliate.model";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {TicketCategoriesService} from "@app/core/service/ticket-categories-service/ticket-categories.service";
-import {getDownloadURL, ref, Storage, uploadBytesResumable} from "@angular/fire/storage";
 
 import {ToastrService} from "ngx-toastr";
 import {TicketHubService} from "@app/core/service/ticket-service/ticket-hub.service";
-import {concatAll, from, Observable} from "rxjs";
+import {concatAll, from} from "rxjs";
 import {TicketImagesRequest} from "@app/core/models/ticket-model/ticket-images-request.model";
-import {toArray} from "rxjs/operators";
+import {map, toArray} from "rxjs/operators";
 import {AffiliateService} from "@app/core/service/affiliate-service/affiliate.service";
+import {ObjectStorageService} from "@app/core/service/object-storage-service/object-storage.service";
 
 @Component({
   selector: 'app-create-admin-modal',
@@ -35,7 +35,7 @@ export class CreateAdminModalComponent implements OnInit {
 
   constructor(private modalService: NgbModal,
               private ticketCategoriesService: TicketCategoriesService,
-              private storage: Storage,
+              private objectStorageService: ObjectStorageService,
               private toast: ToastrService,
               private ticketHubService: TicketHubService,
               private affiliateService: AffiliateService,
@@ -100,35 +100,16 @@ export class CreateAdminModalComponent implements OnInit {
   }
 
   startTicketImageUpload(): void {
-    const filePathBase = `tickets/${this.user.user_name}/${this.user.id}/`;
-    const uploads = this.files.map(file => {
-      const fileRef = ref(this.storage, `${filePathBase}${file.name}`);
-      const uploadTask = uploadBytesResumable(fileRef, file);
-
-      return new Observable<TicketImagesRequest>((subscriber) => {
-        uploadTask.on(
-          'state_changed',
-          () => {
-          },
-          (error) => {
-            subscriber.error(error);
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then(
-              (downloadURL) => {
-                let imageRequest = new TicketImagesRequest();
-                imageRequest.imagePath = downloadURL;
-                subscriber.next(imageRequest);
-                subscriber.complete();
-              },
-              (error) => {
-                subscriber.error(error);
-              }
-            );
-          }
-        );
-      });
-    });
+    const filePathBase = `tickets/${this.user.user_name}/${this.user.id}`;
+    const uploads = this.files.map(file =>
+      this.objectStorageService.uploadAccountImage(file, filePathBase, file.name).pipe(
+        map((downloadURL) => {
+          let imageRequest = new TicketImagesRequest();
+          imageRequest.imagePath = downloadURL;
+          return imageRequest;
+        })
+      )
+    );
 
     from(uploads).pipe(
       concatAll(),

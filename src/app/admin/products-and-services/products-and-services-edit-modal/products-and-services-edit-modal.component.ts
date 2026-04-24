@@ -19,7 +19,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import Swal from 'sweetalert2';
-import { Storage, ref, uploadBytesResumable, getDownloadURL } from '@angular/fire/storage';
 
 
 import { ProductDiscountService } from '@app/core/service/product-discount-service/product-discount.service';
@@ -37,6 +36,7 @@ import { ProductCombinationService } from '@app/core/service/product-combination
 import { ProductInventory } from '@app/core/models/product-inventory-model/product-inventory.model';
 import { ProductInventoryService } from '@app/core/service/product-inventory-service/product-inventory.service';
 import { HttpClient } from '@angular/common/http';
+import { ObjectStorageService } from '@app/core/service/object-storage-service/object-storage.service';
 
 @Component({
   selector: 'app-products-and-services-edit-modal',
@@ -96,7 +96,7 @@ export class ProductsAndServicesEditModalComponent implements OnInit {
     private productAttributeService: ProductAttributeService,
     private productCombinationService: ProductCombinationService,
     private productInventoryService: ProductInventoryService,
-    private storage: Storage,
+    private objectStorageService: ObjectStorageService,
     private http: HttpClient
   ) { }
 
@@ -562,9 +562,6 @@ export class ProductsAndServicesEditModalComponent implements OnInit {
     const file = event.addedFiles[0];
     this.files.push(file);
 
-    const filePath = 'products/' + `${this.product.id}` + '.jpg';
-    this.fileRef = ref(this.storage, filePath);
-
     this.startUpload();
 
   }
@@ -575,8 +572,6 @@ export class ProductsAndServicesEditModalComponent implements OnInit {
       return;
     }
 
-    this.uploadTask = uploadBytesResumable(this.fileRef, this.files[0]);
-
     let toastReference = this.toastr.info('Upload started...', 'Progress', {
       progressBar: true,
       progressAnimation: 'increasing',
@@ -586,34 +581,26 @@ export class ProductsAndServicesEditModalComponent implements OnInit {
       tapToDismiss: false
     });
 
-    this.uploadTask.on('state_changed',
-      snapshot => {
-        this.progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log(`Upload is ${this.progress}% done`);
-
-        toastReference.toastRef.componentInstance.progress = this.progress;
-      },
-      error => {
-        console.error('Upload failed:', error);
-        this.toastr.error('Upload failed');
-      },
-      () => {
-        getDownloadURL(this.uploadTask.snapshot.ref)
-          .then(downloadURL => {
-            this.product.image = downloadURL;
-            return this.productService.updateProduct(this.product).toPromise();
-          })
-          .then(() => {
+    this.objectStorageService.uploadProductImage(this.files[0], this.product.id).subscribe({
+      next: (downloadURL) => {
+        this.product.image = downloadURL;
+        this.productService.updateProduct(this.product).subscribe({
+          next: () => {
             this.toastr.clear(toastReference.toastId);
             this.toastr.success('Image updated successfully');
             this.files = [];
-          })
-          .catch(err => {
+          },
+          error: (err) => {
             console.error('Error updating product:', err);
             this.toastr.error('Error updating product');
-          });
+          }
+        });
+      },
+      error: (error) => {
+        console.error('Upload failed:', error);
+        this.toastr.error('Upload failed');
       }
-    );
+    });
   }
 
   deleteImage() {

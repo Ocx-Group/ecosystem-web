@@ -3,7 +3,6 @@ import { LocationStrategy, HashLocationStrategy, PathLocationStrategy } from '@a
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { getStorage, provideStorage } from '@angular/fire/storage';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -90,7 +89,6 @@ export function createTranslateLoader(http: HttpClient): any {
     ClipboardModule,
     MembershipManagerModule,
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
-    provideStorage(() => getStorage()),
     ClientModule,
     NgxDropzoneModule,
   ],
