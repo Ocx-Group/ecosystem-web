@@ -1,42 +1,108 @@
-<div id="particles-js"></div>
-<main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
-  <form class="register-form" [formGroup]="forgotPassword" (ngSubmit)="sendPasswordRecovery()">
-    <div class="container">
-      <div class="row">
-        <div class="auth-card">
-          <div class="col-12">
-            <div class="card card-primary">
-              <div class="card-header">
-                <h4>Forgot Password</h4>
-              </div>
-              <div class="card-body">
-                <p class="text-muted">We will send a link to reset your password</p>
-                <div class="form-group">
-                  <label for="email">Email</label>
-                  <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus
-                    formControlName="email" [ngClass]="{
-                      'is-invalid': submitted && forgotPassword.get('email').errors,
-                      'is-valid': forgotPassword.get('email').valid && forgotPassword.get('email').dirty
-                    }" (input)="validateEmail()">
-                  <div *ngIf="submitted && forgotPassword.get('email').errors" class="invalid-feedback">
-                    <div *ngIf="forgotPassword.get('email').errors.required">
-                      Ingrese un correo electrónico.
-                    </div>
-                    <div *ngIf="forgotPassword.get('email').errors.email">
-                      Ingrese un correo electrónico válido.
-                    </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-                    Forgot Password
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+<div class="signin-wrapper">
+
+  <!-- ── LEFT PANEL ─────────────────────────────────────────────── -->
+  <div class="signin-left">
+    <div id="particles-js"></div>
+
+    <div class="signin-left__content">
+      <!-- Decorative rings -->
+      <div class="signin-left__ring signin-left__ring--1"></div>
+      <div class="signin-left__ring signin-left__ring--2"></div>
+      <div class="signin-left__ring signin-left__ring--3"></div>
+
+      <!-- Icon -->
+      <div class="fp-left-icon">
+        <i class="bi bi-shield-lock"></i>
+      </div>
+
+      <!-- Brand copy -->
+      <div class="signin-left__brand">
+        <h1 class="signin-left__brand-title">Recupera tu acceso</h1>
+        <p class="signin-left__brand-sub">Restablecimiento de contraseña</p>
+        <div class="signin-left__divider"></div>
+        <p class="signin-left__brand-desc">
+          Ingresa tu correo electrónico y te enviaremos un enlace para que puedas restablecer tu contraseña de forma
+          segura.
+        </p>
+      </div>
+
+      <!-- Steps -->
+      <div class="fp-steps">
+        <div class="fp-step">
+          <span class="fp-step__num">1</span>
+          <span class="fp-step__text">Ingresa tu correo</span>
+        </div>
+        <div class="fp-step__arrow"><i class="bi bi-arrow-right"></i></div>
+        <div class="fp-step">
+          <span class="fp-step__num">2</span>
+          <span class="fp-step__text">Revisa tu bandeja</span>
+        </div>
+        <div class="fp-step__arrow"><i class="bi bi-arrow-right"></i></div>
+        <div class="fp-step">
+          <span class="fp-step__num">3</span>
+          <span class="fp-step__text">Crea nueva contraseña</span>
         </div>
       </div>
     </div>
-  </form>
-</main>
+  </div>
+
+  <!-- ── RIGHT PANEL ────────────────────────────────────────────── -->
+  <div class="signin-right">
+    <div class="signin-form-card">
+
+      <!-- Header -->
+      <div class="signin-form-card__header">
+        <div class="signin-form-card__avatar">
+          <i class="bi bi-envelope-check"></i>
+        </div>
+        <h2 class="signin-form-card__title">¿Olvidaste tu contraseña?</h2>
+        <p class="signin-form-card__subtitle">Te enviaremos un enlace de recuperación</p>
+      </div>
+
+      <!-- Form -->
+      <form [formGroup]="forgotPassword" (ngSubmit)="sendPasswordRecovery()" novalidate>
+
+        <div class="sn-field" [class.sn-field--error]="submitted && forgotPassword.get('email').errors">
+          <label class="sn-field__label" for="email">
+            Correo electrónico <span class="sn-field__required">*</span>
+          </label>
+          <div class="sn-field__control">
+            <span class="sn-field__icon">
+              <i class="bi bi-envelope"></i>
+            </span>
+            <input id="email" type="email" class="sn-field__input" formControlName="email"
+              placeholder="tucorreo@ejemplo.com" autofocus (input)="validateEmail()" />
+          </div>
+          <div class="sn-field__feedback" *ngIf="submitted && forgotPassword.get('email').errors?.['required']">
+            <i class="bi bi-exclamation-circle"></i> Ingrese un correo electrónico.
+          </div>
+          <div class="sn-field__feedback" *ngIf="submitted && forgotPassword.get('email').errors?.['email']">
+            <i class="bi bi-exclamation-circle"></i> Ingrese un correo electrónico válido.
+          </div>
+        </div>
+
+        <button class="sn-btn" type="submit">
+          <span class="sn-btn__content">
+            <i class="bi bi-send"></i>
+            Enviar enlace de recuperación
+          </span>
+        </button>
+
+      </form>
+
+      <!-- Back to login -->
+      <div class="fp-back">
+        <a routerLink="/signin" class="sn-link">
+          <i class="bi bi-arrow-left"></i> Volver al inicio de sesión
+        </a>
+      </div>
+
+      <!-- Footer -->
+      <p class="signin-form-card__footer">
+        <i class="bi bi-shield-lock"></i> Enlace seguro y cifrado
+      </p>
+
+    </div>
+  </div>
+
+</div>

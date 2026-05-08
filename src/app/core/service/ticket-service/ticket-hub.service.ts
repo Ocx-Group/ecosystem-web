@@ -47,7 +47,11 @@ export class TicketHubService {
     }
 
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(this.urlApi, { withCredentials: true })
+      .withUrl(this.urlApi, {
+        skipNegotiation: true,
+        transport: signalR.HttpTransportType.WebSockets,
+        withCredentials: true
+      })
       .withAutomaticReconnect()
       .build();
 

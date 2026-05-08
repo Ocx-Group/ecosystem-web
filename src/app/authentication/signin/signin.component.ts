@@ -172,14 +172,35 @@ export class SigninComponent implements OnInit {
 
   showInformativeBulletin() {
     Swal.fire({
-      title: '<strong>Boletín Informativo</strong>',
+      title: '<strong>INFORME RETRIBUCIÓN</strong>',
       icon: 'info',
       html: `
-        <div style="text-align: left;">
-          <p>📅 <b>A partir de Mayo</b>, el <b>1er Domingo de cada mes</b> estaré dando informes por <b>Zoom</b> sobre el avance del crecimiento del capital.</p>
+        <div style="text-align: center;">
+          <p style="font-weight:bold; font-size:1.1em;">📅 REUNION DOMINGO 10 DE MAYO 2026</p>
           <hr>
-          <p>🕑 <b>Hora:</b> 2:30 pm</p>
-          <p>💻 <b>Plataforma:</b> Zoom</p>
+          <p style="margin-bottom:4px;"><b>💻 SALA DE ZOOM:</b></p>
+          <p style="margin-bottom:12px;">
+            <a href="https://us06web.zoom.us/j/7407569179?pwd=8kDn4ba7QAtaqPleqTGnfwnjPiaPFD.1"
+               target="_blank" rel="noopener noreferrer"
+               style="color:#1a73e8; word-break:break-all;">
+              https://us06web.zoom.us/j/7407569179?pwd=8kDn4ba7QAtaqPleqTGnfwnjPiaPFD.1
+            </a>
+          </p>
+          <p style="font-weight:bold; margin-bottom:8px;">🌍 HORARIO INTERNACIONAL PM</p>
+          <table style="margin:0 auto; border-collapse:collapse; font-size:0.95em;">
+            <tr>
+              <td style="padding:4px 16px; text-align:left;"><b>1:30</b> COSTA RICA 🇨🇷</td>
+              <td style="padding:4px 16px; text-align:left;"><b>3:30</b> VENEZUELA 🇻🇪</td>
+            </tr>
+            <tr>
+              <td style="padding:4px 16px; text-align:left;"><b>1:30</b> MEXICO 🇲🇽</td>
+              <td style="padding:4px 16px; text-align:left;"><b>3:30</b> NEW YORK 🇺🇸</td>
+            </tr>
+            <tr>
+              <td style="padding:4px 16px; text-align:left;"><b>2:30</b> COLOMBIA 🇨🇴</td>
+              <td style="padding:4px 16px; text-align:left;"><b>9:30</b> ESPAÑA 🇪🇸</td>
+            </tr>
+          </table>
         </div>
       `,
       showCloseButton: true,

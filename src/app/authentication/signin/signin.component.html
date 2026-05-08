@@ -1,85 +1,134 @@
-<main class="d-flex align-items-center min-vh-100 py-3 py-md-0"
-  style="background: url('../../../assets/images/pageee.png'); -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-position: bottom; background-size: cover;">
-  <div id="particles-js" class="particles-container"></div>
-  <div class="container ">
-    <div class="card text-center login-card" style="
-    padding: 50px 0 50px 0px;
-    background-color:transparent;
-">
-      <div class="row d-flex justify-content-center">
-        <div class="col-md-12">
-          <div class="card-body p-4">
-            <div class="text-center w-75 m-auto">
-              <h2 class="text-dark-50 text-center mt-0 font-weight-bold" style="color: white; margin-bottom: 40px;">
-                Iniciar sesión</h2>
-            </div>
-            <form class="validate-form" [formGroup]="authLogin" (ngSubmit)="loginSubmitted()">
-              <div class="row justify-content-center">
-                <div class="col-md-12">
-                  <div class="form-group position-relative" style="text-align: left;">
-                    <label for="email" class="auth-labels" style="font-size: 14px;">{{username}} <span
-                        class="text-danger">*</span></label>
-                    <i-feather name="user" class="login-icons" style="top: 45px !important;"></i-feather>
-                    <input id="email" type="email" class="form-control psl-5" formControlName="email"
-                      placeholder="{{username}}" required="required"
-                      [ngClass]="{'is-invalid': submitted && Email.errors}" />
-                    <div class="form-text text-danger fw-bold"
-                      *ngIf="Email.errors?.['email'] && (Email.dirty || Email.touched)">
-                      {{userNameErrorMessage}}
-                    </div>
-                    <div class="form-text text-danger fw-bold"
-                      *ngIf="Email.errors?.['required'] && (Email.dirty || Email.touched)">
-                      {{userNameIsRequerid}}
-                    </div>
-                  </div>
-                  <div class="form-group position-relative" style="text-align: left;">
-                    <label for="pwd" class="auth-labels" style="font-size: 14px;">{{password}} <span
-                        class="text-danger">*</span></label>
-                    <i-feather name="key" class="login-icons" style="top: 45px !important;"></i-feather>
-                    <input id="pwd" [type]="showPassword ? 'text' : 'password'" class="form-control psl-5 pr-5"
-                      formControlName="pwd" placeholder="{{password}}" required="required"
-                      [ngClass]="{'is-invalid': submitted && Pwd.errors}" />
-                    <!-- Icono Bootstrap para mostrar/ocultar contraseña -->
-                    <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'" class="password-toggle-icon"
-                      (keydown)="onKeyDown($event)" (keyup)="onKeyUp($event)"
-                      style="position: absolute; right: 15px; top: 45px; cursor: pointer; z-index: 10; font-size: 16px;"
-                      (click)="togglePasswordVisibility()">
-                    </i>
-                    <div class="form-text text-danger mb-3 msl-3 fw-bold"
-                      *ngIf="Pwd.errors?.['minlength'] || Pwd.errors?.['maxlength'] && (Pwd.dirty || Pwd.touched)">
-                      {{passwordErrorMessage}}
-                    </div>
-                    <div class="form-text text-danger fw-bold"
-                      *ngIf="Pwd.errors?.['required'] && (Pwd.dirty || Pwd.touched)">
-                      {{passwordIsRequerid}}
-                    </div>
-                  </div>
+<div class="signin-wrapper">
 
+  <!-- ── LEFT PANEL ─────────────────────────────────────────────── -->
+  <div class="signin-left">
+    <div id="particles-js"></div>
 
-                  <div class="d-flex justify-content-between">
-                    <div class="form-group">
-                      <p class="forgot-pass auth-labels mb-0"><a routerLink="/forgot"
-                          class="form-check-label fw-bold auth-labels">{{forgot}}?</a></p>
-                    </div>
-                  </div>
-                  <div *ngIf="error !== ''" class="alert alert-danger">
-                    {{ error }}
-                  </div>
+    <div class="signin-left__content">
+      <!-- Logo -->
+      <div class="signin-left__logo">
+        <img [src]="logoUrl || 'assets/images/logo.png'" alt="Logo" class="signin-left__logo-img" />
+      </div>
 
-                  <div class="text-center">
-                    <button class="btn btn-primary auth-form-btn" type="submit" [disabled]="loading">
-                      <output *ngIf="loading" class="spinner-border spinner-border-sm">
-                        <span class="sr-only">Loading...</span>
-                      </output>
-                      {{signin}}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
+      <!-- Decorative rings -->
+      <div class="signin-left__ring signin-left__ring--1"></div>
+      <div class="signin-left__ring signin-left__ring--2"></div>
+      <div class="signin-left__ring signin-left__ring--3"></div>
+
+      <!-- Brand copy -->
+      <div class="signin-left__brand">
+        <h1 class="signin-left__brand-title">Bienvenido</h1>
+        <p class="signin-left__brand-sub">Plataforma de gestión inteligente</p>
+        <div class="signin-left__divider"></div>
+        <p class="signin-left__brand-desc">
+          Accede a tu cuenta y descubre todas las herramientas diseñadas para potenciar tu crecimiento.
+        </p>
+      </div>
+
+      <!-- Bottom badges -->
+      <div class="signin-left__badges">
+        <span class="signin-badge"><i class="bi bi-shield-check"></i> Seguro</span>
+        <span class="signin-badge"><i class="bi bi-lightning-charge"></i> Rápido</span>
+        <span class="signin-badge"><i class="bi bi-graph-up-arrow"></i> Escalable</span>
       </div>
     </div>
   </div>
-</main>
+
+  <!-- ── RIGHT PANEL ────────────────────────────────────────────── -->
+  <div class="signin-right">
+    <div class="signin-form-card">
+
+      <!-- Header -->
+      <div class="signin-form-card__header">
+        <div class="signin-form-card__avatar">
+          <i class="bi bi-person-fill"></i>
+        </div>
+        <h2 class="signin-form-card__title">Iniciar sesión</h2>
+        <p class="signin-form-card__subtitle">Ingresa tus credenciales para continuar</p>
+      </div>
+
+      <!-- Form -->
+      <form [formGroup]="authLogin" (ngSubmit)="loginSubmitted()" autocomplete="off" novalidate>
+
+        <!-- Email / Username -->
+        <div class="sn-field" [class.sn-field--error]="submitted && Email.errors"
+          [class.sn-field--active]="Email.value">
+          <label class="sn-field__label" for="email">
+            {{username}} <span class="sn-field__required">*</span>
+          </label>
+          <div class="sn-field__control">
+            <span class="sn-field__icon">
+              <i class="bi bi-person"></i>
+            </span>
+            <input id="email" type="email" class="sn-field__input" formControlName="email" [placeholder]="username"
+              autocomplete="username" />
+          </div>
+          <div class="sn-field__feedback" *ngIf="Email.errors?.['required'] && (Email.dirty || Email.touched)">
+            <i class="bi bi-exclamation-circle"></i> {{userNameIsRequerid}}
+          </div>
+          <div class="sn-field__feedback" *ngIf="Email.errors?.['email'] && (Email.dirty || Email.touched)">
+            <i class="bi bi-exclamation-circle"></i> {{userNameErrorMessage}}
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="sn-field" [class.sn-field--error]="submitted && Pwd.errors" [class.sn-field--active]="Pwd.value">
+          <label class="sn-field__label" for="pwd">
+            {{password}} <span class="sn-field__required">*</span>
+          </label>
+          <div class="sn-field__control">
+            <span class="sn-field__icon">
+              <i class="bi bi-lock"></i>
+            </span>
+            <input id="pwd" [type]="showPassword ? 'text' : 'password'" class="sn-field__input sn-field__input--padded"
+              formControlName="pwd" [placeholder]="password" />
+            <button type="button" class="sn-field__eye" (click)="togglePasswordVisibility()"
+              (keydown)="onKeyDown($event)"
+              [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+              <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+            </button>
+          </div>
+          <div class="sn-field__feedback" *ngIf="Pwd.errors?.['required'] && (Pwd.dirty || Pwd.touched)">
+            <i class="bi bi-exclamation-circle"></i> {{passwordIsRequerid}}
+          </div>
+          <div class="sn-field__feedback"
+            *ngIf="(Pwd.errors?.['minlength'] || Pwd.errors?.['maxlength']) && (Pwd.dirty || Pwd.touched)">
+            <i class="bi bi-exclamation-circle"></i> {{passwordErrorMessage}}
+          </div>
+        </div>
+
+        <!-- Forgot link -->
+        <div class="sn-actions">
+          <a routerLink="/forgot" class="sn-link">
+            <i class="bi bi-key"></i> {{forgot}}
+          </a>
+        </div>
+
+        <!-- Alert -->
+        <div *ngIf="error !== ''" class="sn-alert">
+          <i class="bi bi-x-circle"></i> {{ error }}
+        </div>
+
+        <!-- Submit -->
+        <button class="sn-btn" type="submit" [disabled]="loading">
+          <span *ngIf="!loading" class="sn-btn__content">
+            <i class="bi bi-box-arrow-in-right"></i>
+            {{signin}}
+          </span>
+          <span *ngIf="loading" class="sn-btn__spinner">
+            <output class="spinner-border spinner-border-sm"><span class="sr-only">Cargando...</span></output>
+            Verificando...
+          </span>
+        </button>
+
+      </form>
+
+      <!-- Footer -->
+      <p class="signin-form-card__footer">
+        <i class="bi bi-shield-lock"></i> Conexión segura y cifrada
+      </p>
+
+    </div>
+  </div>
+
+</div>

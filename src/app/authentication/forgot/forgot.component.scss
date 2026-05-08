@@ -1,10 +1,528 @@
-#particles-js {
-  position: absolute;
+// ─── Tokens (mirror signin) ───────────────────────────────────────────────────
+$teal-400: #2dd4bf;
+$teal-500: #14b8a6;
+$teal-600: #0d9488;
+$dark-900: #0a0f1e;
+$dark-800: #0f172a;
+$dark-700: #1e293b;
+$dark-600: #334155;
+$white: #ffffff;
+$text-muted: #94a3b8;
+$danger: #f87171;
+
+// ─── Layout ───────────────────────────────────────────────────────────────────
+.signin-wrapper {
+  display: flex;
+  min-height: 100vh;
+  overflow: hidden;
+  background: $dark-900;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('/assets/images/pageee.png') center center / cover no-repeat;
+    z-index: 0;
+  }
+}
+
+// ─── Left Panel ───────────────────────────────────────────────────────────────
+.signin-left {
+  position: relative;
+  flex: 0 0 45%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      145deg,
+      rgba($dark-800, 0.82) 0%,
+      rgba(#071e22, 0.88) 50%,
+      rgba(#0d2b2b, 0.92) 100%
+    );
+    z-index: 0;
+  }
+
+  @media (max-width: 860px) {
+    display: none;
+  }
+
+  #particles-js {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 48px;
+    text-align: center;
+    width: 100%;
+    gap: 36px;
+    animation: fadeSlideUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  // rings
+  &__ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba($teal-500, 0.15);
+    animation: rotateSpin 20s linear infinite;
+    pointer-events: none;
+
+    &--1 {
+      width: 380px;
+      height: 380px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-duration: 25s;
+    }
+    &--2 {
+      width: 550px;
+      height: 550px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-duration: 35s;
+      animation-direction: reverse;
+      border-color: rgba($teal-400, 0.08);
+    }
+    &--3 {
+      width: 720px;
+      height: 720px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-duration: 50s;
+      border-color: rgba($teal-600, 0.05);
+    }
+  }
+
+  &__brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__brand-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: $white;
+    margin: 0;
+    text-shadow: 0 0 40px rgba($teal-400, 0.3);
+  }
+
+  &__brand-sub {
+    font-size: 0.85rem;
+    color: $teal-400;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    margin: 0;
+  }
+
+  &__divider {
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, $teal-500, $teal-400);
+    border-radius: 99px;
+    margin: 4px 0;
+  }
+
+  &__brand-desc {
+    font-size: 0.88rem;
+    color: $text-muted;
+    max-width: 320px;
+    line-height: 1.7;
+    margin: 0;
+  }
+}
+
+// Left panel big icon
+.fp-left-icon {
+  width: 100px;
+  height: 100px;
+  background: rgba($teal-500, 0.12);
+  border: 1px solid rgba($teal-500, 0.25);
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  color: $teal-400;
+  box-shadow: 0 0 40px rgba($teal-400, 0.2);
+}
+
+// Steps row
+.fp-steps {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.fp-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+
+  &__num {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $teal-600, $teal-400);
+    color: $white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 12px rgba($teal-400, 0.3);
+  }
+
+  &__text {
+    font-size: 0.7rem;
+    color: $text-muted;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  &__arrow {
+    color: rgba($teal-500, 0.4);
+    font-size: 14px;
+    padding-bottom: 18px;
+  }
+}
+
+// ─── Right Panel ──────────────────────────────────────────────────────────────
+.signin-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  position: relative;
+  z-index: 1;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      160deg,
+      rgba(#0c1220, 0.88) 0%,
+      rgba($dark-900, 0.95) 100%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    top: -120px;
+    right: -120px;
+    background: radial-gradient(
+      circle,
+      rgba($teal-500, 0.1) 0%,
+      transparent 70%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+// ─── Form Card ────────────────────────────────────────────────────────────────
+.signin-form-card {
   width: 100%;
-  height: 100%;
-  background-color: #033705;
-  background: url('../../../assets/img/img-nat.jpeg') top center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: 50% 50%;
+  max-width: 420px;
+  position: relative;
+  z-index: 2;
+  padding: 40px 36px;
+  background: rgba($dark-800, 0.55);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba($teal-500, 0.12);
+  border-radius: 24px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+  animation: fadeSlideUp 0.7s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  &__header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  &__avatar {
+    width: 68px;
+    height: 68px;
+    margin: 0 auto 16px;
+    background: linear-gradient(135deg, $teal-600, $teal-400);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: $white;
+    box-shadow: 0 8px 32px rgba($teal-500, 0.35);
+  }
+
+  &__title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: $white;
+    margin: 0 0 6px;
+    letter-spacing: -0.3px;
+  }
+
+  &__subtitle {
+    font-size: 0.875rem;
+    color: $text-muted;
+    margin: 0;
+  }
+
+  &__footer {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 0.75rem;
+    color: darken($text-muted, 10%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    i {
+      color: $teal-600;
+      font-size: 0.85rem;
+    }
+  }
+}
+
+// ─── Form Fields ─────────────────────────────────────────────────────────────
+.sn-field {
+  margin-bottom: 20px;
+
+  &__label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: $text-muted;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    transition: color 0.2s;
+  }
+
+  &__required {
+    color: $danger;
+    margin-left: 2px;
+  }
+
+  &__control {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  &__icon {
+    position: absolute;
+    left: 14px;
+    color: $dark-600;
+    font-size: 16px;
+    transition: color 0.25s;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 13px 16px 13px 42px;
+    background: rgba($dark-700, 0.6);
+    border: 1px solid rgba($dark-600, 0.8);
+    border-radius: 12px;
+    font-size: 0.9rem;
+    color: $white;
+    outline: none;
+    transition:
+      border-color 0.25s,
+      background 0.25s,
+      box-shadow 0.25s;
+
+    &::placeholder {
+      color: $dark-600;
+    }
+
+    &:focus {
+      background: rgba($dark-700, 0.9);
+      border-color: $teal-500;
+      box-shadow: 0 0 0 3px rgba($teal-500, 0.18);
+    }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0 1000px #1e293b inset;
+      -webkit-text-fill-color: $white;
+      caret-color: $white;
+    }
+  }
+
+  &:focus-within &__label {
+    color: $teal-400;
+  }
+  &:focus-within &__icon {
+    color: $teal-400;
+  }
+
+  &--error &__input {
+    border-color: rgba($danger, 0.6);
+    box-shadow: 0 0 0 3px rgba($danger, 0.12);
+  }
+
+  &__feedback {
+    margin-top: 6px;
+    font-size: 0.75rem;
+    color: $danger;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    animation: fadeIn 0.2s ease;
+
+    i {
+      font-size: 12px;
+    }
+  }
+}
+
+// ─── Button ───────────────────────────────────────────────────────────────────
+.sn-btn {
+  width: 100%;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, $teal-600 0%, $teal-400 100%);
+  border: none;
+  border-radius: 12px;
+  color: $white;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba($teal-500, 0.4);
+  margin-bottom: 20px;
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba($white, 0.18),
+      transparent
+    );
+    transition: left 0.5s;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba($teal-500, 0.55);
+
+    &::after {
+      left: 160%;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// ─── Back link ────────────────────────────────────────────────────────────────
+.fp-back {
+  text-align: center;
+}
+
+.sn-link {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $teal-400;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition:
+    color 0.2s,
+    gap 0.2s;
+
+  &:hover {
+    color: $teal-400;
+    gap: 8px;
+    text-decoration: none;
+  }
+}
+
+// ─── Keyframes ────────────────────────────────────────────────────────────────
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotateSpin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
