@@ -34,7 +34,7 @@ export class InvoiceService {
 
   getAllInvoicesUser(id: number): Observable<Invoice[]> {
     return this.http
-      .get<Invoice[]>(
+      .get<Invoice[] | Response<Invoice[]>>(
         this.urlApi.concat(
           '/invoice/GetAllInvoicesByUserId?id=',
           id.toString()
@@ -45,10 +45,17 @@ export class InvoiceService {
         map((response) => {
           if (Array.isArray(response)) {
             return response;
-          } else {
-            console.error('ERROR: ' + response);
-            return null;
           }
+
+          if (response && Array.isArray((response as any).data)) {
+            return (response as any).data as Invoice[];
+          }
+
+          console.error(
+            '[InvoiceService] getAllInvoicesUser: respuesta inesperada:',
+            response
+          );
+          return [];
         })
       );
   }
