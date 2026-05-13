@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import Swal from 'sweetalert2';
 declare var particlesJS: any;
 
@@ -11,14 +16,17 @@ import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.
   styleUrls: ['./forgot.component.scss'],
 })
 export class ForgotComponent implements OnInit {
-  forgotPassword: FormGroup;
+  forgotPassword!: FormGroup;
   submitted = false;
-  constructor(private affiliateService: AffiliateService) { }
+  constructor(private readonly affiliateService: AffiliateService) {}
 
   ngOnInit(): void {
     this.initForgotPassword();
-    particlesJS.load('particles-js', 'assets/particles/particles.json', function () {
-    });
+    particlesJS.load(
+      'particles-js',
+      'assets/particles/particles.json',
+      function () {},
+    );
   }
 
   get create_forgot_controls(): { [key: string]: AbstractControl } {
@@ -28,31 +36,34 @@ export class ForgotComponent implements OnInit {
   initForgotPassword() {
     this.forgotPassword = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
-    })
+    });
   }
 
   sendPasswordRecovery() {
     this.submitted = true;
 
-    if (this.forgotPassword.invalid)
-      return;
+    if (this.forgotPassword.invalid) return;
 
-
-    let email = this.forgotPassword.value.email;
+    const email = this.forgotPassword.value.email.trim().toLowerCase();
 
     this.affiliateService.sendPasswordRecovery(email).subscribe({
       next: (value) => {
-        this.emailConfirmation();
+        if (value?.success) {
+          this.emailConfirmation();
+          return;
+        }
+
+        this.emailNotFound(value?.message);
       },
       error: () => {
-
+        this.emailRecoveryError();
       },
-    })
+    });
   }
 
   validateEmail() {
     const emailControl = this.forgotPassword.get('email');
-    if (emailControl.errors) {
+    if (!emailControl || emailControl.errors) {
       return;
     }
 
@@ -70,5 +81,22 @@ export class ForgotComponent implements OnInit {
     });
   }
 
+  emailNotFound(message?: string) {
+    Swal.fire({
+      title: 'No se pudo enviar el correo',
+      text:
+        message || 'El correo no se encuentra registrado para esta plataforma.',
+      icon: 'error',
+      confirmButtonText: 'Entendido',
+    });
+  }
 
+  emailRecoveryError() {
+    Swal.fire({
+      title: 'No se pudo enviar el correo',
+      text: 'Ocurrió un error al solicitar el restablecimiento de contraseña. Inténtalo nuevamente.',
+      icon: 'error',
+      confirmButtonText: 'Entendido',
+    });
+  }
 }
