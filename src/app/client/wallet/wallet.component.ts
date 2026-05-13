@@ -39,10 +39,15 @@ export class WalletComponent implements OnInit {
         this.userCookie = user;
         if (user) {
           this.loadBalanceInformation();
+          this.loadWalletList();
+          return;
         }
+
+        this.rows = [];
+        this.temp = [];
+        this.loadingIndicator = false;
       }
     );
-    this.loadWalletList()
   }
 
   ngOnDestroy(): void {
@@ -63,13 +68,19 @@ export class WalletComponent implements OnInit {
   loadWalletList() {
     this.walletService.getWalletByAffiliateId(this.userCookie.id).subscribe({
       next: (resp) => {
-        this.temp = [...resp];
-        this.rows = resp;
+        const safeWalletRows = Array.isArray(resp) ? resp : [];
+
+        this.temp = [...safeWalletRows];
+        this.rows = safeWalletRows;
         this.loadingIndicator = false;
 
       },
       error: (err) => {
+        this.temp = [];
+        this.rows = [];
+        this.loadingIndicator = false;
         this.showError('Error!');
+        console.error(err);
       },
     });
   }
