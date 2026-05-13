@@ -38,7 +38,7 @@ import { LogoComponent } from './layout/logo/logo.component';
 import { ClientModule } from './client/client.module';
 import { MembershipManagerModule } from "./client/membership-manager/membership-manager.module";
 import { TermsConditionsModalComponent } from './layout/terms-conditions-modal/terms-conditions-modal.component';
-import { ImgProfileComponent } from './layout/img-profile/img-profile.component';
+import { ImageProfileModalComponent } from './shared/components/image-profile-modal/image-profile-modal.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -63,7 +63,6 @@ export function createTranslateLoader(http: HttpClient): any {
     AdminLayoutComponent,
     FooterComponent,
     LogoComponent,
-    ImgProfileComponent,
     TermsConditionsModalComponent
   ],
   imports: [
@@ -91,6 +90,7 @@ export function createTranslateLoader(http: HttpClient): any {
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     ClientModule,
     NgxDropzoneModule,
+    ImageProfileModalComponent,
   ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy },
@@ -99,7 +99,7 @@ export function createTranslateLoader(http: HttpClient): any {
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
     },
   ],
-  exports: [LogoComponent, ImgProfileComponent],
+  exports: [LogoComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

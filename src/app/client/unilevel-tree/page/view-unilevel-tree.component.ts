@@ -27,6 +27,12 @@ export class ViewUnilevelTreeComponent {
   typeSelected: string;
   showDiv = false;
 
+  private isPanning = false;
+  private panStartX = 0;
+  private panStartY = 0;
+  private panScrollLeft = 0;
+  private panScrollTop = 0;
+
   constructor(
     private authService: AuthService,
     private spinnerService: NgxSpinnerService,
@@ -119,6 +125,29 @@ export class ViewUnilevelTreeComponent {
         );
         break;
     }
+  }
+
+  startPan(event: MouseEvent, container: HTMLElement) {
+    this.isPanning = true;
+    this.panStartX = event.clientX;
+    this.panStartY = event.clientY;
+    this.panScrollLeft = container.scrollLeft;
+    this.panScrollTop = container.scrollTop;
+    container.classList.add('is-panning');
+  }
+
+  onPan(event: MouseEvent, container: HTMLElement) {
+    if (!this.isPanning) return;
+    event.preventDefault();
+    container.scrollLeft =
+      this.panScrollLeft - (event.clientX - this.panStartX);
+    container.scrollTop = this.panScrollTop - (event.clientY - this.panStartY);
+  }
+
+  endPan(container: HTMLElement) {
+    if (!this.isPanning) return;
+    this.isPanning = false;
+    container.classList.remove('is-panning');
   }
 
   onTabChange(newActiveId: number) {

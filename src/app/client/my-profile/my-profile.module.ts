@@ -19,7 +19,7 @@ import { MyProfileEditPasswordModalComponent } from './my-profile-edit-password-
 import { MyProfileEditPersonalInfoModalComponent } from './my-profile-edit-personal-info-modal/my-profile-edit-personal-info-modal.component';
 import { EditSecurityPinModalComponent } from './edit-security-pin-modal/edit-security-pin-modal.component';
 import { SecretQuestionModalComponent } from './secret-question-modal/secret-question-modal.component';
-import { ImageProfileModalComponent } from './image-profile-modal/image-profile-modal.component';
+import { ImageProfileModalComponent } from '@app/shared/components/image-profile-modal/image-profile-modal.component';
 
 const icons = {
   Search,
@@ -29,7 +29,6 @@ const icons = {
   declarations:
     [
       MyProfileComponent,
-      ImageProfileModalComponent,
       MyProfileEditPasswordModalComponent,
       MyProfileEditPersonalInfoModalComponent,
       EditSecurityPinModalComponent,
@@ -39,6 +38,7 @@ const icons = {
   imports: [
     CommonModule,
     NgxDropzoneModule,
+    ImageProfileModalComponent,
     PerfectScrollbarModule,
     NgbModule,
     FormsModule,

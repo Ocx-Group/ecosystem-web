@@ -77,7 +77,8 @@
 
     <li ngbDropdown>
       <a ngbDropdownToggle data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-        <img alt="image" [src]="user.image_profile_url ? user.image_profile_url : 'assets/images/user.png'"
+        <img alt="Foto de perfil del usuario" [src]="user.image_profile_url ? user.image_profile_url : 'assets/images/user.svg'"
+          (error)="$any($event.target).src='assets/images/user.svg'"
           class="img-fluid user-img-radious-style collapse-btn" />
         <span class="d-sm-none d-lg-inline-block"></span></a>
       <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right header-dropdown pullDown">

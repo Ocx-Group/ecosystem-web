@@ -31,8 +31,9 @@
                           </button>
                         </div>
                         <div class="col-12 col-md-12 col-lg-12">
-                          <div class="card-body media-list position-relative"
-                            style="position: relative; max-width: 100% !important" [perfectScrollbar]>
+                          <div #panBox class="card-body media-list position-relative scrollable-container"
+                            [perfectScrollbar] (mousedown)="startPan($event, panBox)" (mousemove)="onPan($event, panBox)"
+                            (mouseup)="endPan(panBox)" (mouseleave)="endPan(panBox)">
                             <div *ngIf="showDiv">
                               <app-client-unilevel-tree-component [nodeTemplate]="nodeTemplate" [data]="tree"
                                 #exampleChart="orgChart" (loadFamilyTree)="onloadFamilyTree($event)">
@@ -73,8 +74,9 @@
                         </button>
                       </div>
                       <div class="col-12 col-md-12 col-lg-12">
-                        <div class="card-body media-list position-relative"
-                          style="position: relative; max-width: 100% !important" [perfectScrollbar]>
+                        <div #panBox class="card-body media-list position-relative scrollable-container"
+                          [perfectScrollbar] (mousedown)="startPan($event, panBox)" (mousemove)="onPan($event, panBox)"
+                          (mouseup)="endPan(panBox)" (mouseleave)="endPan(panBox)">
                           <div *ngIf="showDiv">
                             <app-client-unilevel-tree-component [nodeTemplate]="nodeTemplate" [data]="tree"
                               #exampleChart="orgChart" (loadFamilyTree)="onloadFamilyTree($event)">
@@ -114,8 +116,9 @@
                         </button>
                       </div>
                       <div class="col-12 col-md-12 col-lg-12">
-                        <div class="card-body media-list position-relative"
-                          style="position: relative; max-width: 100% !important" [perfectScrollbar]>
+                        <div #panBox class="card-body media-list position-relative scrollable-container"
+                          [perfectScrollbar] (mousedown)="startPan($event, panBox)" (mousemove)="onPan($event, panBox)"
+                          (mouseup)="endPan(panBox)" (mouseleave)="endPan(panBox)">
                           <div *ngIf="showDiv">
                             <app-client-unilevel-tree-component [nodeTemplate]="nodeTemplate" [data]="tree"
                               #exampleChart="orgChart" (loadFamilyTree)="onloadFamilyTree($event)">
@@ -156,8 +159,9 @@
                           </button>
                         </div>
                         <div class="col-12 col-md-12 col-lg-12">
-                          <div class="card-body media-list position-relative"
-                            style="position: relative; max-width: 100% !important" [perfectScrollbar]>
+                          <div #panBox class="card-body media-list position-relative scrollable-container"
+                            [perfectScrollbar] (mousedown)="startPan($event, panBox)" (mousemove)="onPan($event, panBox)"
+                            (mouseup)="endPan(panBox)" (mouseleave)="endPan(panBox)">
                             <div *ngIf="showDiv">
                             </div>
                           </div>

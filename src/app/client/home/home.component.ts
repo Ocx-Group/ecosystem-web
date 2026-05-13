@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, NgZone, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, ViewChild } from '@angular/core';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4maps from '@amcharts/amcharts4/maps';
 import am4geodata_worldLow from '@amcharts/amcharts4-geodata/worldLow';
@@ -24,45 +24,68 @@ am4core.useTheme(am5themes_Animated);
 @Component({
   selector: 'app-main',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  public user: UserAffiliate;
-  private destroy$ = new Subject();
+  public user!: UserAffiliate;
+  private readonly destroy$ = new Subject();
   balanceInformation: BalanceInformation = new BalanceInformation();
-  balanceInformationModel1A: BalanceInformationModel1A = new BalanceInformationModel1A();
-  balanceInformationModel1B: BalanceInformationModel1B = new BalanceInformationModel1B();
+  balanceInformationModel1A: BalanceInformationModel1A =
+    new BalanceInformationModel1A();
+  balanceInformationModel1B: BalanceInformationModel1B =
+    new BalanceInformationModel1B();
   withdrawalBalance: number = 0;
   totalPaid: number = 0;
   maps: any[] = [];
   circles = [];
   currentYearPurchases: PurchasePerMonthDto[] = [];
   previousYearPurchases: PurchasePerMonthDto[] = [];
-  area_line_chart: EChartsOption;
+  area_line_chart!: EChartsOption;
   currentYear: number;
   previousYear: number;
-  @ViewChild('chart') chart1: ChartComponent;
+  @ViewChild('chart') chart1!: ChartComponent;
   canSeePaymentModels: boolean = false;
 
-  private chart: am4maps.MapChart;
+  private chart!: am4maps.MapChart;
   public pieChartOptions: any;
   public avgLecChartOptions: any;
   public pieChartOptionsModel1A: any;
   public pieChartOptionsModel1B: any;
   constructor(
-    private authService: AuthService,
-    private walletService: WalletService,
-    private toastr: ToastrService,
-    private affiliateService: AffiliateService,
-    private walletModel1AService: WalletModel1AService,
-    private walletModel1BService: WalletModel1BService,
-    private modelsVisibilityService: ModelsVisibilityService,
-    private ngZone: NgZone,
-    private cdr: ChangeDetectorRef
+    private readonly authService: AuthService,
+    private readonly walletService: WalletService,
+    private readonly toastr: ToastrService,
+    private readonly affiliateService: AffiliateService,
+    private readonly walletModel1AService: WalletModel1AService,
+    private readonly walletModel1BService: WalletModel1BService,
+    private readonly modelsVisibilityService: ModelsVisibilityService,
+    private readonly ngZone: NgZone,
+    private readonly cdr: ChangeDetectorRef,
   ) {
-    this.pieChartOptions = { series: [], chart: {}, labels: [], responsive: [], dataLabels: {}, legend: {} };
-    this.pieChartOptionsModel1A = { series: [], chart: {}, labels: [], responsive: [], dataLabels: {}, legend: {} };
-    this.pieChartOptionsModel1B = { series: [], chart: {}, labels: [], responsive: [], dataLabels: {}, legend: {} };
+    this.pieChartOptions = {
+      series: [],
+      chart: {},
+      labels: [],
+      responsive: [],
+      dataLabels: {},
+      legend: {},
+    };
+    this.pieChartOptionsModel1A = {
+      series: [],
+      chart: {},
+      labels: [],
+      responsive: [],
+      dataLabels: {},
+      legend: {},
+    };
+    this.pieChartOptionsModel1B = {
+      series: [],
+      chart: {},
+      labels: [],
+      responsive: [],
+      dataLabels: {},
+      legend: {},
+    };
 
     this.currentYear = new Date().getFullYear();
     this.previousYear = this.currentYear - 1;
@@ -70,25 +93,27 @@ export class HomeComponent {
   }
 
   OnInitMethod() {
-    this.authService.currentUserAffiliate.pipe(
-      takeUntil(this.destroy$),
-      switchMap(user => {
-        if (user && user.id) {
-          this.user = user;
-          return this.modelsVisibilityService.canUserSeePaymentModels().pipe(
-            map(canSee => ({ user, canSee }))
-          );
-        }
-        return EMPTY;
-      })
-    ).subscribe(({ user, canSee }) => {
-      this.canSeePaymentModels = canSee;
-      this.resetComponent();
-      this.loadUserData(user.id);
-    });
+    this.authService.currentUserAffiliate
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap((user) => {
+          if (user?.id) {
+            this.user = user;
+            return this.modelsVisibilityService
+              .canUserSeePaymentModels()
+              .pipe(map((canSee) => ({ user, canSee })));
+          }
+          return EMPTY;
+        }),
+      )
+      .subscribe(({ user, canSee }) => {
+        this.canSeePaymentModels = canSee;
+        this.resetComponent();
+        this.loadUserData(user.id);
+      });
 
     this.loadLocations();
-    this.getPurchasesInMyNetwork()
+    this.getPurchasesInMyNetwork();
   }
 
   loadUserData(userId: number) {
@@ -99,13 +124,15 @@ export class HomeComponent {
           this.cdr.detectChanges();
         });
       })
-      .catch(error => {
-        console.error('Failed to load balance data after multiple retries:', error);
+      .catch((error) => {
+        console.error(
+          'Failed to load balance data after multiple retries:',
+          error,
+        );
       });
   }
 
   initializeBalanceCharts() {
-
     try {
       this.initChartModel2();
     } catch (error) {
@@ -133,11 +160,11 @@ export class HomeComponent {
     return `https://www.ecosystemfx.net/main-options/${this.user.user_name.toString()}`;
   }
 
-  showSuccess(message) {
+  showSuccess(message: string) {
     this.toastr.success(message);
   }
 
-  showError(message) {
+  showError(message: string) {
     this.toastr.error(message);
   }
 
@@ -160,19 +187,19 @@ export class HomeComponent {
     circle.strokeWidth = 1;
     circle.nonScaling = true;
 
-    circle.tooltipText = '[bold]{Title}[/]\nCantidad: {Value}';
+    circle.tooltipText = '[bold]{title}[/]\nCantidad: {value}';
 
-    imageSeriesTemplate.propertyFields.latitude = 'Lat';
-    imageSeriesTemplate.propertyFields.longitude = 'Lng';
+    imageSeriesTemplate.propertyFields.latitude = 'lat';
+    imageSeriesTemplate.propertyFields.longitude = 'lng';
 
     const centerLabel = imageSeriesTemplate.createChild(am4core.Label);
-    centerLabel.text = '{Value}';
+    centerLabel.text = '{value}';
     centerLabel.horizontalCenter = 'middle';
     centerLabel.verticalCenter = 'middle';
     centerLabel.fill = am4core.color('#55555');
     centerLabel.nonScaling = true;
 
-    const data = this.maps.map(item => item);
+    const data = this.maps.map((item) => item);
     imageSeries.addData(data);
 
     let polygonTemplate = polygonSeries.mapPolygons.template;
@@ -275,20 +302,24 @@ export class HomeComponent {
         },
       ],
       color: ['#9f78ff', '#fa626b'],
-    }
-  };
+    };
+  }
 
   isBalanceInformationValid(balance: BalanceInformation): boolean {
-    return balance.serviceBalance !== undefined &&
+    return (
+      balance.serviceBalance !== undefined &&
       balance.availableBalance !== undefined &&
       balance.totalCommissionsPaid !== undefined &&
       balance.totalAcquisitions !== undefined &&
-      balance.reverseBalance !== undefined;
+      balance.reverseBalance !== undefined
+    );
   }
 
   private initChartModel2() {
-
-    if (!this.balanceInformation || !this.isBalanceInformationValid(this.balanceInformation)) {
+    if (
+      !this.balanceInformation ||
+      !this.isBalanceInformationValid(this.balanceInformation)
+    ) {
       console.error('Invalid balance information for Model 2');
       return;
     }
@@ -298,7 +329,7 @@ export class HomeComponent {
         this.balanceInformation.availableBalance,
         this.balanceInformation.totalCommissionsPaid,
         this.balanceInformation.totalAcquisitions,
-        this.balanceInformation.reverseBalance
+        this.balanceInformation.reverseBalance,
       ],
 
       colors: ['#f44336', '#2196f3', '#96a2b4', '#4caf50', '#9c27b0'],
@@ -317,7 +348,7 @@ export class HomeComponent {
         'Saldo Disponible',
         'Total Pagado',
         'Total Adquisiciones',
-        'Saldo balance'
+        'Saldo balance',
       ],
       responsive: [
         {
@@ -325,15 +356,15 @@ export class HomeComponent {
           options: {
             dataLabels: {
               enabled: true,
-              formatter: function (val) {
-                return val + "%"
+              formatter: function (val: number) {
+                return val + '%';
               },
               plotOptions: {
                 pie: {
-                  expandOnClick: false
-                }
-              }
-            }
+                  expandOnClick: false,
+                },
+              },
+            },
           },
         },
       ],
@@ -341,8 +372,10 @@ export class HomeComponent {
   }
 
   private initChartModel1A() {
-
-    if (!this.balanceInformationModel1A || !this.isBalanceInformationValid(this.balanceInformationModel1A)) {
+    if (
+      !this.balanceInformationModel1A ||
+      !this.isBalanceInformationValid(this.balanceInformationModel1A)
+    ) {
       console.error('Invalid balance information for Model 1A');
       return;
     }
@@ -352,7 +385,7 @@ export class HomeComponent {
         this.balanceInformationModel1A.availableBalance,
         this.balanceInformationModel1A.totalCommissionsPaid,
         this.balanceInformationModel1A.totalAcquisitions,
-        this.balanceInformationModel1A.reverseBalance
+        this.balanceInformationModel1A.reverseBalance,
       ],
 
       colors: ['#f44336', '#2196f3', '#96a2b4', '#4caf50', '#9c27b0'],
@@ -371,7 +404,7 @@ export class HomeComponent {
         'Saldo Disponible',
         'Total Pagado',
         'Total Adquisiciones',
-        'Saldo balance'
+        'Saldo balance',
       ],
       responsive: [
         {
@@ -379,15 +412,15 @@ export class HomeComponent {
           options: {
             dataLabels: {
               enabled: true,
-              formatter: function (val) {
-                return val + "%"
+              formatter: function (val: number) {
+                return val + '%';
               },
               plotOptions: {
                 pie: {
-                  expandOnClick: false
-                }
-              }
-            }
+                  expandOnClick: false,
+                },
+              },
+            },
           },
         },
       ],
@@ -395,8 +428,10 @@ export class HomeComponent {
   }
 
   private initChartModel1B() {
-
-    if (!this.balanceInformationModel1B || !this.isBalanceInformationValid(this.balanceInformationModel1B)) {
+    if (
+      !this.balanceInformationModel1B ||
+      !this.isBalanceInformationValid(this.balanceInformationModel1B)
+    ) {
       console.error('Invalid balance information for Model 1B');
       return;
     }
@@ -406,7 +441,7 @@ export class HomeComponent {
         this.balanceInformationModel1B.availableBalance,
         this.balanceInformationModel1B.totalCommissionsPaid,
         this.balanceInformationModel1B.totalAcquisitions,
-        this.balanceInformationModel1B.reverseBalance
+        this.balanceInformationModel1B.reverseBalance,
       ],
 
       colors: ['#f44336', '#2196f3', '#96a2b4', '#4caf50', '#9c27b0'],
@@ -425,7 +460,7 @@ export class HomeComponent {
         'Saldo Disponible',
         'Total Pagado',
         'Total Adquisiciones',
-        'Saldo balance'
+        'Saldo balance',
       ],
       responsive: [
         {
@@ -433,15 +468,15 @@ export class HomeComponent {
           options: {
             dataLabels: {
               enabled: true,
-              formatter: function (val) {
-                return val + "%"
+              formatter: function (val: number) {
+                return val + '%';
               },
               plotOptions: {
                 pie: {
-                  expandOnClick: false
-                }
-              }
-            }
+                  expandOnClick: false,
+                },
+              },
+            },
           },
         },
       ],
@@ -451,29 +486,33 @@ export class HomeComponent {
   loadLocations() {
     this.affiliateService.getTotalAffiliatesByCountries().subscribe({
       next: (value) => {
-        this.maps = value.data;
-        console.log(value.data);
-        this.setMapInfo();
+        if (value) {
+          this.maps = value.data;
+          console.log(value.data);
+          this.setMapInfo();
+        }
       },
       error: (err) => {
-        this.showError("Error");
+        this.showError('Error');
       },
-    })
+    });
   }
 
   openNewWindow(url: string) {
-    window.open(url)
+    window.open(url);
   }
 
   getPurchasesInMyNetwork() {
-    this.walletService.getPurchasesInMyNetwork(this.user.id).subscribe(data => {
-      if (data) {
-        this.currentYearPurchases = data.currentYearPurchases;
-        this.previousYearPurchases = data.previousYearPurchases;
-        console.log(data);
-        this.initializeAreaLineChart();
-      }
-    });
+    this.walletService
+      .getPurchasesInMyNetwork(this.user.id)
+      .subscribe((data) => {
+        if (data) {
+          this.currentYearPurchases = data.currentYearPurchases;
+          this.previousYearPurchases = data.previousYearPurchases;
+          console.log(data);
+          this.initializeAreaLineChart();
+        }
+      });
   }
 
   fillMissingMonths(yearPurchases: PurchasePerMonthDto[]): number[] {
@@ -496,23 +535,28 @@ export class HomeComponent {
         error: (err) => {
           console.error('Error fetching balance information for Model 2:', err);
           reject(err);
-        }
+        },
       });
     });
   }
 
   getBalanceInformationModel1A(id: number): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.walletModel1AService.getBalanceInformationByAffiliateId(id).subscribe({
-        next: (value: BalanceInformationModel1A) => {
-          this.balanceInformationModel1A = value;
-          resolve();
-        },
-        error: (err) => {
-          console.error('Error fetching balance information for Model 1A:', err);
-          reject(err);
-        }
-      });
+      this.walletModel1AService
+        .getBalanceInformationByAffiliateId(id)
+        .subscribe({
+          next: (value: BalanceInformationModel1A) => {
+            this.balanceInformationModel1A = value;
+            resolve();
+          },
+          error: (err) => {
+            console.error(
+              'Error fetching balance information for Model 1A:',
+              err,
+            );
+            reject(err);
+          },
+        });
     });
   }
 
@@ -522,16 +566,21 @@ export class HomeComponent {
     }
 
     return new Promise((resolve, reject) => {
-      this.walletModel1BService.getBalanceInformationByAffiliateId(id).subscribe({
-        next: (value: BalanceInformationModel1B) => {
-          this.balanceInformationModel1B = value;
-          resolve();
-        },
-        error: (err) => {
-          console.error('Error fetching balance information for Model 1B:', err);
-          reject(err);
-        }
-      });
+      this.walletModel1BService
+        .getBalanceInformationByAffiliateId(id)
+        .subscribe({
+          next: (value: BalanceInformationModel1B) => {
+            this.balanceInformationModel1B = value;
+            resolve();
+          },
+          error: (err) => {
+            console.error(
+              'Error fetching balance information for Model 1B:',
+              err,
+            );
+            reject(err);
+          },
+        });
     });
   }
 
@@ -541,22 +590,30 @@ export class HomeComponent {
         Promise.all([
           this.getBalanceInformationModel2(userId),
           this.getBalanceInformationModel1A(userId),
-          this.canSeePaymentModels ? this.getBalanceInformationModel1B(userId) : Promise.resolve()
-        ]).then(() => {
-          resolve();
-        }).catch((error) => {
-          if (retryCount < maxRetries) {
-            setTimeout(() => attemptLoad(retryCount + 1), 2000);
-          } else {
-            reject(error);
-          }
-        });
+          this.canSeePaymentModels
+            ? this.getBalanceInformationModel1B(userId)
+            : Promise.resolve(),
+        ])
+          .then(() => {
+            resolve();
+          })
+          .catch((error) => {
+            if (retryCount < maxRetries) {
+              setTimeout(() => attemptLoad(retryCount + 1), 2000);
+            } else {
+              reject(error);
+            }
+          });
       };
       attemptLoad(0);
     });
   }
 
-  initChartWithRetry(initFunction: () => void, chartName: string, maxRetries: number = 5) {
+  initChartWithRetry(
+    initFunction: () => void,
+    chartName: string,
+    maxRetries: number = 5,
+  ) {
     const attempt = (retryCount: number) => {
       try {
         initFunction();
@@ -565,7 +622,10 @@ export class HomeComponent {
         if (retryCount < maxRetries) {
           setTimeout(() => attempt(retryCount + 1), 1000);
         } else {
-          console.error(`Failed to initialize ${chartName} after ${maxRetries} attempts:`, error);
+          console.error(
+            `Failed to initialize ${chartName} after ${maxRetries} attempts:`,
+            error,
+          );
         }
       }
     };
@@ -576,8 +636,29 @@ export class HomeComponent {
     this.balanceInformation = new BalanceInformation();
     this.balanceInformationModel1A = new BalanceInformationModel1A();
     this.balanceInformationModel1B = new BalanceInformationModel1B();
-    this.pieChartOptions = { series: [], chart: {}, labels: [], responsive: [], dataLabels: {}, legend: {} };
-    this.pieChartOptionsModel1A = { series: [], chart: {}, labels: [], responsive: [], dataLabels: {}, legend: {} };
-    this.pieChartOptionsModel1B = { series: [], chart: {}, labels: [], responsive: [], dataLabels: {}, legend: {} };
+    this.pieChartOptions = {
+      series: [],
+      chart: {},
+      labels: [],
+      responsive: [],
+      dataLabels: {},
+      legend: {},
+    };
+    this.pieChartOptionsModel1A = {
+      series: [],
+      chart: {},
+      labels: [],
+      responsive: [],
+      dataLabels: {},
+      legend: {},
+    };
+    this.pieChartOptionsModel1B = {
+      series: [],
+      chart: {},
+      labels: [],
+      responsive: [],
+      dataLabels: {},
+      legend: {},
+    };
   }
 }

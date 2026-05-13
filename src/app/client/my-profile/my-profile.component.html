@@ -16,9 +16,10 @@
             <div class="card-body">
               <div class="author-box-center">
                 <img role="button" alt="image"
-                  [src]="user.image_profile_url ? user.image_profile_url : 'assets/images/user.png'"
+                  [src]="user.image_profile_url ? user.image_profile_url : 'assets/images/user.svg'"
+                  (error)="$any($event.target).src='assets/images/user.svg'"
                   class="rounded-circle author-box-picture"
-                  (click)="modalChildImageProfile.openImageProfileModal(modalChildImageProfile['imageProfileModal'], user)" />
+                  (click)="modalChildImageProfile.openImageProfileModal()" />
                 <div class="clearfix"></div>
                 <div class="author-box-name">
                   <a href="#" onClick="return false;">
@@ -231,7 +232,7 @@
                       </a>
 
                       <a ngbDropdownItem id="btn-edit-personal-info"
-                        (click)="modalChildImageProfile.openImageProfileModal(modalChildImageProfile['imageProfileModal'], user)">
+                        (click)="modalChildImageProfile.openImageProfileModal()">
                         <i class="fas fa-edit"></i>
                         <span style="margin-left: 5px">
                           Cambiar la foto de perfil
