@@ -129,6 +129,39 @@ export class SigninComponent implements OnInit {
     });
   }
 
+  googleLoginSubmitted() {
+    const deviceInfo = this.deviceService.getDeviceInfo();
+    this.loading = true;
+
+    this.authService.fetchIpAddress().subscribe((ip) => {
+      this.authService
+        .loginWithGoogle({
+          browserInfo: deviceInfo.browser,
+          operatingSystem: deviceInfo.os,
+          ipAddress: ip,
+        })
+        .subscribe({
+          next: (response: Response) => {
+            if (response.success) {
+              this.showInformativeBulletin();
+              if (response.data.is_affiliate) {
+                this.router.navigate(['/app/home']);
+              } else {
+                this.router.navigate(['admin/home-admin']);
+              }
+            } else {
+              this.showError(response.message);
+            }
+            this.loading = false;
+          },
+          error: () => {
+            this.showError('No fue posible iniciar sesión con Google.');
+            this.loading = false;
+          },
+        });
+    });
+  }
+
   showSuccess(message) {
     this.toastr.success(message, 'Success!');
   }

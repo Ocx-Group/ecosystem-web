@@ -13,6 +13,9 @@ export const environment = {
     walletService: `${gatewayBaseUrl}/api/v1`,
     coinPayment: 'https://www.coinpayments.net/index.php',
   },
+  googleAuth: {
+    clientId: '378354244505-njjch822319jnpid67vbkd8gq8mnm9vq.apps.googleusercontent.com',
+  },
   openAI: {
     apiKey: '',
   },

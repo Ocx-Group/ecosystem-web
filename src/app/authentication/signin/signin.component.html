@@ -120,6 +120,12 @@
             Verificando...
           </span>
         </button>
+        <button class="sn-btn mt-2" type="button" [disabled]="loading" (click)="googleLoginSubmitted()">
+          <span class="sn-btn__content">
+            <i class="bi bi-google"></i>
+            Google
+          </span>
+        </button>
 
       </form>
 
