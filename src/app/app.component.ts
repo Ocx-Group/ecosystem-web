@@ -3,6 +3,7 @@ import { Event, Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { DOCUMENT, PlatformLocation } from '@angular/common';
 
 import { SessionService } from './core/service/session-service/session.service';
+import { BrandingService } from './core/service/branding-service/branding.service';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ export class AppComponent implements OnInit {
   constructor(public _router: Router,
     location: PlatformLocation,
     private sessionService: SessionService,
+    private readonly brandingService: BrandingService,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document,) {
     this._router.events.subscribe((routerEvent: Event) => {
@@ -31,7 +33,7 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.changeFavicon('assets/images/favicon.ico');
+    this.brandingService.applyToDocument();
   }
 
   changeFavicon(url: string): void {

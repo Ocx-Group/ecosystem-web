@@ -1,6 +1,6 @@
 
 import { LocationStrategy, HashLocationStrategy, PathLocationStrategy } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { CoreModule } from './core/core.module';
@@ -18,7 +18,7 @@ import {
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, HttpClient } from '@angular/common/http';
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { firebaseConfig } from '@environments/environment';
@@ -39,6 +39,8 @@ import { ClientModule } from './client/client.module';
 import { MembershipManagerModule } from "./client/membership-manager/membership-manager.module";
 import { TermsConditionsModalComponent } from './layout/terms-conditions-modal/terms-conditions-modal.component';
 import { ImageProfileModalComponent } from './shared/components/image-profile-modal/image-profile-modal.component';
+import { BrandingService } from './core/service/branding-service/branding.service';
+import { RuntimeTenantInterceptor } from './core/interceptor/runtime-tenant.interceptor';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -47,6 +49,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+}
+
+export function initializeBranding(brandingService: BrandingService): () => Promise<void> {
+  return () => brandingService.load();
 }
 
 @NgModule({
@@ -94,6 +100,17 @@ export function createTranslateLoader(http: HttpClient): any {
   ],
   providers: [
     { provide: LocationStrategy, useClass: PathLocationStrategy },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RuntimeTenantInterceptor,
+      multi: true,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeBranding,
+      deps: [BrandingService],
+      multi: true,
+    },
     {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
