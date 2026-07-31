@@ -1,5 +1,19 @@
 # Angularlight
 
+## Alcance del producto
+
+`web` (Ecosystem) es una de las tres webs activas del sistema. Conserva sus
+vistas, funciones y dashboard administrativo propios.
+
+Decisión vigente desde el 2026-07-31:
+
+- no se crearán nuevas webs ni un frontend único;
+- este dashboard administrará los detalles de su propia marca;
+- el branding publicado seguirá teniendo a `ConfigurationService` como fuente
+  central;
+- el navegador nunca debe escribir directamente en la base de datos ni confiar
+  en un `BrandId` para autorizar cambios.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
 
 ## Development server
