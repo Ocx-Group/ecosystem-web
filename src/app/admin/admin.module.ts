@@ -61,6 +61,7 @@ import { AuthorizeReturnsComponent } from './authorize-returns/authorize-returns
 import { WalkwaysBenchesComponent } from './walkways-benches/walkways-benches.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { SettingsComponent } from './settings/settings.component';
+import { BrandingComponent } from './branding/branding.component';
 import { WireTransferListComponent } from './wire-transfer-list/wire-transfer-list.component';
 import { EducationalProgramsControlComponent } from './educational-programs-control/educational-programs-control.component';
 import { ChangeModelModule } from './change-model/change-model.module';
@@ -102,6 +103,7 @@ const icons = {
     AuthorizeReturnsComponent,
     WalkwaysBenchesComponent,
     SettingsComponent,
+    BrandingComponent,
     WireTransferListComponent,
     EducationalProgramsControlComponent,
     TicketViewAdminComponent,

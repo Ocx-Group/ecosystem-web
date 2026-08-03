@@ -50,7 +50,9 @@ import { EducationalProgramsControlComponent } from './educational-programs-cont
 import { ChangeModelComponent } from './change-model/change-model.component';
 import { WalletRefillComponent } from './wallet-refill/wallet-refill.component';
 import { AuthGuardAdmin } from '@app/core/guard/auth.guard.admin';
+import { BrandAdministratorGuard } from '@app/core/guard/brand-administrator.guard';
 import { MaintenanceGuard } from '@app/core/guard/maintenance.guard';
+import { BrandingComponent } from './branding/branding.component';
 import {TicketViewAdminComponent} from '@app/admin//tickets/tick-view/ticket-view-admin.component';
 
 const routes: Routes = [
@@ -113,6 +115,11 @@ const routes: Routes = [
     path: 'settings',
     component: SettingsComponent,
     canActivate: [AuthGuardAdmin, MaintenanceGuard],
+  },
+  {
+    path: 'branding',
+    component: BrandingComponent,
+    canActivate: [AuthGuardAdmin, BrandAdministratorGuard, MaintenanceGuard],
   },
   {
     path: 'tickets-for-admin',
