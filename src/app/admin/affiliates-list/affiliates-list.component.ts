@@ -15,12 +15,14 @@ import { CreditTransactionAdminRequest } from '@app/core/models/wallet-model/cre
 import { BalanceInformationModalComponent } from './balance-information-modal/balance-information-modal.component';
 import { WalletModel1AService } from '@app/core/service/wallet-model-1a-service/wallet-model-1a.service';
 import { WalletModel1BService } from '@app/core/service/wallet-model-1b-service/wallet-model-1b.service';
+import { PaginationRequest } from '@app/core/interfaces/pagination-request';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 const header = [
   'Usuario',
   'Estado',
-  'Modo Afiliado',
-  'Calificación',
+  'Teléfono',
   'Correo',
   'Fecha Registro',
   'Padre',
@@ -39,6 +41,11 @@ export class AffiliatesListComponent implements OnInit {
   loadingIndicator = true;
   reorderable = true;
   scrollBarHorizontal = window.innerWidth < 1200;
+  totalElements = 0;
+  pageSize = 10;
+  currentPage = 1;
+  searchTerm = '';
+  private readonly searchTerms = new Subject<string>();
   @ViewChild(BalanceInformationModalComponent) private balanceInformationModalComponent: BalanceInformationModalComponent;
   @ViewChild('table') table: DatatableComponent;
 
@@ -55,6 +62,14 @@ export class AffiliatesListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.searchTerms
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe(term => {
+        this.searchTerm = term;
+        this.currentPage = 1;
+        this.loadAffiliateList();
+      });
+
     this.loadAffiliateList();
   }
 
@@ -76,15 +91,35 @@ export class AffiliatesListComponent implements OnInit {
   }
 
   loadAffiliateList() {
-    this.affiliateService.getAll().subscribe((affiliates: UserAffiliate[]) => {
-      if (affiliates !== null) {
-        this.temp = [...affiliates];
-        this.rows = affiliates;
-      }
-      setTimeout(() => {
+    const request: PaginationRequest = {
+      pageSize: this.pageSize,
+      pageNumber: this.currentPage,
+      ...(this.searchTerm && { search: this.searchTerm }),
+    };
+
+    this.loadingIndicator = true;
+    this.affiliateService.getAllPaged(request).subscribe({
+      next: response => {
+        if (response?.success && response.data) {
+          this.rows = response.data.items;
+          this.temp = response.data.items;
+          this.totalElements = response.data.totalCount;
+          this.pageSize = response.data.pageSize;
+          this.currentPage = response.data.currentPage;
+        }
         this.loadingIndicator = false;
-      }, 500);
+      },
+      error: error => {
+        console.error(error);
+        this.loadingIndicator = false;
+        this.showError('Error al cargar los datos');
+      },
     });
+  }
+
+  onPage(event: any) {
+    this.currentPage = event.offset + 1;
+    this.loadAffiliateList();
   }
 
   getRowHeight(row) {
@@ -92,13 +127,13 @@ export class AffiliatesListComponent implements OnInit {
   }
 
   updateFilter(event) {
-    const val = event.target.value.toLowerCase();
+    this.searchTerms.next(event.target.value.trim());
+  }
 
-    const temp = this.temp.filter(function (d) {
-      return d.user_name.toLowerCase().indexOf(val) !== -1 || !val;
-    });
-    this.rows = temp;
-    this.table.offset = 0;
+  formatStatusActivation(row: UserAffiliate) {
+    return row.status_activation
+      ? row.status_activation.replace(/_/g, ' ')
+      : '';
   }
 
   clipBoardCopy() {
@@ -125,13 +160,12 @@ export class AffiliatesListComponent implements OnInit {
       const data = [
         items.user_name,
         items.status,
-        items.affiliate_mode,
-        items.external_grading_id,
+        items.phone,
         items.email,
         items.created_at,
-        items.father,
-        items.sponsor,
-        items.binary_sponsor,
+        items.father_user_name,
+        items.sponsor_user_name,
+        items.binary_sponsor_user_name,
       ];
       return data;
     });
