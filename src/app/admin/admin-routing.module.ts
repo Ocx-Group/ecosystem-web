@@ -53,6 +53,7 @@ import { AuthGuardAdmin } from '@app/core/guard/auth.guard.admin';
 import { BrandAdministratorGuard } from '@app/core/guard/brand-administrator.guard';
 import { MaintenanceGuard } from '@app/core/guard/maintenance.guard';
 import { BrandingComponent } from './branding/branding.component';
+import { CommissionsConfigurationComponent } from './commissions-configuration/commissions-configuration.component';
 import {TicketViewAdminComponent} from '@app/admin//tickets/tick-view/ticket-view-admin.component';
 
 const routes: Routes = [
@@ -119,6 +120,11 @@ const routes: Routes = [
   {
     path: 'branding',
     component: BrandingComponent,
+    canActivate: [AuthGuardAdmin, BrandAdministratorGuard, MaintenanceGuard],
+  },
+  {
+    path: 'commissions-configuration',
+    component: CommissionsConfigurationComponent,
     canActivate: [AuthGuardAdmin, BrandAdministratorGuard, MaintenanceGuard],
   },
   {

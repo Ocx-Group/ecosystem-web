@@ -14,6 +14,58 @@
   </div>
   <form class="register-form" [formGroup]="makePurchaseForm" (ngSubmit)="addProductToList()">
     <div class="modal-body">
+      <!-- Daily Bonus Activation -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="card border-info">
+            <div class="card-body p-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="card-title mb-1 text-info">
+                    <i class="material-icons me-2" style="vertical-align: middle;">card_giftcard</i>
+                    Bonos Diarios
+                  </h6>
+                  <small class="text-muted">Activar bonos diarios para esta compra</small>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="dailyBonusSwitch"
+                         formControlName="dailyBonusActivation" style="transform: scale(1.2);">
+                  <label class="form-check-label fw-bold text-info" for="dailyBonusSwitch">
+                    {{ makePurchaseForm.get('dailyBonusActivation')?.value ? 'Activado' : 'Desactivado' }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Monthly Settlement Inclusion -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="card border-warning">
+            <div class="card-body p-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="card-title mb-1 text-warning">
+                    <i class="material-icons me-2" style="vertical-align: middle;">receipt</i>
+                    Liquidación Mensual
+                  </h6>
+                  <small class="text-muted">Incluir esta factura en la liquidación mensual</small>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="monthlySettlementSwitch"
+                         formControlName="includeInCommissionCalculation" style="transform: scale(1.2);">
+                  <label class="form-check-label fw-bold text-warning" for="monthlySettlementSwitch">
+                    {{ makePurchaseForm.get('includeInCommissionCalculation')?.value ? 'Incluida' : 'Excluida' }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
           <label>Producto <span class="text-danger">*</span></label>
