@@ -28,13 +28,8 @@ import { PurchasesListComponent } from './purchases-list/purchases-list.componen
 import { TicketsAdminComponent } from './tickets/tickets-admin.component';
 import { PurchaseOrderListComponent } from './purchase-order-list/purchase-order-list.component';
 import { AuthorizePurchasesComponent } from './authorize-purchases/authorize-purchases.component';
-import { ClosureConceptsComponent } from './closure-concepts/closure-concepts.component';
-import { PeriodClosingComponent } from './period-closing/period-closing.component';
 import { CalculatedCommissionsComponent } from './calculated-commissions/calculated-commissions.component';
-import { AccreditedCommissionsComponent } from './accredited-commissions/accredited-commissions.component';
 import { CommissionsPaidComponent } from './commissions-paid/commissions-paid.component';
-import { IncentivesDeliveredComponent } from './incentives-delivered/incentives-delivered.component';
-import { IncentivesForDeliveringComponent } from './incentives-for-delivering/incentives-for-delivering.component';
 import { ArraysConfigurationsComponent } from './arrays-configurations/arrays-configurations.component';
 
 import { ForceGenealogicalTreeModule } from './force-genealogical-tree/force-genealogical-tree.module';
@@ -87,13 +82,8 @@ const icons = {
     TicketsAdminComponent,
     PurchaseOrderListComponent,
     AuthorizePurchasesComponent,
-    ClosureConceptsComponent,
-    PeriodClosingComponent,
     CalculatedCommissionsComponent,
-    AccreditedCommissionsComponent,
     CommissionsPaidComponent,
-    IncentivesDeliveredComponent,
-    IncentivesForDeliveringComponent,
     ArraysConfigurationsComponent,
     BalanceOfWalletComponent,
     WalletRefillComponent,

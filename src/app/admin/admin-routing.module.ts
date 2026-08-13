@@ -18,13 +18,8 @@ import { RolListComponent } from './rol-list/rol-list.component';
 import { AuthorizeAffiliatesComponent } from './authorize-affiliates/authorize-affiliates.component';
 import { PurchaseOrderListComponent } from './purchase-order-list/purchase-order-list.component';
 import { AuthorizePurchasesComponent } from './authorize-purchases/authorize-purchases.component';
-import { ClosureConceptsComponent } from './closure-concepts/closure-concepts.component';
-import { PeriodClosingComponent } from './period-closing/period-closing.component';
 import { CalculatedCommissionsComponent } from './calculated-commissions/calculated-commissions.component';
-import { AccreditedCommissionsComponent } from './accredited-commissions/accredited-commissions.component';
 import { CommissionsPaidComponent } from './commissions-paid/commissions-paid.component';
-import { IncentivesDeliveredComponent } from './incentives-delivered/incentives-delivered.component';
-import { IncentivesForDeliveringComponent } from './incentives-for-delivering/incentives-for-delivering.component';
 import { PageUnilevelTreeComponent } from './unilevel-tree/page/page-unilevel-tree.component';
 import { PageForceGenealogicalTreeComponent } from './force-genealogical-tree/page/page-force-genealogical-tree.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
@@ -75,7 +70,7 @@ const routes: Routes = [
   {
     path: 'calculate-commissions',
     component: CalculateCommissionsComponent,
-    canActivate: [AuthGuardAdmin, MaintenanceGuard],
+    canActivate: [AuthGuardAdmin, BrandAdministratorGuard, MaintenanceGuard],
   },
   {
     path: 'compensations-plans-configuration',
@@ -158,38 +153,13 @@ const routes: Routes = [
     canActivate: [AuthGuardAdmin, MaintenanceGuard],
   },
   {
-    path: 'closure-concepts',
-    component: ClosureConceptsComponent,
-    canActivate: [AuthGuardAdmin, MaintenanceGuard],
-  },
-  {
-    path: 'period-closing',
-    component: PeriodClosingComponent,
-    canActivate: [AuthGuardAdmin, MaintenanceGuard],
-  },
-  {
     path: 'calculated-commissions',
     component: CalculatedCommissionsComponent,
     canActivate: [AuthGuardAdmin, MaintenanceGuard],
   },
   {
-    path: 'accredited-commissions',
-    component: AccreditedCommissionsComponent,
-    canActivate: [AuthGuardAdmin, MaintenanceGuard],
-  },
-  {
     path: 'commissions-paid',
     component: CommissionsPaidComponent,
-    canActivate: [AuthGuardAdmin, MaintenanceGuard],
-  },
-  {
-    path: 'incentives-delivered',
-    component: IncentivesDeliveredComponent,
-    canActivate: [AuthGuardAdmin, MaintenanceGuard],
-  },
-  {
-    path: 'incentives-for-delivering',
-    component: IncentivesForDeliveringComponent,
     canActivate: [AuthGuardAdmin, MaintenanceGuard],
   },
   {
