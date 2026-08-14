@@ -26,8 +26,76 @@ import { WalletService } from '@app/core/service/wallet-service/wallet.service';
 import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.service';
 import { ToastrService } from 'ngx-toastr';
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
+import { InvoiceService } from '@app/core/service/invoice-service/invoice.service';
+import { MonthlyPurchases } from '@app/core/models/invoice-model/monthly-purchases.model';
 
 am4core.useTheme(am5themes_Animated);
+
+const MONTH_LABELS = [
+  'Ene',
+  'Feb',
+  'Mar',
+  'Abr',
+  'May',
+  'Jun',
+  'Jul',
+  'Ago',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dic',
+];
+
+function buildPurchasesChart(
+  labels: string[],
+  values: number[]
+): EChartsOption {
+  return {
+    tooltip: {
+      trigger: 'axis',
+      valueFormatter: (value) => `$${Number(value).toFixed(2)}`,
+    },
+    grid: {
+      left: 60,
+      right: 20,
+      top: 20,
+      bottom: 30,
+    },
+    xAxis: [
+      {
+        type: 'category',
+        boundaryGap: !1,
+        data: labels,
+        axisLabel: {
+          fontSize: 10,
+          color: '#9aa0ac',
+        },
+      },
+    ],
+    yAxis: [
+      {
+        type: 'value',
+        axisLabel: {
+          fontSize: 10,
+          color: '#9aa0ac',
+        },
+      },
+    ],
+    series: [
+      {
+        name: 'Compras',
+        type: 'line',
+        smooth: !0,
+        areaStyle: {},
+        emphasis: {
+          focus: 'series',
+        },
+        data: values,
+      },
+    ],
+    color: ['#9f78ff'],
+  };
+}
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -62,11 +130,13 @@ export class HomeAdminComponent implements OnInit {
   maps: any[] = [];
   @ViewChild('chart') chart1: ChartComponent;
   lastRegisteredUsers: UserAffiliate[] = [];
+  purchases_chart: EChartsOption = buildPurchasesChart([], []);
 
   constructor(
     private walletService: WalletService,
     private affiliateService: AffiliateService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private invoiceService: InvoiceService
   ) {
     this.pieChartOptions = {
       series: [],
@@ -83,6 +153,7 @@ export class HomeAdminComponent implements OnInit {
     this.initChartReport();
     this.loadLocations();
     this.getLastRegisteredUsers();
+    this.loadPurchasesChart();
   }
 
   showSuccess(message) {
@@ -383,6 +454,23 @@ export class HomeAdminComponent implements OnInit {
       },
       error: () => {
         this.showError('Error');
+      },
+    });
+  }
+
+  loadPurchasesChart() {
+    this.invoiceService.getMonthlyPurchasesSummary().subscribe({
+      next: (summary: MonthlyPurchases[]) => {
+        this.purchases_chart = buildPurchasesChart(
+          summary.map(
+            (item) =>
+              `${MONTH_LABELS[item.month - 1]} ${String(item.year).slice(-2)}`
+          ),
+          summary.map((item) => Number(item.totalAmount))
+        );
+      },
+      error: () => {
+        this.showError('Error al cargar las compras realizadas');
       },
     });
   }
