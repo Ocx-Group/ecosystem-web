@@ -94,7 +94,7 @@ export class TicketsAdminComponent implements OnInit {
   }
 
   openModal(content: any, ticket: Ticket) {
-    this.selectedTicket.images = ticket.images || [];
+    this.selectedTicket.images = ticket.ticketImages || [];
 
     this.modalService.open(content, {size: 'lg', centered: true}).result.then(() => {
     });

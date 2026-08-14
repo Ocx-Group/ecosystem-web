@@ -15,6 +15,7 @@ export class Ticket {
   deletedAt: Date
   messages: TicketMessage[];
   userName: string;
+  ticketImages?: TicketImagesRequest[];
 
   constructor() {
     this.id = 0;
@@ -24,6 +25,7 @@ export class Ticket {
     this.status = false;
     this.isRead = false;
     this.images = [];
+    this.ticketImages = [];
     this.description = '';
     this.createdAt = new Date();
     this.updatedAt = new Date();
