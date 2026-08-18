@@ -1944,6 +1944,9 @@
     "ROW-DETAIL": {
       "TEXT": "Detalle"
     },
+    "ROW-PHONE": {
+      "TEXT": "Teléfono"
+    },
     "ROW-QUALIFICATION": {
       "TEXT": "Calificación"
     },

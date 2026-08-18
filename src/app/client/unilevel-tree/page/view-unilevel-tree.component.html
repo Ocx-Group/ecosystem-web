@@ -41,14 +41,15 @@
 
                               <ng-template #nodeTemplate let-node>
                                 <div class="chart-node">
-                                  <img [ngSrc]="node.image" fill
-                                    style="height: 50% !important; width: 50% !important; margin: 5px 0px 0px 5px !important;" />
-                                  <div class="name" style="margin-top: 1.25em !important;">
+                                  <img alt="node"
+                                    [src]="node.imageProfileUrl || node.image || 'assets/images/user.svg'"
+                                    (error)="$any($event.target).src='assets/images/user.svg'" />
+                                  <div class="name">
                                     <span style="font-size: 9px;">
                                       {{ node.userName || node.user_name }}
                                     </span>
                                   </div>
-                                  <div *ngIf="node.children.length" style="margin: 5px 5px 0px 0px !important"
+                                  <div *ngIf="node.children?.length" style="margin: 5px 5px 0px 0px !important"
                                     (click)="node.hideChildren = !node.hideChildren" class="tree-fold-btn">
                                     {{ node.hideChildren ? '+' : '-' }}
                                   </div>
@@ -84,14 +85,15 @@
 
                             <ng-template #nodeTemplate let-node>
                               <div class="chart-node">
-                                <img [ngSrc]="node.image" fill
-                                  style="height: 50% !important; width: 50% !important; margin: 5px 0px 0px 5px !important;" />
-                                <div class="name" style="margin-top: 1.25em !important;">
+                                <img alt="node"
+                                  [src]="node.imageProfileUrl || node.image || 'assets/images/user.svg'"
+                                  (error)="$any($event.target).src='assets/images/user.svg'" />
+                                <div class="name">
                                   <span style="font-size: 9px;">
                                     {{ node.userName || node.user_name }}
                                   </span>
                                 </div>
-                                <div *ngIf="node.children.length" style="margin: 5px 5px 0px 0px !important"
+                                <div *ngIf="node.children?.length" style="margin: 5px 5px 0px 0px !important"
                                   (click)="node.hideChildren = !node.hideChildren" class="tree-fold-btn">
                                   {{ node.hideChildren ? '+' : '-' }}
                                 </div>
@@ -126,14 +128,15 @@
 
                             <ng-template #nodeTemplate let-node>
                               <div class="chart-node">
-                                <img [ngSrc]="node.image" fill
-                                  style="height: 50% !important; width: 50% !important; margin: 5px 0px 0px 5px !important;" />
-                                <div class="name" style="margin-top: 1.25em !important;">
+                                <img alt="node"
+                                  [src]="node.imageProfileUrl || node.image || 'assets/images/user.svg'"
+                                  (error)="$any($event.target).src='assets/images/user.svg'" />
+                                <div class="name">
                                   <span style="font-size: 9px;">
                                     {{ node.userName || node.user_name }}
                                   </span>
                                 </div>
-                                <div *ngIf="node.children.length" style="margin: 5px 5px 0px 0px !important"
+                                <div *ngIf="node.children?.length" style="margin: 5px 5px 0px 0px !important"
                                   (click)="node.hideChildren = !node.hideChildren" class="tree-fold-btn">
                                   {{ node.hideChildren ? '+' : '-' }}
                                 </div>

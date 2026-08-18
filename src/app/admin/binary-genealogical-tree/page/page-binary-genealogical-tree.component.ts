@@ -15,8 +15,8 @@ export class PageBinaryGenealogicalTreeComponent implements OnInit {
   userId: number;
   tree: MyTreeNode = {
     id: 0,
-    user_name: '',
-    image: '',
+    userName: '',
+    imageProfileUrl: '',
     children: [
     ],
   };
@@ -35,7 +35,7 @@ export class PageBinaryGenealogicalTreeComponent implements OnInit {
 
 
   ngOnInit() {
-    this.userId = this.activatedRoute.snapshot.params.id;
+    this.userId = +this.activatedRoute.snapshot.params.id;
     this.onloadFamilyTree(this.userId);
     }
 
@@ -46,19 +46,44 @@ export class PageBinaryGenealogicalTreeComponent implements OnInit {
 
     this.tree = {
       id: 0,
-      user_name: '',
-      image: '',
+      userName: '',
+      imageProfileUrl: '',
       children: [
       ],
     };
-    this.affiliateService.getBinaryTree(id).subscribe((users: MyTreeNode) => {
-      if (users !== null) {
-        this.tree = users;
-        setTimeout(() => {
+    this.affiliateService.getBinaryTree(id).subscribe(
+      (users: MyTreeNode) => {
+        if (users !== null) {
+          this.tree = this.initializeTreeNode(users);
+          setTimeout(() => {
+            this.spinnerService.hide();
+            this.showDiv = true;
+          }, 500);
+        } else {
+          console.error('El arbol binario llego vacio para el afiliado', id);
           this.spinnerService.hide();
-          this.showDiv = true;
-        }, 500);   
+        }
+      },
+      error => {
+        console.error('Error loading binary tree:', error);
+        this.spinnerService.hide();
       }
-    });
+    );
+  }
+
+  private initializeTreeNode(node: MyTreeNode): MyTreeNode {
+    if (!node) return node;
+
+    node.hideChildren = node.hideChildren ?? false;
+
+    if (!node.children) {
+      node.children = [];
+    }
+
+    if (node.children.length > 0) {
+      node.children = node.children.map(child => this.initializeTreeNode(child));
+    }
+
+    return node;
   }
 }
