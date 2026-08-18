@@ -10,7 +10,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Signin } from '@app/core/models/signin-model/signin.model';
 import { LogoService } from '@app/core/service/logo-service/logo.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-signin',
@@ -115,7 +114,6 @@ export class SigninComponent implements OnInit {
 
       this.authService.loginUser(signin).subscribe((response: Response) => {
         if (response.success) {
-          this.showInformativeBulletin();
           if (response.data.is_affiliate) {
             this.router.navigate(['/app/home']);
           } else {
@@ -143,7 +141,6 @@ export class SigninComponent implements OnInit {
         .subscribe({
           next: (response: Response) => {
             if (response.success) {
-              this.showInformativeBulletin();
               if (response.data.is_affiliate) {
                 this.router.navigate(['/app/home']);
               } else {
@@ -201,46 +198,5 @@ export class SigninComponent implements OnInit {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
     }
-  }
-
-  showInformativeBulletin() {
-    Swal.fire({
-      title: '<strong>INFORME RETRIBUCIÓN</strong>',
-      icon: 'info',
-      html: `
-        <div style="text-align: center;">
-          <p style="font-weight:bold; font-size:1.1em;">📅 REUNION DOMINGO 10 DE MAYO 2026</p>
-          <hr>
-          <p style="margin-bottom:4px;"><b>💻 SALA DE ZOOM:</b></p>
-          <p style="margin-bottom:12px;">
-            <a href="https://us06web.zoom.us/j/7407569179?pwd=8kDn4ba7QAtaqPleqTGnfwnjPiaPFD.1"
-               target="_blank" rel="noopener noreferrer"
-               style="color:#1a73e8; word-break:break-all;">
-              https://us06web.zoom.us/j/7407569179?pwd=8kDn4ba7QAtaqPleqTGnfwnjPiaPFD.1
-            </a>
-          </p>
-          <p style="font-weight:bold; margin-bottom:8px;">🌍 HORARIO INTERNACIONAL PM</p>
-          <table style="margin:0 auto; border-collapse:collapse; font-size:0.95em;">
-            <tr>
-              <td style="padding:4px 16px; text-align:left;"><b>1:30</b> COSTA RICA 🇨🇷</td>
-              <td style="padding:4px 16px; text-align:left;"><b>3:30</b> VENEZUELA 🇻🇪</td>
-            </tr>
-            <tr>
-              <td style="padding:4px 16px; text-align:left;"><b>1:30</b> MEXICO 🇲🇽</td>
-              <td style="padding:4px 16px; text-align:left;"><b>3:30</b> NEW YORK 🇺🇸</td>
-            </tr>
-            <tr>
-              <td style="padding:4px 16px; text-align:left;"><b>2:30</b> COLOMBIA 🇨🇴</td>
-              <td style="padding:4px 16px; text-align:left;"><b>9:30</b> ESPAÑA 🇪🇸</td>
-            </tr>
-          </table>
-        </div>
-      `,
-      showCloseButton: true,
-      focusConfirm: false,
-      confirmButtonText: '<i class="fa fa-thumbs-up"></i> Entendido',
-      confirmButtonAriaLabel: 'Thumbs up, entendido',
-      confirmButtonColor: '#3085d6',
-    });
   }
 }
