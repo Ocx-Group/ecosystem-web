@@ -1944,6 +1944,15 @@
     "ROW-DETAIL": {
       "TEXT": "Detalle"
     },
+    "ROW-EMAIL": {
+      "TEXT": "Correo electrónico"
+    },
+    "ROW-FULL-NAME": {
+      "TEXT": "Nombre completo"
+    },
+    "ROW-LEVEL": {
+      "TEXT": "Nivel"
+    },
     "ROW-PHONE": {
       "TEXT": "Teléfono"
     },

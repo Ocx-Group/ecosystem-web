@@ -360,22 +360,29 @@ export class NetworkComponent implements OnInit {
 
 
   copyTableData() {
-    const rows = this.table._internalRows;
-    if (rows?.length ?? 0) {
+    const rows = this.table?._internalRows ?? [];
+    if (rows.length) {
+      // Las columnas deben seguir el mismo orden que la tabla de la red personal.
       const headers = [
         this.translateService.instant('NETWORK-PAGE.ROW-USER.TEXT'),
-        this.translateService.instant('NETWORK-PAGE.ROW-STATE.TEXT'),
-        this.translateService.instant('NETWORK-PAGE.ROW-QUALIFICATION.TEXT'),
+        this.translateService.instant('NETWORK-PAGE.ROW-LEVEL.TEXT'),
+        this.translateService.instant('NETWORK-PAGE.ROW-FULL-NAME.TEXT'),
         this.translateService.instant('NETWORK-PAGE.ROW-EMAIL.TEXT'),
-        this.translateService.instant('NETWORK-PAGE.ROW-DETAIL.TEXT')
+        this.translateService.instant('NETWORK-PAGE.ROW-PHONE.TEXT'),
+        this.translateService.instant('NETWORK-PAGE.ROW-STATE.TEXT'),
+        this.translateService.instant('NETWORK-PAGE.ROW-QUALIFICATION.TEXT')
       ];
 
       const data = rows.map(row => [
-        row.userName,
-        row.status ? 'Activa' : 'Cancelada',
-        row.calification,
-        row.email,
-        '...'
+        row.userName ?? '',
+        row.level ?? '',
+        row.fullName ?? '',
+        row.email ?? '',
+        row.phone ?? '',
+        this.translateService.instant(
+          row.activationDate != null ? 'NETWORK-PAGE.ACTIVE.TEXT' : 'NETWORK-PAGE.INACTIVE.TEXT'
+        ),
+        this.getNameGrading(row.externalGradingIdBefore)
       ]);
 
       const tableText = [headers, ...data].map(row => row.join('\t')).join('\n');
