@@ -51,6 +51,8 @@ export class NetworkComponent implements OnInit {
   isNewUser: boolean = false;
   pagaditoRequest = new CreatePagaditoTransactionRequest();
   currentMembership: Product = new Product();
+  pageSizeOptions = [10, 20, 50, 100];
+  pageSize = 10;
 
   @ViewChild('table') table: DatatableComponent;
 
@@ -137,6 +139,11 @@ export class NetworkComponent implements OnInit {
 
   getRowHeight(row) {
     return row.height;
+  }
+
+  updatePageSize(event) {
+    this.pageSize = Number(event.target.value);
+    this.table.offset = 0;
   }
 
   updateFilter(event) {

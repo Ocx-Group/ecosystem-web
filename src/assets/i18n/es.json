@@ -1965,6 +1965,9 @@
     "ROW-USER": {
       "TEXT": "Usuario"
     },
+    "ROWS-PER-PAGE": {
+      "TEXT": "Filas por página"
+    },
     "SEARCH": {
       "TEXT": "Buscar"
     },
