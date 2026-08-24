@@ -1,9 +1,4 @@
-import {
-  HttpHandler,
-  HttpInterceptor,
-  HttpInterceptorFn,
-  HttpRequest,
-} from '@angular/common/http';
+import { HttpHandler, HttpInterceptor, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { RuntimeTenantService } from '../service/branding-service/runtime-tenant.service';

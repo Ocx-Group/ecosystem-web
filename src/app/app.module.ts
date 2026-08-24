@@ -18,7 +18,7 @@ import {
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
-import { HTTP_INTERCEPTORS, HttpClientModule, HttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { firebaseConfig } from '@environments/environment';
@@ -55,68 +55,62 @@ export function initializeBranding(brandingService: BrandingService): () => Prom
   return () => brandingService.load();
 }
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    HeaderAdminComponent,
-    PageLoaderComponent,
-    SidebarComponent,
-    SidebarAdminComponent,
-    RightSidebarComponent,
-    AuthLayoutComponent,
-    MainLayoutComponent,
-    AdminLayoutComponent,
-    FooterComponent,
-    LogoComponent,
-    TermsConditionsModalComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    PerfectScrollbarModule,
-    LoadingBarRouterModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: createTranslateLoader,
-        deps: [HttpClient],
-      },
-    }),
-    // core & shared
-    CoreModule,
-    ToastrModule.forRoot(),
-    SharedModule,
-    NgbModule,
-    ClipboardModule,
-    MembershipManagerModule,
-    provideFirebaseApp(() => initializeApp(firebaseConfig)),
-    ClientModule,
-    NgxDropzoneModule,
-    ImageProfileModalComponent,
-  ],
-  providers: [
-    { provide: LocationStrategy, useClass: PathLocationStrategy },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: RuntimeTenantInterceptor,
-      multi: true,
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeBranding,
-      deps: [BrandingService],
-      multi: true,
-    },
-    {
-      provide: PERFECT_SCROLLBAR_CONFIG,
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
-    },
-  ],
-  exports: [LogoComponent],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HeaderComponent,
+        HeaderAdminComponent,
+        PageLoaderComponent,
+        SidebarComponent,
+        SidebarAdminComponent,
+        RightSidebarComponent,
+        AuthLayoutComponent,
+        MainLayoutComponent,
+        AdminLayoutComponent,
+        FooterComponent,
+        LogoComponent,
+        TermsConditionsModalComponent
+    ],
+    exports: [LogoComponent],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        PerfectScrollbarModule,
+        LoadingBarRouterModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: createTranslateLoader,
+                deps: [HttpClient],
+            },
+        }),
+        // core & shared
+        CoreModule,
+        ToastrModule.forRoot(),
+        SharedModule,
+        NgbModule,
+        ClipboardModule,
+        MembershipManagerModule,
+        provideFirebaseApp(() => initializeApp(firebaseConfig)),
+        ClientModule,
+        NgxDropzoneModule,
+        ImageProfileModalComponent], providers: [
+        { provide: LocationStrategy, useClass: PathLocationStrategy },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: RuntimeTenantInterceptor,
+            multi: true,
+        },
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeBranding,
+            deps: [BrandingService],
+            multi: true,
+        },
+        {
+            provide: PERFECT_SCROLLBAR_CONFIG,
+            useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule { }
