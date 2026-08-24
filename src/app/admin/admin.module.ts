@@ -8,7 +8,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { NgxGaugeModule } from 'ngx-gauge';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { FeatherModule } from 'angular-feather';
 import { Search } from 'angular-feather/icons';
 import { ClipboardModule } from '@angular/cdk/clipboard';
@@ -111,7 +111,7 @@ const icons = {
     ReactiveFormsModule,
     NgbModule,
     AdminRoutingModule,
-    TranslateModule,
+    TranslatePipe,
     MyProfileModule,
     UnilevelTreeModule,
     ForceGenealogicalTreeModule,

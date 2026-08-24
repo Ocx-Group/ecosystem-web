@@ -3,7 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PerfectScrollbarModule } from '@app/shared/perfect-scrollbar.module';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { FeatherModule } from 'angular-feather';
 import { Search } from 'angular-feather/icons';
 import { ToastrModule } from 'ngx-toastr';
@@ -26,7 +26,7 @@ const icons = {
     ClipboardModule,
     ReactiveFormsModule,
     NgbModule,
-    TranslateModule,
+    TranslatePipe,
     ToastrModule.forRoot(),
     FeatherModule.pick(icons),
     NgxDatatableModule,

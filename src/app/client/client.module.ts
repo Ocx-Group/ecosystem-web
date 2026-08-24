@@ -13,7 +13,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { NgxGaugeModule } from 'ngx-gauge';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { FeatherModule } from 'angular-feather';
 import { Search } from 'angular-feather/icons';
 
@@ -85,7 +85,7 @@ const icons = {
     MyProfileModule,
     NgxDropzoneModule,
     HomeModule,
-    TranslateModule,
+    TranslatePipe,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),

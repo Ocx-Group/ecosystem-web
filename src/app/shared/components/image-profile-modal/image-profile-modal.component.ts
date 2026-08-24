@@ -9,7 +9,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.service';
@@ -24,7 +24,7 @@ import { User } from '@app/core/models/user-model/user.model';
     selector: 'app-image-profile-modal',
     templateUrl: './image-profile-modal.component.html',
     styleUrls: ['./image-profile-modal.component.scss'],
-    imports: [CommonModule, NgxDropzoneModule, TranslateModule]
+    imports: [CommonModule, NgxDropzoneModule, TranslatePipe]
 })
 export class ImageProfileModalComponent implements OnInit {
   @ViewChild('imageProfileModal', { static: true })

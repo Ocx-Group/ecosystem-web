@@ -15,8 +15,8 @@ import {
   PERFECT_SCROLLBAR_CONFIG,
   PerfectScrollbarConfigInterface,
 } from '@app/shared/perfect-scrollbar.module';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslatePipe, provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ClipboardModule } from 'ngx-clipboard';
@@ -47,10 +47,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   wheelPropagation: false,
 };
 
-export function createTranslateLoader(http: HttpClient): any {
-  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
-}
-
 export function initializeBranding(brandingService: BrandingService): () => Promise<void> {
   return () => brandingService.load();
 }
@@ -77,13 +73,7 @@ export function initializeBranding(brandingService: BrandingService): () => Prom
         ReactiveFormsModule,
         PerfectScrollbarModule,
         LoadingBarRouterModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: createTranslateLoader,
-                deps: [HttpClient],
-            },
-        }),
+        TranslatePipe,
         // core & shared
         CoreModule,
         ToastrModule.forRoot(),
@@ -94,6 +84,9 @@ export function initializeBranding(brandingService: BrandingService): () => Prom
         ClientModule,
         NgxDropzoneModule,
         ImageProfileModalComponent], providers: [
+        provideTranslateService({
+            loader: provideTranslateHttpLoader({ prefix: 'assets/i18n/', suffix: '.json' }),
+        }),
         // @angular/fire 20 devuelve EnvironmentProviders: va en providers, no en imports
         provideFirebaseApp(() => initializeApp(firebaseConfig)),
         { provide: LocationStrategy, useClass: PathLocationStrategy },

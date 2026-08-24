@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { PerfectScrollbarModule } from '@app/shared/perfect-scrollbar.module';
 
 import { UnilevelTreeComponentComponent } from './unilevel-tree-component/unilevel-tree-component.component';
@@ -11,6 +11,6 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [UnilevelTreeComponentComponent, PageUnilevelTreeComponent],
-  imports: [CommonModule, PerfectScrollbarModule, NgbModule, TranslateModule, NgbPopoverModule, NgxSpinnerModule],
+  imports: [CommonModule, PerfectScrollbarModule, NgbModule, TranslatePipe, NgbPopoverModule, NgxSpinnerModule],
 })
 export class UnilevelTreeModule {}

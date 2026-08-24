@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { FeatherModule } from 'angular-feather';
 import { Search } from 'angular-feather/icons';
@@ -24,7 +24,7 @@ const icons = {
     CommonModule,
     NgbModule,
     NgxDropzoneModule,
-    TranslateModule,
+    TranslatePipe,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FeatherModule } from 'angular-feather';
 import { NgApexchartsModule } from 'ng-apexcharts';
@@ -30,7 +30,7 @@ const icons = {
         ClipboardModule,
         ReactiveFormsModule,
         NgbModule,
-        TranslateModule,
+        TranslatePipe,
         NgxEchartsModule.forRoot({
             echarts: () => import('echarts'),
         }),
