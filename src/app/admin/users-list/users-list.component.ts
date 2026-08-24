@@ -1,4 +1,4 @@
-import { Component, ViewChild, HostListener, OnInit } from '@angular/core';
+import { Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -17,6 +17,7 @@ const header = ['Usuario', 'Rol', 'Nombre', 'Apellido', 'Correo'];
     selector: 'app-users-list',
     templateUrl: './users-list.component.html',
     providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UsersListComponent implements OnInit {

@@ -1,5 +1,5 @@
 import { Page404Component } from './../../../authentication/page404/page404.component';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Product } from '@app/core/models/product-model/product.model';
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
     selector: 'app-make-purchase-modal',
     templateUrl: './make-purchase-modal.component.html',
     styleUrls: ['./make-purchase-modal.component.sass'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MakePurchaseModalComponent implements OnInit {

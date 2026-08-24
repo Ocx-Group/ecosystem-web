@@ -1,5 +1,5 @@
 import { AuthService } from '@app/core/service/authentication-service/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Response } from '@app/core/models/response-model/response.model';
@@ -15,6 +15,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
     selector: 'app-signin',
     templateUrl: './signin.component.html',
     styleUrls: ['./signin.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SigninComponent implements OnInit {

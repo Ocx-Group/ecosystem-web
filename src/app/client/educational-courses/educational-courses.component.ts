@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'app-educational-courses',
     templateUrl: './educational-courses.component.html',
     styleUrls: ['./educational-courses.component.sass'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EducationalCoursesComponent implements OnInit {

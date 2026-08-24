@@ -1,5 +1,5 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, ViewChild, HostListener, OnInit } from '@angular/core';
+import { Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
@@ -16,6 +16,7 @@ const header = ['Grupo de Calculo', 'Descripción', 'Fecha de Registro'];
     selector: 'app-calculation-groups',
     templateUrl: './calculation-groups.component.html',
     providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CalculationGroupsComponent implements OnInit {

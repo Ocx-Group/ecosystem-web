@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
@@ -7,6 +7,7 @@ import { AuthService } from '@app/core/service/authentication-service/auth.servi
 @Component({
     selector: 'app-email-confirmation',
     templateUrl: './email.confirmation.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EmailConfirmationComponent {

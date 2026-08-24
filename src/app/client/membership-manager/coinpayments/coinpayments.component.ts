@@ -1,5 +1,5 @@
 import { interval, switchMap, takeWhile } from 'rxjs';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
@@ -17,6 +17,7 @@ import { environment } from '@environments/environment';
     selector: 'app-coinpayments',
     templateUrl: './coinpayments.component.html',
     styleUrls: ['./coinpayments.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CoinpaymentsComponent {

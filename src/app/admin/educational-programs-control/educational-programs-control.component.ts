@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { InvoiceService } from '@app/core/service/invoice-service/invoice.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import html2canvas from 'html2canvas';
@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
     selector: 'app-educational-programs-control',
     templateUrl: './educational-programs-control.component.html',
     styleUrls: ['./educational-programs-control.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EducationalProgramsControlComponent implements OnInit {

@@ -4,6 +4,7 @@ import {
   OnInit,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {
   AbstractControl,
@@ -31,6 +32,7 @@ const ALERTS: Alert[] = [
 @Component({
     selector: 'app-califications-list-edit-modal',
     templateUrl: './califications-list-edit-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CalificationsListEditModalComponent implements OnInit {

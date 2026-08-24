@@ -5,6 +5,7 @@ import {
   Output,
   ViewChild,
   OnInit,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {
   AbstractControl,
@@ -20,6 +21,7 @@ import { PaymentGroupsService } from '@app/core/service/payment-groups-service/p
     selector: 'app-calculation-groups-edit-modal',
     templateUrl: './calculation-groups-edit-modal.component.html',
     providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CalculationGroupsEditModalComponent implements OnInit {

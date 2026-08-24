@@ -4,7 +4,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { ConfigurationService } from '@app/core/service/configuration-service/configuration.service';
@@ -25,6 +25,7 @@ const ALERTS: Alert[] = [
     selector: 'app-arrays-configurations',
     templateUrl: './arrays-configurations.component.html',
     providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ArraysConfigurationsComponent implements OnInit {

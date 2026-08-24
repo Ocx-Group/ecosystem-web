@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { Product } from '@app/core/models/product-model/product.model';
@@ -10,6 +10,7 @@ import { ProductService } from '@app/core/service/product-service/product.servic
     selector: 'app-academy',
     templateUrl: './academy.component.html',
     styleUrls: ['./academy.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AcademyComponent implements OnInit {

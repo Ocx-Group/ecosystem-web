@@ -1,5 +1,5 @@
 import { CreateAffiliate } from './../../core/models/user-affiliate-model/create-affiliate.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -23,6 +23,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
     selector: 'app-signup',
     templateUrl: './signup.component.html',
     styleUrls: ['./signup.component.sass'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SignupComponent implements OnInit {

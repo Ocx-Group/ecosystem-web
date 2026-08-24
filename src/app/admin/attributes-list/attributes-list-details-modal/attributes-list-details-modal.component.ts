@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -17,6 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
     selector: 'app-attributes-list-details-modal',
     templateUrl: './attributes-list-details-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AttributesListDetailsModalComponent implements OnInit {

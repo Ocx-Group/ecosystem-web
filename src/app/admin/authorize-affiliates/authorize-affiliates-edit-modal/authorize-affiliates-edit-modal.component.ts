@@ -4,6 +4,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -23,6 +24,7 @@ import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affili
     selector: 'app-authorize-affiliates-edit-modal',
     templateUrl: './authorize-affiliates-edit-modal.component.html',
     providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AuthorizeAffiliatesEditModalComponent implements OnInit {

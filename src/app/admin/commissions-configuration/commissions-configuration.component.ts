@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -23,6 +23,7 @@ import { CommissionSettingsService } from '@app/core/service/commission-settings
 @Component({
     selector: 'app-commissions-configuration',
     templateUrl: './commissions-configuration.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CommissionsConfigurationComponent implements OnInit {

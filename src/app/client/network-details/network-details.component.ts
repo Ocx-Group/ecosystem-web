@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, Inject, OnDestroy, DOCUMENT } from '@angular/core';
+import { Component, OnInit, Renderer2, Inject, OnDestroy, DOCUMENT, ChangeDetectionStrategy } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
 
@@ -11,6 +11,7 @@ import {StatisticsInformation} from "@app/core/models/wallet-model/statisticsInf
     selector: 'app-network-details',
     templateUrl: './network-details.component.html',
     styleUrls: ['./network-details.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class NetworkDetailsComponent implements OnInit, OnDestroy {

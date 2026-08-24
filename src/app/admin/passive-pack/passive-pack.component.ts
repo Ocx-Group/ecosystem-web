@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { PaginationRequest } from '@app/core/interfaces/pagination-request';
@@ -9,6 +9,7 @@ import { map } from 'rxjs';
 @Component({
     selector: 'app-passive-pack',
     templateUrl: './passive-pack.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PassivePackComponent implements OnInit {

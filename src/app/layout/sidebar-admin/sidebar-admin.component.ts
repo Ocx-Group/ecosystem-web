@@ -9,7 +9,8 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
-  DOCUMENT
+  DOCUMENT,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { ROUTESADMIN } from './sidebar-admin-items';
 import { AuthService } from '@app/core/service/authentication-service/auth.service';
@@ -21,6 +22,7 @@ import { RouteInfo } from './sidebar-admin.metadata';
     selector: 'app-sidebar-admin',
     templateUrl: './sidebar-admin.component.html',
     styleUrls: ['./sidebar-admin.component.sass'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SidebarAdminComponent implements OnInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Renderer2, DOCUMENT } from '@angular/core';
+import { Component, Inject, OnInit, Renderer2, DOCUMENT, ChangeDetectionStrategy } from '@angular/core';
 import { Event, Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { PlatformLocation } from '@angular/common';
 
@@ -9,6 +9,7 @@ import { BrandingService } from './core/service/branding-service/branding.servic
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AppComponent implements OnInit {

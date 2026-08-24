@@ -1,4 +1,4 @@
-import { Component, HostListener, ViewChild, OnInit } from '@angular/core';
+import { Component, HostListener, ViewChild, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
@@ -13,6 +13,7 @@ const header = ['Movimientos', 'IP', 'Fecha'];
 @Component({
     selector: 'app-my-profile',
     templateUrl: './my-profile.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MyProfileComponent implements OnInit {

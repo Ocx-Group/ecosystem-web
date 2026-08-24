@@ -4,6 +4,7 @@ import {
   HostListener,
   OnInit,
   ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ClipboardService } from 'ngx-clipboard';
@@ -25,6 +26,7 @@ const header = [
     selector: 'app-purchases-list',
     templateUrl: './purchases-list.component.html',
     providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PurchasesListComponent implements OnInit {

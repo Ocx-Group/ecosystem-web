@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {takeUntil} from "rxjs/operators";
 import Swal from "sweetalert2";
 import {Subject, Subscription} from "rxjs";
@@ -12,6 +12,7 @@ import {Ticket} from "@app/core/models/ticket-model/ticket.model";
     selector: 'app-tick-view',
     templateUrl: './ticket-view-admin.component.html',
     styleUrls: ['./ticket-view-admin.component.sass'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TicketViewAdminComponent implements OnInit, OnDestroy {

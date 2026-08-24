@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
     selector: 'app-categories-create-modal',
     templateUrl: './categories-create-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CategoriesCreateModalComponent implements OnInit {

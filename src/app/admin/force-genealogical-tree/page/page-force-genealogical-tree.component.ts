@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { TreeNode } from '@app/core/models/unilevel-tree-model/tree-node';
 
 interface MyTreeNode extends TreeNode {
@@ -11,6 +11,7 @@ interface MyTreeNode extends TreeNode {
     selector: 'app-page-force-genealogical-tree',
     templateUrl: './page-force-genealogical-tree.component.html',
     styleUrls: ['./page-force-genealogical-tree.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PageForceGenealogicalTreeComponent {

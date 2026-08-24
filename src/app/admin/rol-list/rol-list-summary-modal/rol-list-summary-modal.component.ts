@@ -1,5 +1,5 @@
 import { UserService } from '@app/core/service/user-service/user.service';
-import { Component, ViewChild, HostListener } from '@angular/core';
+import { Component, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
     selector: 'app-rol-list-summary-modal',
     templateUrl: './rol-list-summary-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class RolListSummaryModalComponent {

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {takeUntil} from "rxjs/operators";
 import {Subject} from "rxjs";
 import {Router} from "@angular/router";
@@ -16,6 +16,7 @@ import {CreateAdminModalComponent} from "@app/admin/tickets/create-admin-modal/c
 @Component({
     selector: 'app-tickets-admin',
     templateUrl: './tickets-admin.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TicketsAdminComponent implements OnInit {

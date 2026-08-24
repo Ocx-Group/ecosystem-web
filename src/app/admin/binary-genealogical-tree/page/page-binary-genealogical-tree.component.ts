@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MyTreeNode } from '@app/core/models/unilevel-tree-model/tree-node';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     selector: 'app-page-binary-genealogical-tree',
     templateUrl: './page-binary-genealogical-tree.component.html',
     styleUrls: ['./page-binary-genealogical-tree.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PageBinaryGenealogicalTreeComponent implements OnInit {

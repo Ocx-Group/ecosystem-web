@@ -1,5 +1,5 @@
 import { City } from './../../../core/models/cities-model/cities.model';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, AbstractControl, FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -10,6 +10,7 @@ import { AuthService } from '@app/core/service/authentication-service/auth.servi
 @Component({
     selector: 'app-create-address-modal',
     templateUrl: './create-address-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CreateAddressModalComponent implements OnInit {

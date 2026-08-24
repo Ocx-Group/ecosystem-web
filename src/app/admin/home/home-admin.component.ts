@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -143,6 +143,7 @@ export type ChartOptions = {
 @Component({
     selector: 'app-home-admin',
     templateUrl: './home-admin.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class HomeAdminComponent implements OnInit {

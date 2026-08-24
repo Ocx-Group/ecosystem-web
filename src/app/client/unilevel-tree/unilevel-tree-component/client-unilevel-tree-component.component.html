@@ -6,7 +6,7 @@
   <ng-template #popContent>
     <!-- <b>Vol Izq:</b> 0 <br> <b>Vol Der:</b>: 0 -->
   </ng-template>
-  <button (click)="onloadFamilyTree(data?.id)" [class]="data?.cssClass" class="ng13-org-chart-entity-box"
+  <button (click)="onloadFamilyTree($safeNavigationMigration(data?.id))" [class]="data?.cssClass" class="ng13-org-chart-entity-box"
     [style]="data?.css" type="button" triggers="mouseenter:mouseleave" [ngbPopover]="popContent"
     [popoverTitle]="popTitle">
     <ng-container *ngTemplateOutlet="nodeTemplate; context: { $implicit: data }">

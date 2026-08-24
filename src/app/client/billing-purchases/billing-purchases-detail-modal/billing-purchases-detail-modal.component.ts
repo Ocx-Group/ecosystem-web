@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Invoice } from '@app/core/models/invoice-model/invoice.model';
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
 import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.service';
@@ -10,6 +10,7 @@ import { Subject, Subscription, takeUntil } from 'rxjs';
 @Component({
     selector: 'app-billing-purchases-detail-modal',
     templateUrl: './billing-purchases-detail-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class BillingPurchasesDetailModalComponent implements OnInit, OnDestroy {

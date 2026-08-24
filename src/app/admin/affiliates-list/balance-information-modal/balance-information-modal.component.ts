@@ -1,5 +1,5 @@
 import { UserAffiliate } from './../../../core/models/user-affiliate-model/user.affiliate.model';
-import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { BalanceInformationModel1A } from '@app/core/models/wallet-model-1a/balance-information-1a.model';
@@ -15,6 +15,7 @@ import { use } from 'echarts';
     selector: 'app-balance-information-modal',
     templateUrl: './balance-information-modal.component.html',
     styleUrls: ['./balance-information-modal.component.sass'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class BalanceInformationModalComponent implements OnInit, AfterViewInit {

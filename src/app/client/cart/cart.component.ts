@@ -1,6 +1,6 @@
 import { CreateChannelResponse } from './../../core/models/coinpay-model/create-channel-response.model';
 import { CreatePagaditoTransactionRequest } from '@app/core/models/pagadito-model/create-pagadito-transaction-request.model';
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CartService } from '@app/core/service/cart.service/cart.service';
 import { NavigationStart, Event as NavigationEvent, Router } from '@angular/router';
 import QRCode from 'qrcode';
@@ -34,6 +34,7 @@ import { environment } from '@environments/environment';
     selector: 'app-cart',
     templateUrl: './cart.component.html',
     styleUrls: ['./cart.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CartComponent implements OnInit, OnDestroy {

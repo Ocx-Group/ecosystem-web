@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -35,6 +35,7 @@ import { PaymentGroupsService } from '@app/core/service/payment-groups-service/p
 @Component({
     selector: 'app-calculate-commissions',
     templateUrl: './calculate-commissions.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CalculateCommissionsComponent implements OnInit {

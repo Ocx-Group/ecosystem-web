@@ -5,6 +5,7 @@ import {
   TemplateRef,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { MyTreeNodeClient } from '@app/core/models/unilevel-tree-model/tree-node';
 
@@ -17,6 +18,7 @@ import { MyTreeNodeClient } from '@app/core/models/unilevel-tree-model/tree-node
         '[class.ng13-org-chart-zoom-out]': 'zoomOut',
     },
     encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ClientUnilevelTreeComponentComponent {

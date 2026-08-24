@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MyTreeNodeClient } from '@app/core/models/unilevel-tree-model/tree-node';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -10,6 +10,7 @@ import {UserAffiliate} from "@app/core/models/user-affiliate-model/user.affiliat
     selector: 'app-view-unilevel-tree',
     templateUrl: './view-unilevel-tree.component.html',
     styleUrls: ['./view-unilevel-tree.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ViewUnilevelTreeComponent {

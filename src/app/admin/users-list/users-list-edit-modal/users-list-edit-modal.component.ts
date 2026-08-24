@@ -6,6 +6,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -21,6 +22,7 @@ import { UserService } from '@app/core/service/user-service/user.service';
 @Component({
     selector: 'app-users-list-edit-modal',
     templateUrl: './users-list-edit-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UsersListEditModalComponent implements OnInit {

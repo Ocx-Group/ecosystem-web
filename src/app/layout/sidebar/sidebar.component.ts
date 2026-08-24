@@ -8,7 +8,8 @@ import {
   Renderer2,
   HostListener,
   OnDestroy,
-  DOCUMENT
+  DOCUMENT,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 import {ROUTES} from './sidebar-items';
@@ -23,6 +24,7 @@ import {Grading} from '@app/core/models/grading-model/grading.model';
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.sass'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SidebarComponent implements OnInit, OnDestroy {

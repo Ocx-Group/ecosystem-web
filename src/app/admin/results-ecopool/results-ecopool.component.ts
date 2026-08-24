@@ -1,11 +1,12 @@
 import { ResultsEcoPool } from './../../core/models/results-ecopool-model/results-ecopool.model';
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ResultsEcoPoolService } from '@app/core/service/results-ecopool-service/results-ecopool.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
     selector: 'app-results-ecopool',
     templateUrl: './results-ecopool.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ResultsEcopoolComponent implements OnInit {

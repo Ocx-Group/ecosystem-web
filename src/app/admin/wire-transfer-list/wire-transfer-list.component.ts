@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 import { PaymentTransaction } from '@app/core/models/payment-transaction-model/payment-transaction-request.model';
@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 @Component({
     selector: 'app-wire-transfer-list',
     templateUrl: './wire-transfer-list.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class WireTransferListComponent implements OnInit {

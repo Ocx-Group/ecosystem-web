@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { WalletWait } from '@app/core/models/wallet-wait-model/wallet-wait.model';
 import { PrintService } from '@app/core/service/print-service/print.service';
 import { WalletWaitService } from '@app/core/service/wallet-wait-service/wallet-wait.service';
@@ -21,6 +21,7 @@ const header = [
 @Component({
     selector: 'app-wallet-refill',
     templateUrl: './wallet-refill.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class WalletRefillComponent implements OnInit {

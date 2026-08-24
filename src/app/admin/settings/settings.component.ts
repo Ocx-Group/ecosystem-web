@@ -1,5 +1,5 @@
 import { ConfigurationService } from '@app/core/service/configuration-service/configuration.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GeneralConfiguration } from '@app/core/models/general-configuration/general-configuration.model';
 import { ToastrService } from 'ngx-toastr';
@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
     selector: 'app-settings',
     templateUrl: './settings.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SettingsComponent implements OnInit {

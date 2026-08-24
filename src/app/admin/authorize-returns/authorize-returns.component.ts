@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
@@ -8,6 +8,7 @@ import { WalletService } from '@app/core/service/wallet-service/wallet.service';
 @Component({
     selector: 'app-authorize-returns',
     templateUrl: './authorize-returns.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AuthorizeReturnsComponent implements OnInit {

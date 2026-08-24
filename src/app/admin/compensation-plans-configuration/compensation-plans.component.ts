@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ConfigurationService } from '@app/core/service/configuration-service/configuration.service';
 import { CompensationPlansConfiguration } from '@app/core/models/compensation-plans-configuration-model/compensation-plans-configuration.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
     selector: 'app-compensation-plans',
     templateUrl: './compensation-plans.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CompensationPlansComponent implements OnInit {

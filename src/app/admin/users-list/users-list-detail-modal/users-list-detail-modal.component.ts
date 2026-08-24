@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup } from '@angular/forms';
 import { ClipboardService } from 'ngx-clipboard';
@@ -10,6 +10,7 @@ import { User } from '@app/core/models/user-model/user.model';
     selector: 'app-users-list-detail-modal',
     templateUrl: './users-list-detail-modal.component.html',
     providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UsersListDetailModalComponent {

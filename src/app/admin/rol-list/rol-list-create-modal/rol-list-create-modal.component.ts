@@ -4,6 +4,7 @@ import {
   OnInit,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {
   AbstractControl,
@@ -21,6 +22,7 @@ import { ToastrService } from 'ngx-toastr';
     selector: 'app-rol-list-create-modal',
     templateUrl: './rol-list-create-modal.component.html',
     providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class RolListCreateModalComponent implements OnInit {

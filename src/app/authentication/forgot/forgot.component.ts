@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -14,6 +14,7 @@ import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.
     selector: 'app-forgot',
     templateUrl: './forgot.component.html',
     styleUrls: ['./forgot.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ForgotComponent implements OnInit {

@@ -1,5 +1,5 @@
 import { MembershipManagerService } from '@app/core/service/membership-manager-service/membership-manager.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
 import { AuthService } from '@app/core/service/authentication-service/auth.service';
 import { DocumentCheckService } from '@app/core/service/document-check-service/document-check.service';
@@ -14,6 +14,7 @@ import { TicketHubService } from '@app/core/service/ticket-service/ticket-hub.se
     selector: 'app-main-layout',
     templateUrl: './main-layout.component.html',
     styleUrls: [],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MainLayoutComponent implements OnInit {

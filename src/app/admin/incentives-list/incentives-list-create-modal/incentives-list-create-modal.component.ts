@@ -4,6 +4,7 @@ import {
   OnInit,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {
   AbstractControl,
@@ -21,6 +22,7 @@ import { IncentiveService } from '@app/core/service/incentive-service/incentive.
 @Component({
     selector: 'app-incentives-list-create-modal',
     templateUrl: './incentives-list-create-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class IncentivesListCreateModalComponent implements OnInit {

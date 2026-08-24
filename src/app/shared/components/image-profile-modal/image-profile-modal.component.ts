@@ -5,6 +5,7 @@ import {
   Output,
   TemplateRef,
   ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -24,6 +25,7 @@ import { User } from '@app/core/models/user-model/user.model';
     selector: 'app-image-profile-modal',
     templateUrl: './image-profile-modal.component.html',
     styleUrls: ['./image-profile-modal.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [NgxDropzoneModule, TranslatePipe]
 })
 export class ImageProfileModalComponent implements OnInit {

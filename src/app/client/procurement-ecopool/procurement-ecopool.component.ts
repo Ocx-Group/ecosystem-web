@@ -1,8 +1,9 @@
-import { Component, ViewChild, HostListener } from '@angular/core';
+import { Component, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 @Component({
     selector: 'app-procurement-ecopool',
     templateUrl: './procurement-ecopool.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ProcurementEcopoolComponent  {

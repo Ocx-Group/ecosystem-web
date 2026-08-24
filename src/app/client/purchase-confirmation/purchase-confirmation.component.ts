@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InvoiceService } from '@app/core/service/invoice-service/invoice.service';
 import { ToastrService } from 'ngx-toastr';
@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
     selector: 'app-purchase-confirm',
     templateUrl: './purchase-confirmation.component.html',
     styleUrls: ['./purchase-confirmation.component.sass'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PurchaseConfirmationComponent implements OnInit {

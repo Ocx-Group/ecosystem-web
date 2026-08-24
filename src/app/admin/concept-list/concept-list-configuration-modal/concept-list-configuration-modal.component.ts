@@ -1,5 +1,5 @@
 import { ConceptConfigurationService } from '@app/core/service/concept-configuration-service/concept-configuration.service';
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 @Component({
     selector: 'app-concept-list-configuration-modal',
     templateUrl: './concept-list-configuration-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ConceptListConfigurationModalComponent implements OnInit {

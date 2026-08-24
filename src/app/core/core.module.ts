@@ -3,7 +3,7 @@ import { TermsConditionsService } from './service/terms-conditions-service/terms
 import { FaceApiService } from './service/face-api-service/face-api.service';
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { RightSidebarService } from '@app/core/service/rightsidebar-service/rightsidebar.service';
 import { AuthGuard } from '@app/core/guard/auth.guard';
 import { AuthService } from '@app/core/service/authentication-service/auth.service';
@@ -120,7 +120,7 @@ import { ModelsVisibilityService } from './service/models-visibility-service/mod
         MaintenanceService,
         MaintenanceGuard,
         ModelsVisibilityService,
-        provideHttpClient(withInterceptorsFromDi())
+        provideHttpClient(withXhr(), withInterceptorsFromDi())
     ] })
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {

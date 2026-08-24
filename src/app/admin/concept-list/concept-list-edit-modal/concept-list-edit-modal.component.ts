@@ -4,6 +4,7 @@ import {
   OnInit,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {
   AbstractControl,
@@ -23,6 +24,7 @@ import { ConceptService } from '@app/core/service/concept-service/concept.servic
 @Component({
     selector: 'app-concept-list-edit-modal',
     templateUrl: './concept-list-edit-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ConceptListEditModalComponent implements OnInit {

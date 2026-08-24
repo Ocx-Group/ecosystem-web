@@ -3,7 +3,7 @@ import { forkJoin } from 'rxjs';
 import Swal from 'sweetalert2';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 import { WalletRequestRequest } from '@app/core/models/wallet-request-request-model/wallet-request-request.model';
@@ -18,6 +18,7 @@ import { CoinPayWithdrawal } from '@app/core/models/coinpay-model/coinpay-withdr
 @Component({
     selector: 'app-wallet-removal',
     templateUrl: './wallet-removal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class WalletRemovalComponent implements OnInit {

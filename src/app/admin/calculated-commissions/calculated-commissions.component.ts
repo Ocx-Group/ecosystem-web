@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 interface Alert {
   type: string;
   message: string;
@@ -14,6 +14,7 @@ const ALERTS: Alert[] = [
 @Component({
     selector: 'app-calculated-commissions',
     templateUrl: './calculated-commissions.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CalculatedCommissionsComponent {

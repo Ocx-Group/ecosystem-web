@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
@@ -10,6 +10,7 @@ import { ProductConfiguration } from '@app/core/models/product-configuration-mod
 @Component({
     selector: 'app-products-services-configurations',
     templateUrl: './products-services-configurations.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ProductsServicesConfigurationsComponent implements OnInit {

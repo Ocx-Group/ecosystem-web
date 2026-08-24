@@ -8,7 +8,8 @@ import {
   OnInit,
   Renderer2,
   AfterViewInit, OnDestroy,
-  DOCUMENT
+  DOCUMENT,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {Router} from '@angular/router';
 import {ConfigService} from '@app/config/config.service';
@@ -27,6 +28,7 @@ const document: any = window.document;
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {

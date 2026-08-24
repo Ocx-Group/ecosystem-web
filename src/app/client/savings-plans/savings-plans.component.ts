@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'app-savings-plans',
     templateUrl: './savings-plans.component.html',
     styleUrls: ['./savings-plans.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SavingsPlansComponent implements OnInit {

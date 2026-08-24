@@ -1,9 +1,10 @@
-import { Component, OnInit,ViewChild, HostListener  } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
     selector: 'app-billing-orders',
     templateUrl: './billing-orders.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class BillingOrdersComponent implements OnInit {

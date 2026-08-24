@@ -1,5 +1,5 @@
 import { BalanceInformation } from '@app/core/models/wallet-model/balance-information.model';
-import { Component, ViewChild, HostListener, OnInit } from '@angular/core';
+import { Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 import { WalletRequestService } from '@app/core/service/wallet-request/wallet-request.service';
@@ -14,6 +14,7 @@ import { WalletWithdrawalsConfiguration } from '@app/core/models/wallet-withdraw
 @Component({
     selector: 'app-requests',
     templateUrl: './requests.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class RequestsComponent implements OnInit {

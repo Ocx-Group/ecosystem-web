@@ -3,6 +3,7 @@ import {
   Input,
   ViewEncapsulation,
   TemplateRef,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { TreeNode } from '@app/core/models/unilevel-tree-model/tree-node';
 
@@ -15,6 +16,7 @@ import { TreeNode } from '@app/core/models/unilevel-tree-model/tree-node';
         '[class.ng13-org-chart-zoom-out]': 'zoomOut',
     },
     encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ForceGenealogicalTreeComponent {

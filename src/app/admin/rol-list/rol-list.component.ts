@@ -1,4 +1,4 @@
-import { Component, ViewChild, HostListener, OnInit } from '@angular/core';
+import { Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   DatatableComponent,
   ColumnMode,
@@ -28,6 +28,7 @@ const header = ['Id', 'Rol', 'Descripción', 'Usuarios Asociados', 'Permisos'];
     selector: 'app-rol-list',
     templateUrl: './rol-list.component.html',
     providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class RolListComponent implements OnInit {

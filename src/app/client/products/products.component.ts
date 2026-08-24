@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { Product } from '@app/core/models/product-model/product.model';
 import { ToastrService } from 'ngx-toastr';
@@ -9,6 +9,7 @@ import { ProductService } from '@app/core/service/product-service/product.servic
     selector: 'app-products',
     templateUrl: './products.component.html',
     styleUrls: ['./products.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ProductsComponent implements OnInit {

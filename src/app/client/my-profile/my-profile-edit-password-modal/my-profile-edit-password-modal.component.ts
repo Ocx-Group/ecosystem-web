@@ -1,6 +1,6 @@
 import { UpdatePassword } from '@app/core/models/user-model/update.password.model';
 import { ToastrService } from 'ngx-toastr';
-import { Component, Input, ViewChild, OnInit } from '@angular/core';
+import { Component, Input, ViewChild, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   AbstractControl,
@@ -16,6 +16,7 @@ import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affili
     selector: 'app-my-profile-edit-password-modal',
     templateUrl: './my-profile-edit-password-modal.component.html',
     providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MyProfileEditPasswordModalComponent implements OnInit {

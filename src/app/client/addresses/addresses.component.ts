@@ -1,5 +1,5 @@
 import { AffiliateAddressService } from '@app/core/service/affiliate-address-service/affiliate-address.service';
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { AuthService } from '@app/core/service/authentication-service/auth.service';
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
@@ -7,6 +7,7 @@ import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affili
 @Component({
     selector: 'app-addresses',
     templateUrl: './addresses.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AddressesComponent implements OnInit {

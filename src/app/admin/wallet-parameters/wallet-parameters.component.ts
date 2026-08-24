@@ -1,5 +1,5 @@
 import { forkJoin } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { formatDate } from '@angular/common';
 import {
   FormBuilder,
@@ -23,6 +23,7 @@ import { WalletRetentionConfigService } from '@app/core/service/wallet-retention
 @Component({
     selector: 'app-wallet-parameters',
     templateUrl: './wallet-parameters.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class WalletParametersComponent implements OnInit {

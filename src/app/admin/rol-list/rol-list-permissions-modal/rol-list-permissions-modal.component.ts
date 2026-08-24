@@ -7,6 +7,7 @@ import {
   OnInit,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -26,6 +27,7 @@ import { Privilege } from '@app/core/models/privilege-model/privilege.model';
     selector: 'app-rol-list-permissions-modal',
     templateUrl: './rol-list-permissions-modal.component.html',
     providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class RolListPermissionsModalComponent implements OnInit {

@@ -1,5 +1,5 @@
 import { AffiliateBtc } from '@app/core/models/affiliate-btc-model/affiliate-btc.model';
-import { AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
 import { AffiliateBtcService } from '@app/core/service/affiliate-btc-service/affiliate-btc.service';
@@ -14,6 +14,7 @@ import { AddressBtc } from "@app/core/models/affiliate-btc-model/addressBtc.mode
 @Component({
     selector: 'app-configure-wallet',
     templateUrl: './configure-wallet.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ConfigureWalletComponent implements OnInit, AfterViewInit, OnDestroy {

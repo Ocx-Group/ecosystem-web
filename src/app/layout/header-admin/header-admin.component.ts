@@ -8,7 +8,8 @@ import {
   OnInit,
   Renderer2,
   AfterViewInit,
-  DOCUMENT
+  DOCUMENT,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {Router} from '@angular/router';
 import {ConfigService} from '@app/config/config.service';
@@ -24,6 +25,7 @@ const document: any = window.document;
     selector: 'app-header-admin',
     templateUrl: './header-admin.component.html',
     styleUrls: ['./header-admin.component.sass'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class HeaderAdminComponent implements OnInit, AfterViewInit {

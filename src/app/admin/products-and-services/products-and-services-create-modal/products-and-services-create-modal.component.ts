@@ -4,6 +4,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {
   AbstractControl,
@@ -23,6 +24,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
     selector: 'app-products-and-services-create-modal',
     templateUrl: './products-and-services-create-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ProductsAndServicesCreateModalComponent implements OnInit {

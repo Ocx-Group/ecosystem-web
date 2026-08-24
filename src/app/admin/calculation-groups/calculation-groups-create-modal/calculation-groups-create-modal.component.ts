@@ -4,6 +4,7 @@ import {
   OnInit,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {
   AbstractControl,
@@ -20,6 +21,7 @@ import { PaymentGroup } from '@app/core/models/payment-group-model/payment.group
 @Component({
     selector: 'app-calculation-groups-create-modal',
     templateUrl: './calculation-groups-create-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CalculationGroupsCreateModalComponent implements OnInit {

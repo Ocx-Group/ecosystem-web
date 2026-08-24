@@ -1,4 +1,4 @@
-import { EventEmitter } from '@angular/core';
+import { EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Component, ViewChild, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -16,6 +16,7 @@ import { ToastrService } from 'ngx-toastr';
     selector: 'app-rol-list-edit-modal',
     templateUrl: './rol-list-edit-modal.component.html',
     providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class RolListEditModalComponent implements OnInit {

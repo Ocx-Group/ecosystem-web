@@ -1,6 +1,6 @@
 
 import { FaceApiService } from '@app/core/service/face-api-service/face-api.service';
-import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
 import {
@@ -21,6 +21,7 @@ import { ObjectStorageService } from '@app/core/service/object-storage-service/o
 @Component({
     selector: 'app-edit-user',
     templateUrl: './edit-user.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EditUserComponent implements OnInit, OnDestroy {

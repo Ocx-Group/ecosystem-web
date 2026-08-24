@@ -5,6 +5,7 @@ import {
   EventEmitter,
   HostListener,
   OnInit,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -17,6 +18,7 @@ import { GradingService } from '@app/core/service/grading-service/grading.servic
 @Component({
     selector: 'app-concept-list-details-modal',
     templateUrl: './concept-list-details-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ConceptListDetailsModalComponent implements OnInit {

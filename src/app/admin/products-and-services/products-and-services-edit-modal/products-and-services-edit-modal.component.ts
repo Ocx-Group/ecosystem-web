@@ -7,6 +7,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {
   FormGroup,
@@ -40,6 +41,7 @@ import { ObjectStorageService } from '@app/core/service/object-storage-service/o
 @Component({
     selector: 'app-products-and-services-edit-modal',
     templateUrl: './products-and-services-edit-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ProductsAndServicesEditModalComponent implements OnInit {

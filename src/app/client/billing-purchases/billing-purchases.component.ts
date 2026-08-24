@@ -6,6 +6,7 @@ import {
   HostListener,
   OnInit,
   OnDestroy,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import Swal from 'sweetalert2';
@@ -26,6 +27,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-filter',
     templateUrl: './billing-purchases.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class BillingPurchasesComponent implements OnInit, OnDestroy {

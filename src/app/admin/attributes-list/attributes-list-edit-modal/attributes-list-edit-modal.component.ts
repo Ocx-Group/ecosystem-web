@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -15,6 +15,7 @@ import { ProductAttributeService } from '@app/core/service/product-attribute/pro
 @Component({
     selector: 'app-attributes-list-edit-modal',
     templateUrl: './attributes-list-edit-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AttributesListEditModalComponent implements OnInit {
