@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TickViewComponent } from './ticket-view-admin.component';
+import { TicketViewAdminComponent } from './ticket-view-admin.component';
 
-describe('TickViewComponent', () => {
-  let component: TickViewComponent;
-  let fixture: ComponentFixture<TickViewComponent>;
+describe('TicketViewAdminComponent', () => {
+  let component: TicketViewAdminComponent;
+  let fixture: ComponentFixture<TicketViewAdminComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TickViewComponent ]
+      declarations: [ TicketViewAdminComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TickViewComponent);
+    fixture = TestBed.createComponent(TicketViewAdminComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
