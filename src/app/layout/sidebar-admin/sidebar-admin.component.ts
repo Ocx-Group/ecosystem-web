@@ -12,7 +12,7 @@ import {
   DOCUMENT
 } from '@angular/core';
 import { ROUTESADMIN } from './sidebar-admin-items';
-import { AuthService } from 'src/app/core/service/authentication-service/auth.service';
+import { AuthService } from '@app/core/service/authentication-service/auth.service';
 import { User } from '@app/core/models/user-model/user.model';
 import { Subject, takeUntil } from 'rxjs';
 import { RouteInfo } from './sidebar-admin.metadata';
@@ -52,7 +52,7 @@ export class SidebarAdminComponent implements OnInit, OnDestroy {
     });
   }
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   windowResizecall() {
     if (window.innerWidth < 1025) {
       this.renderer.removeClass(this.document.body, 'side-closed');

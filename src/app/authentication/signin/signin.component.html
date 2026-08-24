@@ -62,79 +62,93 @@
             </span>
             <input id="email" type="email" class="sn-field__input" formControlName="email" [placeholder]="username"
               autocomplete="username" />
+            </div>
+            @if (Email.errors?.['required'] && (Email.dirty || Email.touched)) {
+              <div class="sn-field__feedback">
+                <i class="bi bi-exclamation-circle"></i> {{userNameIsRequerid}}
+              </div>
+            }
+            @if (Email.errors?.['email'] && (Email.dirty || Email.touched)) {
+              <div class="sn-field__feedback">
+                <i class="bi bi-exclamation-circle"></i> {{userNameErrorMessage}}
+              </div>
+            }
           </div>
-          <div class="sn-field__feedback" *ngIf="Email.errors?.['required'] && (Email.dirty || Email.touched)">
-            <i class="bi bi-exclamation-circle"></i> {{userNameIsRequerid}}
-          </div>
-          <div class="sn-field__feedback" *ngIf="Email.errors?.['email'] && (Email.dirty || Email.touched)">
-            <i class="bi bi-exclamation-circle"></i> {{userNameErrorMessage}}
-          </div>
-        </div>
 
-        <!-- Password -->
-        <div class="sn-field" [class.sn-field--error]="submitted && Pwd.errors" [class.sn-field--active]="Pwd.value">
-          <label class="sn-field__label" for="pwd">
-            {{password}} <span class="sn-field__required">*</span>
-          </label>
-          <div class="sn-field__control">
-            <span class="sn-field__icon">
-              <i class="bi bi-lock"></i>
-            </span>
-            <input id="pwd" [type]="showPassword ? 'text' : 'password'" class="sn-field__input sn-field__input--padded"
-              formControlName="pwd" [placeholder]="password" />
-            <button type="button" class="sn-field__eye" (click)="togglePasswordVisibility()"
-              (keydown)="onKeyDown($event)"
-              [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
-              <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          <!-- Password -->
+          <div class="sn-field" [class.sn-field--error]="submitted && Pwd.errors" [class.sn-field--active]="Pwd.value">
+            <label class="sn-field__label" for="pwd">
+              {{password}} <span class="sn-field__required">*</span>
+            </label>
+            <div class="sn-field__control">
+              <span class="sn-field__icon">
+                <i class="bi bi-lock"></i>
+              </span>
+              <input id="pwd" [type]="showPassword ? 'text' : 'password'" class="sn-field__input sn-field__input--padded"
+                formControlName="pwd" [placeholder]="password" />
+                <button type="button" class="sn-field__eye" (click)="togglePasswordVisibility()"
+                  (keydown)="onKeyDown($event)"
+                  [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+                  <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                </button>
+              </div>
+              @if (Pwd.errors?.['required'] && (Pwd.dirty || Pwd.touched)) {
+                <div class="sn-field__feedback">
+                  <i class="bi bi-exclamation-circle"></i> {{passwordIsRequerid}}
+                </div>
+              }
+              @if ((Pwd.errors?.['minlength'] || Pwd.errors?.['maxlength']) && (Pwd.dirty || Pwd.touched)) {
+                <div class="sn-field__feedback"
+                  >
+                  <i class="bi bi-exclamation-circle"></i> {{passwordErrorMessage}}
+                </div>
+              }
+            </div>
+
+            <!-- Forgot link -->
+            <div class="sn-actions">
+              <a routerLink="/forgot" class="sn-link">
+                <i class="bi bi-key"></i> {{forgot}}
+              </a>
+            </div>
+
+            <!-- Alert -->
+            @if (error !== '') {
+              <div class="sn-alert">
+                <i class="bi bi-x-circle"></i> {{ error }}
+              </div>
+            }
+
+            <!-- Submit -->
+            <button class="sn-btn" type="submit" [disabled]="loading">
+              @if (!loading) {
+                <span class="sn-btn__content">
+                  <i class="bi bi-box-arrow-in-right"></i>
+                  {{signin}}
+                </span>
+              }
+              @if (loading) {
+                <span class="sn-btn__spinner">
+                  <output class="spinner-border spinner-border-sm"><span class="sr-only">Cargando...</span></output>
+                  Verificando...
+                </span>
+              }
             </button>
-          </div>
-          <div class="sn-field__feedback" *ngIf="Pwd.errors?.['required'] && (Pwd.dirty || Pwd.touched)">
-            <i class="bi bi-exclamation-circle"></i> {{passwordIsRequerid}}
-          </div>
-          <div class="sn-field__feedback"
-            *ngIf="(Pwd.errors?.['minlength'] || Pwd.errors?.['maxlength']) && (Pwd.dirty || Pwd.touched)">
-            <i class="bi bi-exclamation-circle"></i> {{passwordErrorMessage}}
-          </div>
+            <button class="sn-btn mt-2" type="button" [disabled]="loading" (click)="googleLoginSubmitted()">
+              <span class="sn-btn__content">
+                <i class="bi bi-google"></i>
+                Google
+              </span>
+            </button>
+
+          </form>
+
+          <!-- Footer -->
+          <p class="signin-form-card__footer">
+            <i class="bi bi-shield-lock"></i> Conexión segura y cifrada
+          </p>
+
         </div>
-
-        <!-- Forgot link -->
-        <div class="sn-actions">
-          <a routerLink="/forgot" class="sn-link">
-            <i class="bi bi-key"></i> {{forgot}}
-          </a>
-        </div>
-
-        <!-- Alert -->
-        <div *ngIf="error !== ''" class="sn-alert">
-          <i class="bi bi-x-circle"></i> {{ error }}
-        </div>
-
-        <!-- Submit -->
-        <button class="sn-btn" type="submit" [disabled]="loading">
-          <span *ngIf="!loading" class="sn-btn__content">
-            <i class="bi bi-box-arrow-in-right"></i>
-            {{signin}}
-          </span>
-          <span *ngIf="loading" class="sn-btn__spinner">
-            <output class="spinner-border spinner-border-sm"><span class="sr-only">Cargando...</span></output>
-            Verificando...
-          </span>
-        </button>
-        <button class="sn-btn mt-2" type="button" [disabled]="loading" (click)="googleLoginSubmitted()">
-          <span class="sn-btn__content">
-            <i class="bi bi-google"></i>
-            Google
-          </span>
-        </button>
-
-      </form>
-
-      <!-- Footer -->
-      <p class="signin-form-card__footer">
-        <i class="bi bi-shield-lock"></i> Conexión segura y cifrada
-      </p>
+      </div>
 
     </div>
-  </div>
-
-</div>

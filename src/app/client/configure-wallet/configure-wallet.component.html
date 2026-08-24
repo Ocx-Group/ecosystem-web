@@ -20,25 +20,29 @@
           <label for="trc_address">
             Dirección (TRC20) USDT
             <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="trc_address" formControlName="trc_address" placeholder="dirección"
+            <input type="text" class="form-control" id="trc_address" formControlName="trc_address" placeholder="dirección"
             required="required" [ngClass]="{
             'is-invalid': submitted && wallet_address_controls.trc_address.errors
           }" />
-          <div *ngIf="submitted && wallet_address_controls.trc_address.errors" class="invalid-feedback">
-            <div *ngIf="wallet_address_controls.trc_address.errors.required">
-              La dirección trc20 es requerida.
+              @if (submitted && wallet_address_controls.trc_address.errors) {
+                <div class="invalid-feedback">
+                  @if (wallet_address_controls.trc_address.errors.required) {
+                    <div>
+                      La dirección trc20 es requerida.
+                    </div>
+                  }
+                </div>
+              }
             </div>
           </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">
+              {{ 'USERS-LIST-CREATE-MODAL.BTN-SAVE.TEXT' | translate }}
+            </button>
+            <button type="button" class="btn btn-light" (click)="modal.close('Close click')">
+              Cancelar
+            </button>
+          </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">
-          {{ 'USERS-LIST-CREATE-MODAL.BTN-SAVE.TEXT' | translate }}
-        </button>
-        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">
-          Cancelar
-        </button>
-      </div>
-    </div>
-  </form>
-</ng-template>
+      </form>
+    </ng-template>

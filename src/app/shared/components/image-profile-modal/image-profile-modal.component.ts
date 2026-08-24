@@ -6,7 +6,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -24,7 +24,7 @@ import { User } from '@app/core/models/user-model/user.model';
     selector: 'app-image-profile-modal',
     templateUrl: './image-profile-modal.component.html',
     styleUrls: ['./image-profile-modal.component.scss'],
-    imports: [CommonModule, NgxDropzoneModule, TranslatePipe]
+    imports: [NgxDropzoneModule, TranslatePipe]
 })
 export class ImageProfileModalComponent implements OnInit {
   @ViewChild('imageProfileModal', { static: true })

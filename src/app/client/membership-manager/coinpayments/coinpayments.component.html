@@ -30,9 +30,11 @@
   </div>
   <div class="row">
     <div class="col text-center">
-      <div *ngIf="qrImageUrl">
-        <img [src]="qrImageUrl" alt="Código QR">
-      </div>
+      @if (qrImageUrl) {
+        <div>
+          <img [src]="qrImageUrl" alt="Código QR">
+        </div>
+      }
     </div>
   </div>
 </section>

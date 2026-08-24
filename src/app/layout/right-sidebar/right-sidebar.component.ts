@@ -11,7 +11,7 @@ import {
   DOCUMENT
 } from '@angular/core';
 
-import { RightSidebarService } from 'src/app/core/service/rightsidebar-service/rightsidebar.service';
+import { RightSidebarService } from '@app/core/service/rightsidebar-service/rightsidebar.service';
 import { ConfigService } from '../../config/config.service';
 import { LogoService } from '@app/core/service/logo-service/logo.service';
 

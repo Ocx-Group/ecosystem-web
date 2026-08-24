@@ -1,7 +1,7 @@
 import { CreateChannelResponse } from './../../core/models/coinpay-model/create-channel-response.model';
 import { CreatePagaditoTransactionRequest } from '@app/core/models/pagadito-model/create-pagadito-transaction-request.model';
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { CartService } from 'src/app/core/service/cart.service/cart.service';
+import { CartService } from '@app/core/service/cart.service/cart.service';
 import { NavigationStart, Event as NavigationEvent, Router } from '@angular/router';
 import QRCode from 'qrcode';
 import Swal from 'sweetalert2';

@@ -72,37 +72,41 @@
             </span>
             <input id="email" type="email" class="sn-field__input" formControlName="email"
               placeholder="tucorreo@ejemplo.com" autofocus (input)="validateEmail()" />
+            </div>
+            @if (submitted && forgotPassword.get('email').errors?.['required']) {
+              <div class="sn-field__feedback">
+                <i class="bi bi-exclamation-circle"></i> Ingrese un correo electrónico.
+              </div>
+            }
+            @if (submitted && forgotPassword.get('email').errors?.['email']) {
+              <div class="sn-field__feedback">
+                <i class="bi bi-exclamation-circle"></i> Ingrese un correo electrónico válido.
+              </div>
+            }
           </div>
-          <div class="sn-field__feedback" *ngIf="submitted && forgotPassword.get('email').errors?.['required']">
-            <i class="bi bi-exclamation-circle"></i> Ingrese un correo electrónico.
-          </div>
-          <div class="sn-field__feedback" *ngIf="submitted && forgotPassword.get('email').errors?.['email']">
-            <i class="bi bi-exclamation-circle"></i> Ingrese un correo electrónico válido.
-          </div>
+
+          <button class="sn-btn" type="submit">
+            <span class="sn-btn__content">
+              <i class="bi bi-send"></i>
+              Enviar enlace de recuperación
+            </span>
+          </button>
+
+        </form>
+
+        <!-- Back to login -->
+        <div class="fp-back">
+          <a routerLink="/signin" class="sn-link">
+            <i class="bi bi-arrow-left"></i> Volver al inicio de sesión
+          </a>
         </div>
 
-        <button class="sn-btn" type="submit">
-          <span class="sn-btn__content">
-            <i class="bi bi-send"></i>
-            Enviar enlace de recuperación
-          </span>
-        </button>
+        <!-- Footer -->
+        <p class="signin-form-card__footer">
+          <i class="bi bi-shield-lock"></i> Enlace seguro y cifrado
+        </p>
 
-      </form>
-
-      <!-- Back to login -->
-      <div class="fp-back">
-        <a routerLink="/signin" class="sn-link">
-          <i class="bi bi-arrow-left"></i> Volver al inicio de sesión
-        </a>
       </div>
-
-      <!-- Footer -->
-      <p class="signin-form-card__footer">
-        <i class="bi bi-shield-lock"></i> Enlace seguro y cifrado
-      </p>
-
     </div>
-  </div>
 
-</div>
+  </div>

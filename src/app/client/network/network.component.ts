@@ -5,7 +5,7 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { Subject, takeUntil } from 'rxjs';
-import { CartService } from 'src/app/core/service/cart.service/cart.service';
+import { CartService } from '@app/core/service/cart.service/cart.service';
 import Swal from 'sweetalert2';
 
 import { Grading } from '@app/core/models/grading-model/grading.model';

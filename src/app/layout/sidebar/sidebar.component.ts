@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 
 import {ROUTES} from './sidebar-items';
-import {AuthService} from 'src/app/core/service/authentication-service/auth.service';
+import {AuthService} from '@app/core/service/authentication-service/auth.service';
 import {Subject, takeUntil} from 'rxjs';
 import {UserAffiliate} from '@app/core/models/user-affiliate-model/user.affiliate.model';
 import {AffiliateService} from '@app/core/service/affiliate-service/affiliate.service';
@@ -55,7 +55,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     });
   }
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   windowResizecall() {
     if (window.innerWidth < 1025) {
       this.renderer.removeClass(this.document.body, 'side-closed');
