@@ -4,7 +4,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import 'perfect-scrollbar';
 
 @Component({
   selector: 'app-page-unilevel-tree',

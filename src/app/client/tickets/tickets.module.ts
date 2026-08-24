@@ -10,7 +10,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgxGaugeModule } from 'ngx-gauge';
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarModule } from '@app/shared/perfect-scrollbar.module';
 import { ToastrModule } from 'ngx-toastr';
 
 import { CreateTicketModalComponent } from './create-ticket-modal/create-ticket-modal.component';

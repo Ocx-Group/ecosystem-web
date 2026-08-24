@@ -7,7 +7,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { FeatherModule } from 'angular-feather';
 import { Search } from 'angular-feather/icons';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarModule } from '@app/shared/perfect-scrollbar.module';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxGaugeModule } from 'ngx-gauge';

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarModule } from '@app/shared/perfect-scrollbar.module';
 
 import { UnilevelTreeComponentComponent } from './unilevel-tree-component/unilevel-tree-component.component';
 import { PageUnilevelTreeComponent } from './page/page-unilevel-tree.component';
