@@ -17,7 +17,6 @@ import {
 import { ToastrService } from 'ngx-toastr';
 import { User } from '@app/core/models/user-model/user.model';
 import { UserService } from '@app/core/service/user-service/user.service';
-import { _ParseAST } from '@angular/compiler';
 
 @Component({
   selector: 'app-users-list-edit-modal',

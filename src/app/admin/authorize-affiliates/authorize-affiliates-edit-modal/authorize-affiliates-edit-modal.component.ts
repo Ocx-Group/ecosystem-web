@@ -15,7 +15,6 @@ import {
 import Swal from 'sweetalert2';
 
 import { ToastrService } from 'ngx-toastr';
-import { _ParseAST } from '@angular/compiler';
 
 import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.service';
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
