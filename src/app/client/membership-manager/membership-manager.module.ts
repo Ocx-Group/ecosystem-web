@@ -13,7 +13,7 @@ import { FeatherModule } from 'angular-feather';
 import { Search } from 'angular-feather/icons';
 import { ToastrModule } from 'ngx-toastr';
 import { ClipboardModule } from '@angular/cdk/clipboard';
-import { QrcodeModule } from 'qrcode-angular';
+import { QrcodeComponent } from 'qrcode-angular';
 import { ThirdPartyPaymentsComponent } from './third-party-payments/third-party-payments.component';
 import { MembershipManagerComponent } from './membership-manager.component';
 import { CoinpaymentsComponent } from './coinpayments/coinpayments.component';
@@ -47,7 +47,7 @@ const icons = {
     PerfectScrollbarModule,
     NgApexchartsModule,
     NgxGaugeModule,
-    QrcodeModule,
+    QrcodeComponent,
   ],
   exports: [MembershipManagerComponent],
 })

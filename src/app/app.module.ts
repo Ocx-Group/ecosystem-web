@@ -91,10 +91,11 @@ export function initializeBranding(brandingService: BrandingService): () => Prom
         NgbModule,
         ClipboardModule,
         MembershipManagerModule,
-        provideFirebaseApp(() => initializeApp(firebaseConfig)),
         ClientModule,
         NgxDropzoneModule,
         ImageProfileModalComponent], providers: [
+        // @angular/fire 20 devuelve EnvironmentProviders: va en providers, no en imports
+        provideFirebaseApp(() => initializeApp(firebaseConfig)),
         { provide: LocationStrategy, useClass: PathLocationStrategy },
         {
             provide: HTTP_INTERCEPTORS,

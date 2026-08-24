@@ -2,7 +2,7 @@
 import { TicketsModule } from './tickets/tickets.module';
 import { RequestsModule } from './requests/requests.module';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { QrcodeModule } from 'qrcode-angular';
+import { QrcodeComponent } from 'qrcode-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -96,7 +96,7 @@ const icons = {
     FormsModule,
     ReactiveFormsModule,
     NgxGaugeModule,
-    QrcodeModule,
+    QrcodeComponent,
     BillingPurchasesModule,
     RequestsModule,
     ClientUnilevelTreeModule,
