@@ -66,7 +66,7 @@ export class RequestWalletComponent {
     // update the rows
     this.rows = temp;
     // Whenever the filter changes, always go back to the first page
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   addRow(content) {

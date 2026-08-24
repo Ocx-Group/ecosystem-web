@@ -70,7 +70,7 @@ export class BalanceOfWalletComponent implements OnInit {
       return d.name.toLowerCase().indexOf(val) !== -1 || !val;
     });
     this.rows = temp;
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   showSuccess(message) {

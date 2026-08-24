@@ -100,7 +100,7 @@ export class ChangeModelComponent implements OnInit, AfterViewInit {
   }
 
   copyTableData() {
-    const rows = this.table._internalRows;
+    const rows = this.table._internalRows();
     if (rows && rows.length) {
       const headers = Object.keys(rows[0]);
 
@@ -140,7 +140,7 @@ export class ChangeModelComponent implements OnInit, AfterViewInit {
     });
 
     this.rows = temp;
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   loadAllInvoicesForModelOneAndTwo() {

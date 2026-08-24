@@ -88,7 +88,7 @@ export class AuthorizePurchasesComponent {
     });
 
     this.rows = temp;
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   close(alert: Alert) {

@@ -144,7 +144,7 @@ export class NetworkComponent implements OnInit {
 
   updatePageSize(event) {
     this.pageSize = Number(event.target.value);
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   updateFilter(event) {
@@ -153,7 +153,7 @@ export class NetworkComponent implements OnInit {
     this.rows = this.temp.filter(function (d) {
       return d.userName.toLowerCase().indexOf(val) !== -1 || !val;
     });
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   TransferBalanceForMembership(user) {
@@ -368,7 +368,7 @@ export class NetworkComponent implements OnInit {
 
 
   copyTableData() {
-    const rows = this.table?._internalRows ?? [];
+    const rows = this.table?._internalRows() ?? [];
     if (rows.length) {
       // Las columnas deben seguir el mismo orden que la tabla de la red personal.
       const headers = [

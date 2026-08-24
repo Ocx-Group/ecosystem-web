@@ -86,7 +86,7 @@ export class PassivePackComponent implements OnInit {
     });
 
     this.rows = temp;
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   openModal(content: any, size: string = 'xl') {

@@ -130,7 +130,7 @@ export class BillingPurchasesComponent implements OnInit, OnDestroy {
     });
 
     this.rows = temp;
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   onPrintInvoice(invoice: Invoice) {
@@ -253,7 +253,7 @@ export class BillingPurchasesComponent implements OnInit, OnDestroy {
   }
 
   copyTableData() {
-    const rows = this.table._internalRows;
+    const rows = this.table._internalRows();
     if (rows && rows.length) {
       const headers = [
         this.translateService.instant('BILLING-PURCHASES-PAGE.ROW-NO-BILL.TEXT'),

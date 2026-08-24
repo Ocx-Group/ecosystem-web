@@ -56,7 +56,7 @@ export class AuthorizeReturnsComponent implements OnInit {
     });
 
     this.rows = temp;
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   loadRequestRevertTransaction() {

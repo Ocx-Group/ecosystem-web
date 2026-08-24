@@ -100,7 +100,7 @@ export class WalletRemovalComponent implements OnInit {
       return d.adminUserName.toLowerCase().indexOf(val) !== -1 || !val;
     });
     this.rows = temp.reverse();
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   copyTextToClipboard(text: string) {
@@ -121,7 +121,7 @@ export class WalletRemovalComponent implements OnInit {
   }
 
   clipBoardCopy() {
-    const rows = this.table._internalRows;
+    const rows = this.table._internalRows();
     if (rows && rows.length) {
       const headers = [
         'Afiliado',

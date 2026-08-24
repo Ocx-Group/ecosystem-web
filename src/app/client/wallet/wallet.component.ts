@@ -112,7 +112,7 @@ export class WalletComponent implements OnInit {
     });
 
     this.rows = temp;
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   downloadPDF() {
@@ -139,7 +139,7 @@ export class WalletComponent implements OnInit {
   }
 
   copyTableData() {
-    const rows = this.table._internalRows;
+    const rows = this.table._internalRows();
     if (rows && rows.length) {
       const headers = [
         this.translateService.instant('WALLET-PAGE.USER-COLUMN.TEXT'),
