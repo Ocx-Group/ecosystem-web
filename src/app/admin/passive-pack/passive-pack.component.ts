@@ -7,8 +7,9 @@ import { InvoiceService } from '@app/core/service/invoice-service/invoice.servic
 import { map } from 'rxjs';
 
 @Component({
-  selector: 'app-passive-pack',
-  templateUrl: './passive-pack.component.html',
+    selector: 'app-passive-pack',
+    templateUrl: './passive-pack.component.html',
+    standalone: false
 })
 export class PassivePackComponent implements OnInit {
   rows = [];

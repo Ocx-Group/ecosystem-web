@@ -22,9 +22,10 @@ import { BalanceInformationModel1B } from '@app/core/models/wallet-model-1b/bala
 am4core.useTheme(am5themes_Animated);
 
 @Component({
-  selector: 'app-main',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+    selector: 'app-main',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    standalone: false
 })
 export class HomeComponent {
   public user!: UserAffiliate;

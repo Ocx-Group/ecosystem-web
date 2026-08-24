@@ -21,11 +21,10 @@ import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affili
 import { User } from '@app/core/models/user-model/user.model';
 
 @Component({
-  selector: 'app-image-profile-modal',
-  templateUrl: './image-profile-modal.component.html',
-  styleUrls: ['./image-profile-modal.component.scss'],
-  standalone: true,
-  imports: [CommonModule, NgxDropzoneModule, TranslateModule],
+    selector: 'app-image-profile-modal',
+    templateUrl: './image-profile-modal.component.html',
+    styleUrls: ['./image-profile-modal.component.scss'],
+    imports: [CommonModule, NgxDropzoneModule, TranslateModule]
 })
 export class ImageProfileModalComponent implements OnInit {
   @ViewChild('imageProfileModal', { static: true })

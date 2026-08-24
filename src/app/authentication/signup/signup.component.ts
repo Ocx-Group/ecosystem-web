@@ -20,9 +20,10 @@ import { LogoService } from '@app/core/service/logo-service/logo.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
-  selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.sass'],
+    selector: 'app-signup',
+    templateUrl: './signup.component.html',
+    styleUrls: ['./signup.component.sass'],
+    standalone: false
 })
 export class SignupComponent implements OnInit {
   registerForm: FormGroup;

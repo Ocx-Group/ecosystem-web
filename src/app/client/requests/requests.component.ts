@@ -12,8 +12,9 @@ import { WalletWithdrawalsConfiguration } from '@app/core/models/wallet-withdraw
 
 
 @Component({
-  selector: 'app-requests',
-  templateUrl: './requests.component.html',
+    selector: 'app-requests',
+    templateUrl: './requests.component.html',
+    standalone: false
 })
 export class RequestsComponent implements OnInit {
   user: UserAffiliate = new UserAffiliate();

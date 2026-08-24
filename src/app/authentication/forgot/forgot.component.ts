@@ -11,9 +11,10 @@ declare var particlesJS: any;
 import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.service';
 
 @Component({
-  selector: 'app-forgot',
-  templateUrl: './forgot.component.html',
-  styleUrls: ['./forgot.component.scss'],
+    selector: 'app-forgot',
+    templateUrl: './forgot.component.html',
+    styleUrls: ['./forgot.component.scss'],
+    standalone: false
 })
 export class ForgotComponent implements OnInit {
   forgotPassword!: FormGroup;

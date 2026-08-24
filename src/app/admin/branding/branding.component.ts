@@ -20,8 +20,9 @@ const OPTIONAL_HTTP_URL_PATTERN = /^(https?:\/\/.+)?$/i;
 const MAX_LOGO_BYTES = 2 * 1024 * 1024;
 
 @Component({
-  selector: 'app-branding',
-  templateUrl: './branding.component.html',
+    selector: 'app-branding',
+    templateUrl: './branding.component.html',
+    standalone: false
 })
 export class BrandingComponent implements OnInit {
   brandingForm: FormGroup;

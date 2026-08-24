@@ -27,7 +27,8 @@ export const PERFECT_SCROLLBAR_CONFIG = new InjectionToken<PerfectScrollbarConfi
 );
 
 @Directive({
-  selector: '[perfectScrollbar]',
+    selector: '[perfectScrollbar]',
+    standalone: false
 })
 export class PerfectScrollbarDirective implements OnInit {
   @Input('perfectScrollbar') config?: PerfectScrollbarConfigInterface | string;

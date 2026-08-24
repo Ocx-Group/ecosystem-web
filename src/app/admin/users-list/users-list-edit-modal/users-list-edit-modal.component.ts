@@ -19,8 +19,9 @@ import { User } from '@app/core/models/user-model/user.model';
 import { UserService } from '@app/core/service/user-service/user.service';
 
 @Component({
-  selector: 'app-users-list-edit-modal',
-  templateUrl: './users-list-edit-modal.component.html',
+    selector: 'app-users-list-edit-modal',
+    templateUrl: './users-list-edit-modal.component.html',
+    standalone: false
 })
 export class UsersListEditModalComponent implements OnInit {
   editUserForm: FormGroup;

@@ -12,8 +12,9 @@ const ALERTS: Alert[] = [
 ];
 
 @Component({
-  selector: 'app-calculated-commissions',
-  templateUrl: './calculated-commissions.component.html'
+    selector: 'app-calculated-commissions',
+    templateUrl: './calculated-commissions.component.html',
+    standalone: false
 })
 export class CalculatedCommissionsComponent {
   alerts: Alert[];

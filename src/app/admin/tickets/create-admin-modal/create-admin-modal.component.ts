@@ -15,9 +15,10 @@ import {AffiliateService} from "@app/core/service/affiliate-service/affiliate.se
 import {ObjectStorageService} from "@app/core/service/object-storage-service/object-storage.service";
 
 @Component({
-  selector: 'app-create-admin-modal',
-  templateUrl: './create-admin-modal.component.html',
-  styleUrls: ['./create-admin-modal.component.scss']
+    selector: 'app-create-admin-modal',
+    templateUrl: './create-admin-modal.component.html',
+    styleUrls: ['./create-admin-modal.component.scss'],
+    standalone: false
 })
 export class CreateAdminModalComponent implements OnInit {
   createTicketForm: FormGroup;

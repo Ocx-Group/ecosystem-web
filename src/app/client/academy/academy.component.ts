@@ -7,9 +7,10 @@ import { ProductService } from '@app/core/service/product-service/product.servic
 
 
 @Component({
-  selector: 'app-academy',
-  templateUrl: './academy.component.html',
-  styleUrls: ['./academy.component.scss']
+    selector: 'app-academy',
+    templateUrl: './academy.component.html',
+    styleUrls: ['./academy.component.scss'],
+    standalone: false
 })
 export class AcademyComponent implements OnInit {
   products: Product[] = []

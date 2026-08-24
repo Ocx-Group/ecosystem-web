@@ -18,8 +18,9 @@ const header = [
 ];
 
 @Component({
-  selector: 'app-balance-of-wallet',
-  templateUrl: './balance-of-wallet.component.html',
+    selector: 'app-balance-of-wallet',
+    templateUrl: './balance-of-wallet.component.html',
+    standalone: false
 })
 export class BalanceOfWalletComponent implements OnInit {
   rows = [];

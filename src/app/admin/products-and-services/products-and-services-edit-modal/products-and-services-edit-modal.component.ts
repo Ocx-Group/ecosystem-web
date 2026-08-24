@@ -38,8 +38,9 @@ import { HttpClient } from '@angular/common/http';
 import { ObjectStorageService } from '@app/core/service/object-storage-service/object-storage.service';
 
 @Component({
-  selector: 'app-products-and-services-edit-modal',
-  templateUrl: './products-and-services-edit-modal.component.html',
+    selector: 'app-products-and-services-edit-modal',
+    templateUrl: './products-and-services-edit-modal.component.html',
+    standalone: false
 })
 export class ProductsAndServicesEditModalComponent implements OnInit {
   isCheckedAttribute: boolean = false;

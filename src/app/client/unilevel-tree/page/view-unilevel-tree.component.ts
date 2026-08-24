@@ -7,9 +7,10 @@ import { AffiliateService } from "@app/core/service/affiliate-service/affiliate.
 import {UserAffiliate} from "@app/core/models/user-affiliate-model/user.affiliate.model";
 
 @Component({
-  selector: 'app-view-unilevel-tree',
-  templateUrl: './view-unilevel-tree.component.html',
-  styleUrls: ['./view-unilevel-tree.component.scss'],
+    selector: 'app-view-unilevel-tree',
+    templateUrl: './view-unilevel-tree.component.html',
+    styleUrls: ['./view-unilevel-tree.component.scss'],
+    standalone: false
 })
 export class ViewUnilevelTreeComponent {
   userId: number;

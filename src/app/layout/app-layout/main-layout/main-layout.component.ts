@@ -11,9 +11,10 @@ import { TicketHubService } from '@app/core/service/ticket-service/ticket-hub.se
 
 
 @Component({
-  selector: 'app-main-layout',
-  templateUrl: './main-layout.component.html',
-  styleUrls: [],
+    selector: 'app-main-layout',
+    templateUrl: './main-layout.component.html',
+    styleUrls: [],
+    standalone: false
 })
 export class MainLayoutComponent implements OnInit {
   user: UserAffiliate = new UserAffiliate();

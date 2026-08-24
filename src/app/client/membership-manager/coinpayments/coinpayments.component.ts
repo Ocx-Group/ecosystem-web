@@ -14,9 +14,10 @@ import { MembershipManagerService } from '@app/core/service/membership-manager-s
 import { environment } from '@environments/environment';
 
 @Component({
-  selector: 'app-coinpayments',
-  templateUrl: './coinpayments.component.html',
-  styleUrls: ['./coinpayments.component.scss']
+    selector: 'app-coinpayments',
+    templateUrl: './coinpayments.component.html',
+    styleUrls: ['./coinpayments.component.scss'],
+    standalone: false
 })
 export class CoinpaymentsComponent {
   qrImageUrl: string;

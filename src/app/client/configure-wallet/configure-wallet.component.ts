@@ -12,8 +12,9 @@ import Swal from 'sweetalert2';
 import { AddressBtc } from "@app/core/models/affiliate-btc-model/addressBtc.model";
 
 @Component({
-  selector: 'app-configure-wallet',
-  templateUrl: './configure-wallet.component.html'
+    selector: 'app-configure-wallet',
+    templateUrl: './configure-wallet.component.html',
+    standalone: false
 })
 export class ConfigureWalletComponent implements OnInit, AfterViewInit, OnDestroy {
   submitted: boolean = false;

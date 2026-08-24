@@ -33,8 +33,9 @@ import { PaymentGroupsService } from '@app/core/service/payment-groups-service/p
  * the admin session.
  */
 @Component({
-  selector: 'app-calculate-commissions',
-  templateUrl: './calculate-commissions.component.html',
+    selector: 'app-calculate-commissions',
+    templateUrl: './calculate-commissions.component.html',
+    standalone: false
 })
 export class CalculateCommissionsComponent implements OnInit {
   settingsForm: FormGroup;

@@ -141,8 +141,9 @@ export type ChartOptions = {
   responsive: ApexResponsive[];
 };
 @Component({
-  selector: 'app-home-admin',
-  templateUrl: './home-admin.component.html',
+    selector: 'app-home-admin',
+    templateUrl: './home-admin.component.html',
+    standalone: false
 })
 export class HomeAdminComponent implements OnInit {
   private chart: am4maps.MapChart;

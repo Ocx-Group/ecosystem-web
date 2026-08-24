@@ -20,9 +20,10 @@ import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
 
 @Component({
-  selector: 'app-authorize-affiliates-edit-modal',
-  templateUrl: './authorize-affiliates-edit-modal.component.html',
-  providers: [ToastrService],
+    selector: 'app-authorize-affiliates-edit-modal',
+    templateUrl: './authorize-affiliates-edit-modal.component.html',
+    providers: [ToastrService],
+    standalone: false
 })
 export class AuthorizeAffiliatesEditModalComponent implements OnInit {
   user = new UserAffiliate();

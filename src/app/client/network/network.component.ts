@@ -28,8 +28,9 @@ import { TruncateDecimalsPipe } from "@app/shared/truncate-decimals.pipe";
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-network',
-  templateUrl: './network.component.html'
+    selector: 'app-network',
+    templateUrl: './network.component.html',
+    standalone: false
 })
 export class NetworkComponent implements OnInit {
   isCollapsed = true;

@@ -17,8 +17,9 @@ import { Ticket } from '@app/core/models/ticket-model/ticket.model';
 
 
 @Component({
-  selector: 'app-tickets',
-  templateUrl: './tickets.component.html'
+    selector: 'app-tickets',
+    templateUrl: './tickets.component.html',
+    standalone: false
 })
 export class TicketsComponent implements OnInit, AfterViewInit, OnDestroy {
   user: UserAffiliate = new UserAffiliate();

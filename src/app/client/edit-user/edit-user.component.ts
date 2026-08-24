@@ -19,8 +19,9 @@ import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affili
 import { Subject, takeUntil } from 'rxjs';
 import { ObjectStorageService } from '@app/core/service/object-storage-service/object-storage.service';
 @Component({
-  selector: 'app-edit-user',
-  templateUrl: './edit-user.component.html',
+    selector: 'app-edit-user',
+    templateUrl: './edit-user.component.html',
+    standalone: false
 })
 export class EditUserComponent implements OnInit, OnDestroy {
   public user: UserAffiliate = new UserAffiliate();

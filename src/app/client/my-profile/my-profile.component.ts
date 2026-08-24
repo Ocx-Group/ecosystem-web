@@ -17,8 +17,9 @@ import { error } from 'console';
 const header = ['Movimientos', 'IP', 'Fecha'];
 
 @Component({
-  selector: 'app-my-profile',
-  templateUrl: './my-profile.component.html',
+    selector: 'app-my-profile',
+    templateUrl: './my-profile.component.html',
+    standalone: false
 })
 export class MyProfileComponent implements OnInit {
   public user: UserAffiliate = new UserAffiliate();

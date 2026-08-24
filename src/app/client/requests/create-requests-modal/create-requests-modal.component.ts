@@ -15,8 +15,9 @@ import { AffiliateBtcService } from '@app/core/service/affiliate-btc-service/aff
 import { AffiliateBtc } from '@app/core/models/affiliate-btc-model/affiliate-btc.model';
 
 @Component({
-  selector: 'app-create-requests-modal',
-  templateUrl: './create-requests-modal.component.html',
+    selector: 'app-create-requests-modal',
+    templateUrl: './create-requests-modal.component.html',
+    standalone: false
 })
 export class CreateRequestsModalComponent implements OnInit {
   walletRequest: WalletRequestRequest = new WalletRequestRequest();

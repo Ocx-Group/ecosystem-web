@@ -6,9 +6,10 @@ import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-page-unilevel-tree',
-  templateUrl: './page-unilevel-tree.component.html',
-  styleUrls: ['./page-unilevel-tree.component.scss'],
+    selector: 'app-page-unilevel-tree',
+    templateUrl: './page-unilevel-tree.component.html',
+    styleUrls: ['./page-unilevel-tree.component.scss'],
+    standalone: false
 })
 export class PageUnilevelTreeComponent implements OnInit {
 

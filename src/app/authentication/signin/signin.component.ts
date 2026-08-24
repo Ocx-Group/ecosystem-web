@@ -12,9 +12,10 @@ import { LogoService } from '@app/core/service/logo-service/logo.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
-  selector: 'app-signin',
-  templateUrl: './signin.component.html',
-  styleUrls: ['./signin.component.scss'],
+    selector: 'app-signin',
+    templateUrl: './signin.component.html',
+    styleUrls: ['./signin.component.scss'],
+    standalone: false
 })
 export class SigninComponent implements OnInit {
   submitted = false;

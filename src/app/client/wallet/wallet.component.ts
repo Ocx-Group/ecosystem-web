@@ -12,8 +12,9 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { AuthService } from '@app/core/service/authentication-service/auth.service';
 
 @Component({
-  selector: 'app-wallet',
-  templateUrl: './wallet.component.html',
+    selector: 'app-wallet',
+    templateUrl: './wallet.component.html',
+    standalone: false
 })
 export class WalletComponent implements OnInit {
   private subscription: Subscription;

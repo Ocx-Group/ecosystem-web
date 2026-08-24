@@ -21,8 +21,9 @@ import {
 import { CommissionSettingsService } from '@app/core/service/commission-settings-service/commission-settings.service';
 
 @Component({
-  selector: 'app-commissions-configuration',
-  templateUrl: './commissions-configuration.component.html',
+    selector: 'app-commissions-configuration',
+    templateUrl: './commissions-configuration.component.html',
+    standalone: false
 })
 export class CommissionsConfigurationComponent implements OnInit {
   commissionsForm: FormGroup;
