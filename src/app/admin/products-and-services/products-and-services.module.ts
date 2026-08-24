@@ -12,7 +12,6 @@ import { FeatherModule } from 'angular-feather';
 import { Search } from 'angular-feather/icons';
 import { ToastrModule } from 'ngx-toastr';
 import { ClipboardModule } from '@angular/cdk/clipboard';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 import { ProductsAndServicesComponent } from './products-and-services.component';
 import { ProductsAndServicesCreateModalComponent } from './products-and-services-create-modal/products-and-services-create-modal.component';
@@ -40,7 +39,6 @@ const icons = {
     ReactiveFormsModule,
     NgbModule,
     TranslateModule,
-    CKEditorModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),

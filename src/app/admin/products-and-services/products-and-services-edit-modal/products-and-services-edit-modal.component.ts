@@ -8,7 +8,6 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import {
   FormGroup,
   FormBuilder,
@@ -43,7 +42,6 @@ import { ObjectStorageService } from '@app/core/service/object-storage-service/o
   templateUrl: './products-and-services-edit-modal.component.html',
 })
 export class ProductsAndServicesEditModalComponent implements OnInit {
-  public Editor = ClassicEditor;
   isCheckedAttribute: boolean = false;
   isCheckedInventory: boolean = false;
   editProductForm!: FormGroup;

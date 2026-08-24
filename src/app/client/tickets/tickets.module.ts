@@ -15,7 +15,6 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { CreateTicketModalComponent } from './create-ticket-modal/create-ticket-modal.component';
 import { TicketsComponent } from './tickets.component';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { TicketViewComponent } from './ticket-view/ticket-view.component';
 import { ClientRoutingModule } from '../client-routing.module';
@@ -47,7 +46,6 @@ const icons = {
         PerfectScrollbarModule,
         NgApexchartsModule,
         NgxGaugeModule,
-        CKEditorModule,
         NgxDropzoneModule,
         ClientRoutingModule,
         NgOptimizedImage,

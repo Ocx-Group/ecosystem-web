@@ -54,7 +54,6 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { ResultsEcopoolComponent } from './results-ecopool/results-ecopool.component';
 import { AuthorizeReturnsComponent } from './authorize-returns/authorize-returns.component';
 import { WalkwaysBenchesComponent } from './walkways-benches/walkways-benches.component';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { SettingsComponent } from './settings/settings.component';
 import { BrandingComponent } from './branding/branding.component';
 import { CommissionsConfigurationComponent } from './commissions-configuration/commissions-configuration.component';
@@ -136,7 +135,6 @@ const icons = {
     NgApexchartsModule,
     NgxGaugeModule,
     NgxDropzoneModule,
-    CKEditorModule,
     ChangeModelModule,
     SharedModule,
     NgOptimizedImage,

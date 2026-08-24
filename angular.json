@@ -31,8 +31,7 @@
               "apexcharts",
               "fast-deep-equal",
               "rfdc",
-              "sweetalert2",
-              "@ckeditor/ckeditor5-build-classic"
+              "sweetalert2"
             ],
             "assets": [
               "src/favicon.ico",
