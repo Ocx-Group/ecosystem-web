@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationRoutingModule } from './authentication-routing.module';
 import { FeatherModule } from 'angular-feather';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { MatSelectCountryModule } from '@angular-material-extensions/select-country';
 import {
   Facebook,
   Twitter,
@@ -62,7 +61,6 @@ const icons = {
     PerfectScrollbarModule,
     TranslateModule,
     FeatherModule.pick(icons),
-    MatSelectCountryModule.forRoot('en'),
     MatSelectModule
   ]
 
