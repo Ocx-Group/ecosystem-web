@@ -1,6 +1,6 @@
 import {RightSidebarService} from 'src/app/core/service/rightsidebar-service/rightsidebar.service';
 import {AuthService} from 'src/app/core/service/authentication-service/auth.service';
-import {DOCUMENT} from '@angular/common';
+
 import {
   Component,
   Inject,
@@ -8,6 +8,7 @@ import {
   OnInit,
   Renderer2,
   AfterViewInit,
+  DOCUMENT
 } from '@angular/core';
 import {Router} from '@angular/router';
 import {ConfigService} from 'src/app/config/config.service';

@@ -1,6 +1,6 @@
 import { UserService } from '@app/core/service/user-service/user.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { DOCUMENT } from '@angular/common';
+
 import {
   Component,
   ElementRef,
@@ -9,6 +9,7 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  DOCUMENT
 } from '@angular/core';
 import { ROUTESADMIN } from './sidebar-admin-items';
 import { AuthService } from 'src/app/core/service/authentication-service/auth.service';

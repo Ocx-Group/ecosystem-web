@@ -1,5 +1,5 @@
 import {Router, NavigationEnd} from '@angular/router';
-import {DOCUMENT} from '@angular/common';
+
 import {
   Component,
   Inject,
@@ -8,6 +8,7 @@ import {
   Renderer2,
   HostListener,
   OnDestroy,
+  DOCUMENT
 } from '@angular/core';
 
 import {ROUTES} from './sidebar-items';

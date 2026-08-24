@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
+import { Component, Inject, OnInit, Renderer2, DOCUMENT } from '@angular/core';
 import { Event, Router, NavigationStart, NavigationEnd } from '@angular/router';
-import { DOCUMENT, PlatformLocation } from '@angular/common';
+import { PlatformLocation } from '@angular/common';
 
 import { SessionService } from './core/service/session-service/session.service';
 import { BrandingService } from './core/service/branding-service/branding.service';

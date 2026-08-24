@@ -1,5 +1,5 @@
-import { Component, OnInit, Renderer2, Inject, OnDestroy } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, OnInit, Renderer2, Inject, OnDestroy, DOCUMENT } from '@angular/core';
+
 import { ToastrService } from 'ngx-toastr';
 
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';

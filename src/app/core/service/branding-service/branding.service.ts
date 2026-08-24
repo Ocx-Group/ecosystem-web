@@ -1,6 +1,6 @@
-import { DOCUMENT } from '@angular/common';
+
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, DOCUMENT } from '@angular/core';
 import { environment } from '@environments/environment';
 import { BehaviorSubject, firstValueFrom, timeout } from 'rxjs';
 import { BrandingAdministration } from '@app/core/models/branding-model/branding-administration.model';

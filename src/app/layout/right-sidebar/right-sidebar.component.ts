@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+
 import {
   Component,
   Inject,
@@ -8,6 +8,7 @@ import {
   Renderer2,
   HostListener,
   ChangeDetectionStrategy,
+  DOCUMENT
 } from '@angular/core';
 
 import { RightSidebarService } from 'src/app/core/service/rightsidebar-service/rightsidebar.service';
