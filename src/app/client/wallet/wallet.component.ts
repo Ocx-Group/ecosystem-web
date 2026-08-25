@@ -1,4 +1,4 @@
-import { Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy, signal} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
@@ -14,16 +14,16 @@ import { AuthService } from '@app/core/service/authentication-service/auth.servi
 @Component({
     selector: 'app-wallet',
     templateUrl: './wallet.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class WalletComponent implements OnInit {
   private subscription: Subscription;
   balanceInformation: BalanceInformation = new BalanceInformation();
   public userCookie: UserAffiliate;
-  rows = [];
+  readonly rows = signal<any[]>([]);
   temp = [];
-  loadingIndicator = true;
+  readonly loadingIndicator = signal<boolean>(true);
   reorderable = true;
   scrollBarHorizontal = window.innerWidth < 1200;
   @ViewChild('table') table: DatatableComponent;
@@ -45,9 +45,9 @@ export class WalletComponent implements OnInit {
           return;
         }
 
-        this.rows = [];
+        this.rows.set([]);
         this.temp = [];
-        this.loadingIndicator = false;
+        this.loadingIndicator.set(false);
       }
     );
   }
@@ -73,14 +73,14 @@ export class WalletComponent implements OnInit {
         const safeWalletRows = Array.isArray(resp) ? resp : [];
 
         this.temp = [...safeWalletRows];
-        this.rows = safeWalletRows;
-        this.loadingIndicator = false;
+        this.rows.set(safeWalletRows);
+        this.loadingIndicator.set(false);
 
       },
       error: (err) => {
         this.temp = [];
-        this.rows = [];
-        this.loadingIndicator = false;
+        this.rows.set([]);
+        this.loadingIndicator.set(false);
         this.showError('Error!');
         console.error(err);
       },
@@ -112,7 +112,7 @@ export class WalletComponent implements OnInit {
       return d.name.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
-    this.rows = temp;
+    this.rows.set(temp);
     this.table.offset.set(0);
   }
 

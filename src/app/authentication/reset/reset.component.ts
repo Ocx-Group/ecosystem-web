@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap, take, timer } from 'rxjs';
@@ -14,7 +14,7 @@ import { RequestResetPassword } from '@app/core/models/user-affiliate-model/requ
     selector: 'app-reset',
     templateUrl: './reset.component.html',
     styleUrls: ['./reset.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class ResetComponent implements OnInit {
@@ -26,7 +26,7 @@ export class ResetComponent implements OnInit {
   linkValid: boolean = false;
 
   constructor(private affiliateService: AffiliateService, private activatedRoute: ActivatedRoute,
-    private router: Router) {
+    private router: Router, private cdr: ChangeDetectorRef) {
 
     this.verificationCode = this.activatedRoute.snapshot.params.verificationCode;
     if (!this.verificationCode) {
@@ -113,6 +113,8 @@ export class ResetComponent implements OnInit {
       .subscribe({
         next: (value) => {
           this.isLoading = false;
+          // Viene de un timer, fuera de todo evento: con OnPush hay que marcar.
+          this.cdr.markForCheck();
 
           if (value === null) {
             this.showExpiredLinkMessage();
@@ -130,6 +132,8 @@ export class ResetComponent implements OnInit {
         },
         error: () => {
           this.isLoading = false;
+          // Viene de un timer, fuera de todo evento: con OnPush hay que marcar.
+          this.cdr.markForCheck();
           this.router.navigate(['/signin']);
         },
       });
@@ -170,6 +174,8 @@ export class ResetComponent implements OnInit {
     timer(expireMinutes).pipe(take(1)).subscribe(() => {
       if (this.checkCodeTime()) {
         this.isLoading = true;
+        // Viene de un timer, fuera de todo evento: con OnPush hay que marcar.
+        this.cdr.markForCheck();
         this.router.navigate(['/signin']);
       }
     });

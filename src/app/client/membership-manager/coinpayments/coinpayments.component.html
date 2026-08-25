@@ -25,14 +25,14 @@
       <label for="">Dirección billetera:</label>
     </div>
     <div class="col-12 text-center">
-      <span>{{address}}</span>
+      <span>{{address()}}</span>
     </div>
   </div>
   <div class="row">
     <div class="col text-center">
-      @if (qrImageUrl) {
+      @if (qrImageUrl()) {
         <div>
-          <img [src]="qrImageUrl" alt="Código QR">
+          <img [src]="qrImageUrl()" alt="Código QR">
         </div>
       }
     </div>

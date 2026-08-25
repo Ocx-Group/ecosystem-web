@@ -1,5 +1,5 @@
 import { interval, switchMap, takeWhile } from 'rxjs';
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, signal} from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
@@ -17,12 +17,12 @@ import { environment } from '@environments/environment';
     selector: 'app-coinpayments',
     templateUrl: './coinpayments.component.html',
     styleUrls: ['./coinpayments.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class CoinpaymentsComponent {
-  qrImageUrl: string;
-  address: string;
+  readonly qrImageUrl = signal<string>('');
+  readonly address = signal<string>('');
   txn_Id: string;
   isLoading = false;
   public user: UserAffiliate = new UserAffiliate();
@@ -48,8 +48,8 @@ export class CoinpaymentsComponent {
     this.loadingChange.emit(true);
     this.coinPaymentService.createTransaction(this.buildCoinPaymentRequest()).subscribe({
       next: (value: ConpaymentTransaction) => {
-        this.qrImageUrl = value.qrcode_Url;
-        this.address = value.address;
+        this.qrImageUrl.set(value.qrcode_Url);
+        this.address.set(value.address);
         this.txn_Id = value.txn_Id;
         this.getTransactionInfo(this.txn_Id, true);
       },

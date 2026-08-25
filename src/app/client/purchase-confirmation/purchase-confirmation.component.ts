@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
     selector: 'app-purchase-confirm',
     templateUrl: './purchase-confirmation.component.html',
     styleUrls: ['./purchase-confirmation.component.sass'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class PurchaseConfirmationComponent implements OnInit {

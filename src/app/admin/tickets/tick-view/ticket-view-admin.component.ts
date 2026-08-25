@@ -12,7 +12,7 @@ import {Ticket} from "@app/core/models/ticket-model/ticket.model";
     selector: 'app-tick-view',
     templateUrl: './ticket-view-admin.component.html',
     styleUrls: ['./ticket-view-admin.component.sass'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class TicketViewAdminComponent implements OnInit, OnDestroy {
@@ -81,6 +81,9 @@ export class TicketViewAdminComponent implements OnInit, OnDestroy {
         } else {
           console.log('No ticket received or connection not established');
         }
+        // processMessageSender ya hace detectChanges por cada mensaje, pero un
+        // ticket sin mensajes no pasa por ahi y la cabecera se quedaria vacia.
+        this.cdr.markForCheck();
       },
       error: (err) => {
         console.error('Error recibiendo ticket:', err);
