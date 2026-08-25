@@ -12,7 +12,7 @@ import { Subject, takeUntil } from 'rxjs';
     selector: 'app-terms-conditions-modal',
     templateUrl: './terms-conditions-modal.component.html',
     styleUrls: ['./terms-conditions-modal.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class TermsConditionsModalComponent implements OnInit, OnDestroy {

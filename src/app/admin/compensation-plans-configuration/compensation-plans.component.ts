@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ConfigurationService } from '@app/core/service/configuration-service/configuration.service';
 import { CompensationPlansConfiguration } from '@app/core/models/compensation-plans-configuration-model/compensation-plans-configuration.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
     selector: 'app-compensation-plans',
     templateUrl: './compensation-plans.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class CompensationPlansComponent implements OnInit {
@@ -16,7 +16,7 @@ export class CompensationPlansComponent implements OnInit {
   compesationPlansConfiguration: CompensationPlansConfiguration =
     new CompensationPlansConfiguration();
 
-  constructor(private configurationService: ConfigurationService, private formBuilder: FormBuilder, private toastr: ToastrService) { }
+  constructor(private configurationService: ConfigurationService, private formBuilder: FormBuilder, private toastr: ToastrService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.loadValidation();
@@ -46,6 +46,9 @@ export class CompensationPlansComponent implements OnInit {
           automatic_commission_calculation: resp.automatic_commission_calculation
         })
       }
+      // El subscribe llega fuera de todo evento: sin esto, con OnPush la
+      // plantilla no vuelve a leer el estado del formulario.
+      this.cdr.markForCheck();
     });
   }
 

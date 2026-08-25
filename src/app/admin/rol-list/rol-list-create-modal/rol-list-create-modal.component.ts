@@ -22,7 +22,7 @@ import { ToastrService } from 'ngx-toastr';
     selector: 'app-rol-list-create-modal',
     templateUrl: './rol-list-create-modal.component.html',
     providers: [ToastrService],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class RolListCreateModalComponent implements OnInit {

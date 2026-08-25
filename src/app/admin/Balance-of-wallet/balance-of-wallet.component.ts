@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy, signal } from '@angular/core';
 import { ClipboardService } from 'ngx-clipboard';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
@@ -20,13 +20,13 @@ const header = [
 @Component({
     selector: 'app-balance-of-wallet',
     templateUrl: './balance-of-wallet.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class BalanceOfWalletComponent implements OnInit {
-  rows = [];
+  readonly rows = signal<Wallet[]>([]);
   temp = [];
-  loadingIndicator = true;
+  readonly loadingIndicator = signal(true);
   reorderable = true;
   scrollBarHorizontal = window.innerWidth < 1200;
 
@@ -54,8 +54,8 @@ export class BalanceOfWalletComponent implements OnInit {
     this.walletService.getAllWallets().subscribe((resp) => {
       if (resp != null) {
         this.temp = [...resp];
-        this.rows = resp;
-        this.loadingIndicator = false;
+        this.rows.set(resp);
+        this.loadingIndicator.set(false);
       }
     });
   }
@@ -70,7 +70,7 @@ export class BalanceOfWalletComponent implements OnInit {
     const temp = this.temp.filter(function (d) {
       return d.name.toLowerCase().indexOf(val) !== -1 || !val;
     });
-    this.rows = temp;
+    this.rows.set(temp);
     this.table.offset.set(0);
   }
 

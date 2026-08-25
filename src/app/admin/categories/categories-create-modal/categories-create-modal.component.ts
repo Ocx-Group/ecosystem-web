@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild, ChangeDetectionStrategy, signal } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
     selector: 'app-categories-create-modal',
     templateUrl: './categories-create-modal.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class CategoriesCreateModalComponent implements OnInit {
@@ -19,7 +19,7 @@ export class CategoriesCreateModalComponent implements OnInit {
   checkboxSmallBanner = false;
   checkboxBigBanner = false;
   selectedFile: File = null;
-  categories = [];
+  readonly categories = signal<any[]>([]);
   productCategory: ProductCategory = new ProductCategory();
 
   @ViewChild('categoriesCreateModal') categoriesCreateModal: NgbModal;
@@ -100,7 +100,7 @@ export class CategoriesCreateModalComponent implements OnInit {
 
   categoryList() {
     this.productCategoryService.getAll().subscribe((resp) => {
-      this.categories = resp;
+      this.categories.set(resp);
     });
   }
 

@@ -14,7 +14,7 @@ import { UpdatePassword } from '@app/core/models/user-model/update.password.mode
 @Component({
     selector: 'app-edit-security-pin-modal',
     templateUrl: './edit-security-pin-modal.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class EditSecurityPinModalComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, Inject, OnDestroy, DOCUMENT, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Renderer2, Inject, OnDestroy, DOCUMENT, ChangeDetectionStrategy, signal } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
 
@@ -11,12 +11,12 @@ import {StatisticsInformation} from "@app/core/models/wallet-model/statisticsInf
     selector: 'app-network-details',
     templateUrl: './network-details.component.html',
     styleUrls: ['./network-details.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class NetworkDetailsComponent implements OnInit, OnDestroy {
   user: UserAffiliate = new UserAffiliate();
-  information: StatisticsInformation = new StatisticsInformation();
+  readonly information = signal<StatisticsInformation>(new StatisticsInformation());
 
   constructor(
     private walletService: WalletService,
@@ -39,7 +39,7 @@ export class NetworkDetailsComponent implements OnInit, OnDestroy {
   loadInformation() {
     this.walletService.getStatisticsInformationByAffiliateId(this.user.id).subscribe({
       next: (value) => {
-        this.information = value;
+        this.information.set(value);
       },
       error: (err) => {
         this.showError('Error');

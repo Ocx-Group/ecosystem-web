@@ -4,7 +4,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { ConfigurationService } from '@app/core/service/configuration-service/configuration.service';
@@ -25,7 +25,7 @@ const ALERTS: Alert[] = [
     selector: 'app-arrays-configurations',
     templateUrl: './arrays-configurations.component.html',
     providers: [ToastrService],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class ArraysConfigurationsComponent implements OnInit {
@@ -39,7 +39,8 @@ export class ArraysConfigurationsComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private configurationService: ConfigurationService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) {
     this.alerts = Array.from(ALERTS);
   }
@@ -116,6 +117,9 @@ export class ArraysConfigurationsComponent implements OnInit {
           front_affiliates: resp.affiliates_front_num,
           software_millenium: resp.software_millennium_front_num,
         });
+        // El subscribe llega fuera de todo evento: sin esto, con OnPush la
+        // plantilla no vuelve a leer el estado del formulario.
+        this.cdr.markForCheck();
       });
   }
 }

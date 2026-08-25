@@ -23,7 +23,7 @@ import { Rol } from '@app/core/models/rol-model/rol.model';
 @Component({
     selector: 'app-users-list-create-modal',
     templateUrl: './users-list-create-modal.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class UsersListCreateModalComponent implements OnInit {
