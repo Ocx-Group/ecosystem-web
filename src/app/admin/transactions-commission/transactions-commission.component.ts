@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 @Component({
     selector: 'app-transactions-commission',
     templateUrl: './transactions-commission.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class TransactionsCommissionComponent {

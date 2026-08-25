@@ -10,7 +10,7 @@ import { PrintService } from '@app/core/service/print-service/print.service';
 @Component({
     selector: 'app-news-admin',
     templateUrl: './walkways-benches.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class WalkwaysBenchesComponent {

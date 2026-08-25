@@ -4,7 +4,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
     selector: 'app-coinpaycr',
     templateUrl: './coinpaycr.component.html',
     styleUrls: ['./coinpaycr.component.sass'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class CoinpaycrComponent {

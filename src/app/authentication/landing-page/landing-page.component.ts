@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
     templateUrl: './landing-page.component.html',
     styleUrls: ['./landing-page.component.scss'],
     providers: [ToastrService],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class LandingPageComponent implements OnInit {

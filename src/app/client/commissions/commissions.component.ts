@@ -19,7 +19,7 @@ const ALERTS: Alert[] = [
 @Component({
     selector: 'app-commissions',
     templateUrl: './commissions.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class CommissionsComponent implements OnInit {

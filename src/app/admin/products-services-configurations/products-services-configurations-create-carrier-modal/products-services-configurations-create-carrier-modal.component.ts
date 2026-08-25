@@ -13,7 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     styleUrls: [
         'products-services-configurations-create-carrier-modal.component.scss',
     ],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class ProductsServicesConfigurationsCreateCarrierModalComponent {

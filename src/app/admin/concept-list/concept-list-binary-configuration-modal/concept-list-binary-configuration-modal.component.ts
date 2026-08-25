@@ -13,7 +13,7 @@ import {
     selector: 'app-concept-list-binary-configuration-modal',
     templateUrl: './concept-list-binary-configuration-modal.component.html',
     styleUrls: ['./concept-list.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class ConceptListBinaryConfigurationModalComponent implements OnInit {

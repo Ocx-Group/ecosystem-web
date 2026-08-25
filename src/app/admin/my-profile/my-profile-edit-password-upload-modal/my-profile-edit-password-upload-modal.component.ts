@@ -11,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
     selector: 'app-my-profile-edit-password-upload-modal',
     templateUrl: './my-profile-edit-password-upload-modal.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class MyProfileEditPasswordUploadModalComponent implements OnInit {

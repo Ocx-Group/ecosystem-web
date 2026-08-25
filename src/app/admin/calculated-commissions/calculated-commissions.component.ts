@@ -14,7 +14,7 @@ const ALERTS: Alert[] = [
 @Component({
     selector: 'app-calculated-commissions',
     templateUrl: './calculated-commissions.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class CalculatedCommissionsComponent {
