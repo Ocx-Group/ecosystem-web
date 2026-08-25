@@ -27,7 +27,7 @@ export class AcademyComponent implements OnInit {
   }
 
   showError(message: string) {
-    this.showError(message);
+    this.toast.error(message);
   }
 
   loadProduct() {

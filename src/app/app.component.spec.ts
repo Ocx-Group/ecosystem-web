@@ -1,29 +1,23 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+
 import { AppComponent } from './app.component';
+import { testProviders } from '@app/testing/testing';
+
 describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      // La plantilla solo monta <app-page-loader> y <router-outlet>; no hace
+      // falta declararlos para comprobar que el componente arranca.
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [...testProviders],
       declarations: [AppComponent]
     }).compileComponents();
   }));
+
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
-  });
-  it(`should have as title 'angulardark'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('angulardark');
-  });
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain(
-      'Welcome to angulardark!'
-    );
   });
 });

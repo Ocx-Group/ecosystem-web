@@ -115,7 +115,9 @@
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+              "./node_modules/particles.js/particles.js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
