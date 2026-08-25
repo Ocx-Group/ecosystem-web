@@ -7,7 +7,7 @@ import { AuthService } from '@app/core/service/authentication-service/auth.servi
 @Component({
     selector: 'app-email-confirmation',
     templateUrl: './email.confirmation.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class EmailConfirmationComponent {

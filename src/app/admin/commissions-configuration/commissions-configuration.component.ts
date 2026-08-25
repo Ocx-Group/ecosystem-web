@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -23,7 +23,7 @@ import { CommissionSettingsService } from '@app/core/service/commission-settings
 @Component({
     selector: 'app-commissions-configuration',
     templateUrl: './commissions-configuration.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class CommissionsConfigurationComponent implements OnInit {
@@ -41,6 +41,7 @@ export class CommissionsConfigurationComponent implements OnInit {
     private readonly commissionSettingsService: CommissionSettingsService,
     private readonly toastrService: ToastrService,
     private readonly translate: TranslateService,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -110,7 +111,7 @@ export class CommissionsConfigurationComponent implements OnInit {
   load(): void {
     this.loading = true;
     this.commissionSettingsService.getCurrent()
-      .pipe(finalize(() => this.loading = false))
+      .pipe(finalize(() => { this.loading = false; this.cdr.markForCheck(); }))
       .subscribe({
         next: settings => this.applyLoaded(settings),
         error: error => this.reportError(error, 'COMMISSIONS-CONFIGURATION-PAGE.ERR-LOAD.TEXT'),
@@ -129,7 +130,7 @@ export class CommissionsConfigurationComponent implements OnInit {
 
     this.saving = true;
     this.commissionSettingsService.updateCurrent(request)
-      .pipe(finalize(() => this.saving = false))
+      .pipe(finalize(() => { this.saving = false; this.cdr.markForCheck(); }))
       .subscribe({
         next: settings => {
           this.applyLoaded(settings);
