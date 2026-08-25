@@ -27,7 +27,15 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "useDefineForClassFields": false,
-    "strict": false
+    "strict": true,
+    // Fase 1 de la adopcion de strict: activadas strictFunctionTypes,
+    // strictBindCallApply, noImplicitThis y alwaysStrict, que costaban 3
+    // errores. Las tres que faltan son proyectos aparte: strictNullChecks
+    // son 269 errores mas, noImplicitAny otros 424 y
+    // strictPropertyInitialization otros 337.
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictPropertyInitialization": false
   },
   "angularCompilerOptions": {}
 }
