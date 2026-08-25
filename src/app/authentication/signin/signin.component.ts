@@ -12,11 +12,11 @@ import { LogoService } from '@app/core/service/logo-service/logo.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
-    selector: 'app-signin',
-    templateUrl: './signin.component.html',
-    styleUrls: ['./signin.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+  selector: 'app-signin',
+  templateUrl: './signin.component.html',
+  styleUrls: ['./signin.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class SigninComponent implements OnInit {
   submitted = false;
@@ -26,7 +26,7 @@ export class SigninComponent implements OnInit {
   hide = true;
   logoUrl: string;
   username: string = 'Usuario';
-  password: string = 'Contraseña';
+  password = '';
   remember: string = 'Recordar';
   forgot: string = 'Cambiar contraseña';
   signin: string = 'Iniciar sesión';
@@ -38,12 +38,12 @@ export class SigninComponent implements OnInit {
   showPassword = false;
 
   constructor(
-    private router: Router,
-    private authService: AuthService,
-    private toastr: ToastrService,
-    private logoService: LogoService,
-    private translate: TranslateService,
-    private deviceService: DeviceDetectorService,
+    private readonly router: Router,
+    private readonly authService: AuthService,
+    private readonly toastr: ToastrService,
+    private readonly logoService: LogoService,
+    private readonly translate: TranslateService,
+    private readonly deviceService: DeviceDetectorService,
   ) {}
 
   ngOnInit() {
@@ -102,8 +102,8 @@ export class SigninComponent implements OnInit {
     signin.userName = this.authLogin.value.email;
     signin.password = this.authLogin.value.pwd;
 
-    signin.browserInfo = this.deviceService.getDeviceInfo().browser;
-    signin.operatingSystem = this.deviceService.getDeviceInfo().os;
+    signin.browserInfo = this.deviceService.deviceInfo().browser;
+    signin.operatingSystem = this.deviceService.deviceInfo().os;
 
     this.authService.fetchIpAddress().subscribe((ip) => {
       signin.ipAddress = ip;
@@ -130,7 +130,7 @@ export class SigninComponent implements OnInit {
   }
 
   googleLoginSubmitted() {
-    const deviceInfo = this.deviceService.getDeviceInfo();
+    const deviceInfo = this.deviceService.deviceInfo();
     this.loading = true;
 
     this.authService.fetchIpAddress().subscribe((ip) => {
