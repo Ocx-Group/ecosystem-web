@@ -8,7 +8,7 @@ import { ClipboardService } from 'ngx-clipboard';
 import { PrintService } from '@app/core/service/print-service/print.service';
 
 @Component({
-    selector: 'app-news-admin',
+    selector: 'app-walkways-benches',
     templateUrl: './walkways-benches.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
