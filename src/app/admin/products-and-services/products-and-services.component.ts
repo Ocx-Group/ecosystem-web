@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
@@ -20,8 +20,10 @@ const header = [
   'Existencias',
 ];
 @Component({
-  selector: 'app-products-and-services',
-  templateUrl: './products-and-services.component.html',
+    selector: 'app-products-and-services',
+    templateUrl: './products-and-services.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ProductsAndServicesComponent implements OnInit {
   rows = [];
@@ -39,7 +41,8 @@ export class ProductsAndServicesComponent implements OnInit {
     private productService: ProductService,
     private printService: PrintService,
     private toastr: ToastrService,
-    private configurationService: ConfigurationService
+    private configurationService: ConfigurationService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -61,6 +64,7 @@ export class ProductsAndServicesComponent implements OnInit {
       this.temp = [...resp];
       this.rows = resp;
       this.loadingIndicator = false;
+      this.cdr.markForCheck();
     });
   }
 
@@ -68,6 +72,7 @@ export class ProductsAndServicesComponent implements OnInit {
     this.configurationService.getProductConfiguration().subscribe((resp: ProductConfiguration) => {
       if (resp != null) {
         this.productConfiguration = resp;
+        this.cdr.markForCheck();
       }
     });
   }
@@ -84,7 +89,7 @@ export class ProductsAndServicesComponent implements OnInit {
     });
 
     this.rows = temp;
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   createOpenModal(content) {

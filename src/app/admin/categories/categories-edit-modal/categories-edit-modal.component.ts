@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -7,8 +7,10 @@ import { ProductCategoryService } from '@app/core/service/product-category-servi
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-categories-edit-modal',
-  templateUrl: './categories-edit-modal.component.html',
+    selector: 'app-categories-edit-modal',
+    templateUrl: './categories-edit-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CategoriesEditModalComponent implements OnInit {
   editCategorieForm!: FormGroup;
@@ -27,7 +29,8 @@ export class CategoriesEditModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
     private productCategoryService: ProductCategoryService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -53,6 +56,9 @@ export class CategoriesEditModalComponent implements OnInit {
       activate_big_banner: this.category.displayBigBanner,
       activate_small_banner: this.category.displaySmallBanner,
     });
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   categorieValidation() {
@@ -112,6 +118,7 @@ export class CategoriesEditModalComponent implements OnInit {
   categoryList() {
     this.productCategoryService.getAll().subscribe((resp) => {
       this.categoriesList = resp;
+      this.cdr.markForCheck();
     });
   }
 }

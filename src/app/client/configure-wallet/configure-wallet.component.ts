@@ -1,5 +1,5 @@
 import { AffiliateBtc } from '@app/core/models/affiliate-btc-model/affiliate-btc.model';
-import { AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
 import { AffiliateBtcService } from '@app/core/service/affiliate-btc-service/affiliate-btc.service';
@@ -12,8 +12,10 @@ import Swal from 'sweetalert2';
 import { AddressBtc } from "@app/core/models/affiliate-btc-model/addressBtc.model";
 
 @Component({
-  selector: 'app-configure-wallet',
-  templateUrl: './configure-wallet.component.html'
+    selector: 'app-configure-wallet',
+    templateUrl: './configure-wallet.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ConfigureWalletComponent implements OnInit, AfterViewInit, OnDestroy {
   submitted: boolean = false;
@@ -28,7 +30,8 @@ export class ConfigureWalletComponent implements OnInit, AfterViewInit, OnDestro
     private authService: AuthService,
     private affiliateBtcService: AffiliateBtcService,
     private toastr: ToastrService,
-    private affiliateService: AffiliateService
+    private affiliateService: AffiliateService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -86,6 +89,9 @@ export class ConfigureWalletComponent implements OnInit, AfterViewInit, OnDestro
       this.walletAddress.patchValue({
         trc_address: item.address
       });
+      // El subscribe que trae la direccion llega fuera de todo evento: con
+      // OnPush hay que marcar para que la plantilla relea el formulario.
+      this.cdr.markForCheck();
     }
   }
 

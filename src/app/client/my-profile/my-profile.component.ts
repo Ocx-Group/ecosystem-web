@@ -1,5 +1,5 @@
 import { LoginMovements } from './../../core/models/signin-model/login-movements.model';
-import { Component, HostListener, ViewChild, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, ViewChild, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
@@ -17,8 +17,10 @@ import { error } from 'console';
 const header = ['Movimientos', 'IP', 'Fecha'];
 
 @Component({
-  selector: 'app-my-profile',
-  templateUrl: './my-profile.component.html',
+    selector: 'app-my-profile',
+    templateUrl: './my-profile.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class MyProfileComponent implements OnInit {
   public user: UserAffiliate = new UserAffiliate();
@@ -38,7 +40,7 @@ export class MyProfileComponent implements OnInit {
     private authService: AuthService,
     private gradingService: GradingService,
     private affiliateService: AffiliateService,
-
+    private cdr: ChangeDetectorRef
   ) { }
 
   @ViewChild('table') table: DatatableComponent;
@@ -66,7 +68,7 @@ export class MyProfileComponent implements OnInit {
     });
 
     this.rows = temp;
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   getUserInfo() {
@@ -74,6 +76,7 @@ export class MyProfileComponent implements OnInit {
     this.affiliateService.getAffiliateById(this.userCookie.id).subscribe((response) => {
       if (response.success) {
         this.user = response.data;
+        this.cdr.markForCheck();
         this.getGradingInfo(this.user.external_grading_before_id);
         this.loadLoginMovements();
       }
@@ -84,6 +87,7 @@ export class MyProfileComponent implements OnInit {
     this.gradingService.getGradingById(id).subscribe((response) => {
       if (response.success) {
         this.grading = response.data;
+        this.cdr.markForCheck();
       }
     });
   }
@@ -121,6 +125,7 @@ export class MyProfileComponent implements OnInit {
       error: (error) => {
         this.toastr.error('Error loading movements');
         this.loadingIndicator = false;
+        this.cdr.markForCheck();
       }
     });
   }

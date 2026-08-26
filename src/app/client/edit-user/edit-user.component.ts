@@ -1,6 +1,6 @@
 
 import { FaceApiService } from '@app/core/service/face-api-service/face-api.service';
-import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
 import {
@@ -19,8 +19,10 @@ import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affili
 import { Subject, takeUntil } from 'rxjs';
 import { ObjectStorageService } from '@app/core/service/object-storage-service/object-storage.service';
 @Component({
-  selector: 'app-edit-user',
-  templateUrl: './edit-user.component.html',
+    selector: 'app-edit-user',
+    templateUrl: './edit-user.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class EditUserComponent implements OnInit, OnDestroy {
   public user: UserAffiliate = new UserAffiliate();
@@ -47,7 +49,8 @@ export class EditUserComponent implements OnInit, OnDestroy {
     private affiliateService: AffiliateService,
     private formBuilder: FormBuilder,
     private objectStorageService: ObjectStorageService,
-    private faceApiService: FaceApiService
+    private faceApiService: FaceApiService,
+    private cdr: ChangeDetectorRef
   ) {
   }
 
@@ -158,6 +161,11 @@ export class EditUserComponent implements OnInit, OnDestroy {
       legal_authorized_first: affiliate.legal_authorized_first ?? '',
       legal_authorized_second: affiliate.legal_authorized_second ?? '',
     });
+
+    // Punto unico por el que pasan getUserInfo y onSaveUser: ambos llegan desde
+    // una respuesta HTTP. Ademas de los controles, aqui se escribe
+    // displayBirthday, que la plantilla pinta fuera del formulario.
+    this.cdr.markForCheck();
   }
 
   checkAndDisableInput() {
@@ -178,6 +186,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
   private fetchCountry() {
     this.affiliateService.getCountries().subscribe((data) => {
       this.listcountry = data;
+      this.cdr.markForCheck();
     });
   }
 
@@ -300,6 +309,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
       this.files = [];
       this.getUserInfo();
       this.isUploadCompleted = true;
+      this.cdr.markForCheck();
     }
   }
 
@@ -321,6 +331,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
       next: () => {
         this.showSuccess('Image deleted successfully');
         this.files = [];
+        this.cdr.markForCheck();
       },
       error: () => {
         this.toastr.error('error');

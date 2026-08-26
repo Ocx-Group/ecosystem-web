@@ -1,4 +1,4 @@
-import { Component, ViewChild, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
@@ -22,9 +22,11 @@ const header = [
   'Igualación',
 ];
 @Component({
-  selector: 'app-concept-list',
-  templateUrl: './concept-list.component.html',
-  providers: [ToastrService],
+    selector: 'app-concept-list',
+    templateUrl: './concept-list.component.html',
+    providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ConceptListComponent implements OnInit {
   rows = [];
@@ -42,7 +44,8 @@ export class ConceptListComponent implements OnInit {
     private conceptService: ConceptService,
     private printService: PrintService,
     private clipboardService: ClipboardService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -72,7 +75,7 @@ export class ConceptListComponent implements OnInit {
     // update the rows
     this.rows = temp;
     // Whenever the filter changes, always go back to the first page
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   createOpenModal(content) {
@@ -87,10 +90,12 @@ export class ConceptListComponent implements OnInit {
       if (resp !== null) {
         this.temp = [...resp];
         this.rows = resp;
+        this.cdr.markForCheck();
       }
 
       setTimeout(() => {
         this.loadingIndicator = false;
+        this.cdr.markForCheck();
       }, 500);
     });
   }

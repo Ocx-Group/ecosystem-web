@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, NgZone, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4maps from '@amcharts/amcharts4/maps';
 import am4geodata_worldLow from '@amcharts/amcharts4-geodata/worldLow';
@@ -22,9 +22,11 @@ import { BalanceInformationModel1B } from '@app/core/models/wallet-model-1b/bala
 am4core.useTheme(am5themes_Animated);
 
 @Component({
-  selector: 'app-main',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+    selector: 'app-main',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class HomeComponent {
   public user!: UserAffiliate;
@@ -108,6 +110,7 @@ export class HomeComponent {
       )
       .subscribe(({ user, canSee }) => {
         this.canSeePaymentModels = canSee;
+        this.cdr.markForCheck();
         this.resetComponent();
         this.loadUserData(user.id);
       });
@@ -488,6 +491,7 @@ export class HomeComponent {
       next: (value) => {
         if (value) {
           this.maps = value.data;
+          this.cdr.markForCheck();
           console.log(value.data);
           this.setMapInfo();
         }
@@ -530,6 +534,7 @@ export class HomeComponent {
       this.walletService.getBalanceInformationByAffiliateId(id).subscribe({
         next: (value: BalanceInformation) => {
           this.balanceInformation = value;
+          this.cdr.markForCheck();
           resolve();
         },
         error: (err) => {
@@ -547,6 +552,7 @@ export class HomeComponent {
         .subscribe({
           next: (value: BalanceInformationModel1A) => {
             this.balanceInformationModel1A = value;
+            this.cdr.markForCheck();
             resolve();
           },
           error: (err) => {
@@ -571,6 +577,7 @@ export class HomeComponent {
         .subscribe({
           next: (value: BalanceInformationModel1B) => {
             this.balanceInformationModel1B = value;
+            this.cdr.markForCheck();
             resolve();
           },
           error: (err) => {

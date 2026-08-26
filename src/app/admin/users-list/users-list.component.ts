@@ -1,4 +1,4 @@
-import { Component, ViewChild, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -14,9 +14,11 @@ import { Rol } from '@app/core/models/rol-model/rol.model';
 const header = ['Usuario', 'Rol', 'Nombre', 'Apellido', 'Correo'];
 
 @Component({
-  selector: 'app-users-list',
-  templateUrl: './users-list.component.html',
-  providers: [ToastrService],
+    selector: 'app-users-list',
+    templateUrl: './users-list.component.html',
+    providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class UsersListComponent implements OnInit {
   rows = [];
@@ -35,7 +37,8 @@ export class UsersListComponent implements OnInit {
     private toastr: ToastrService,
     private clipboardService: ClipboardService,
     private printService: PrintService,
-    private rolService: RolService
+    private rolService: RolService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -67,8 +70,10 @@ export class UsersListComponent implements OnInit {
       next: (value: User[]) => {
         this.temp = [...value];
         this.rows = value;
+        this.cdr.markForCheck();
         setTimeout(() => {
           this.loadingIndicator = false;
+          this.cdr.markForCheck();
         }, 500);
       },
       error: (err) => {
@@ -109,7 +114,7 @@ export class UsersListComponent implements OnInit {
     });
 
     this.rows = temp;
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   deleteSingleRow(value) {

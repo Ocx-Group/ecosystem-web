@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, Renderer2, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, Renderer2, TemplateRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
 import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.service';
 import { AuthService } from '@app/core/service/authentication-service/auth.service';
@@ -9,9 +9,11 @@ import { Subject, takeUntil } from 'rxjs';
 
 
 @Component({
-  selector: 'app-terms-conditions-modal',
-  templateUrl: './terms-conditions-modal.component.html',
-  styleUrls: ['./terms-conditions-modal.component.scss']
+    selector: 'app-terms-conditions-modal',
+    templateUrl: './terms-conditions-modal.component.html',
+    styleUrls: ['./terms-conditions-modal.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class TermsConditionsModalComponent implements OnInit, OnDestroy {
   @ViewChild('termsModal', { static: true }) termsModal: TemplateRef<any>;

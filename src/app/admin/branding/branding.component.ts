@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -20,8 +20,10 @@ const OPTIONAL_HTTP_URL_PATTERN = /^(https?:\/\/.+)?$/i;
 const MAX_LOGO_BYTES = 2 * 1024 * 1024;
 
 @Component({
-  selector: 'app-branding',
-  templateUrl: './branding.component.html',
+    selector: 'app-branding',
+    templateUrl: './branding.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class BrandingComponent implements OnInit {
   brandingForm: FormGroup;
@@ -39,6 +41,7 @@ export class BrandingComponent implements OnInit {
     private readonly objectStorageService: ObjectStorageService,
     private readonly toastrService: ToastrService,
     private readonly translate: TranslateService,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -75,7 +78,7 @@ export class BrandingComponent implements OnInit {
   load(): void {
     this.loading = true;
     this.brandingAdministrationService.getCurrent()
-      .pipe(finalize(() => this.loading = false))
+      .pipe(finalize(() => { this.loading = false; this.cdr.markForCheck(); }))
       .subscribe({
         next: branding => this.applyLoaded(branding),
         error: error => this.reportError(error, 'BRANDING-PAGE.ERR-LOAD.TEXT'),
@@ -104,7 +107,7 @@ export class BrandingComponent implements OnInit {
 
     this.saving = true;
     this.brandingAdministrationService.updateCurrent(request)
-      .pipe(finalize(() => this.saving = false))
+      .pipe(finalize(() => { this.saving = false; this.cdr.markForCheck(); }))
       .subscribe({
         next: branding => {
           this.applyLoaded(branding);
@@ -136,7 +139,7 @@ export class BrandingComponent implements OnInit {
     this.uploadingLogo = true;
     this.objectStorageService
       .uploadAccountImage(file, 'branding', this.logoFileName(file))
-      .pipe(finalize(() => this.uploadingLogo = false))
+      .pipe(finalize(() => { this.uploadingLogo = false; this.cdr.markForCheck(); }))
       .subscribe({
         next: url => {
           this.logoPreviewFailed = false;

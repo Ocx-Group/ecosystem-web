@@ -1,10 +1,12 @@
-import { Component, HostListener, ViewChild } from '@angular/core';
+import { Component, HostListener, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-transactions-commission',
-  templateUrl: './transactions-commission.component.html'
+    selector: 'app-transactions-commission',
+    templateUrl: './transactions-commission.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class TransactionsCommissionComponent {
   rows = [];
@@ -32,7 +34,7 @@ export class TransactionsCommissionComponent {
       return d.name.toLowerCase().indexOf(val) !== -1 || !val;
     });
     this.rows = temp;
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   clipBoardCopy() {}

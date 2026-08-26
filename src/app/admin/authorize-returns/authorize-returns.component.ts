@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy, signal} from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
@@ -6,13 +6,15 @@ import Swal from 'sweetalert2';
 import { WalletRequestService } from '@app/core/service/wallet-request/wallet-request.service';
 import { WalletService } from '@app/core/service/wallet-service/wallet.service';
 @Component({
-  selector: 'app-authorize-returns',
-  templateUrl: './authorize-returns.component.html'
+    selector: 'app-authorize-returns',
+    templateUrl: './authorize-returns.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AuthorizeReturnsComponent implements OnInit {
-  rows = [];
+  readonly rows = signal<any[]>([]);
   temp = [];
-  loadingIndicator = true;
+  readonly loadingIndicator = signal<boolean>(true);
   reorderable = true;
   scrollBarHorizontal = window.innerWidth < 1200;
 
@@ -54,16 +56,16 @@ export class AuthorizeReturnsComponent implements OnInit {
       return d.adminUserName.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
-    this.rows = temp;
-    this.table.offset = 0;
+    this.rows.set(temp);
+    this.table.offset.set(0);
   }
 
   loadRequestRevertTransaction() {
     this.walletRequestService.getAllWalletRequestRevertTransaction().subscribe({
       next: (value) => {
-        this.rows = [...value]
+        this.rows.set([...value]);
         this.temp = value;
-        this.loadingIndicator = false;
+        this.loadingIndicator.set(false);
       },
       error: (err) => {
         this.showError('Error');

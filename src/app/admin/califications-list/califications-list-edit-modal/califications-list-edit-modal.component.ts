@@ -1,9 +1,11 @@
 import {
+  ChangeDetectorRef,
   Component,
   ViewChild,
   OnInit,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -29,8 +31,10 @@ const ALERTS: Alert[] = [
   },
 ];
 @Component({
-  selector: 'app-califications-list-edit-modal',
-  templateUrl: './califications-list-edit-modal.component.html',
+    selector: 'app-califications-list-edit-modal',
+    templateUrl: './califications-list-edit-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CalificationsListEditModalComponent implements OnInit {
   editCalificationForm: FormGroup;
@@ -39,9 +43,9 @@ export class CalificationsListEditModalComponent implements OnInit {
   alerts: Alert[];
   show: Boolean = true;
   linkMsj: String = 'hide';
-  productListData!: [];
-  membershipData!: [];
-  calificationList!: [];
+  productListData: any[] = [];
+  membershipData: any[] = [];
+  calificationList: any[] = [];
   grading: Grading = new Grading();
 
   @ViewChild('calificationEditModal') calificationEditModal: NgbModal;
@@ -52,7 +56,8 @@ export class CalificationsListEditModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private gradingService: GradingService,
     private toastr: ToastrService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private cdr: ChangeDetectorRef
   ) {
     this.alerts = Array.from(ALERTS);
   }
@@ -103,6 +108,9 @@ export class CalificationsListEditModalComponent implements OnInit {
       network_leaders_qualifier: grading.network_leaders_qualifier,
       leader_by_matrix: grading.leader_by_matrix.toString(),
     });
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   showMsj() {
@@ -218,12 +226,14 @@ export class CalificationsListEditModalComponent implements OnInit {
   fetchProductList() {
     this.gradingService.getProductList().subscribe((resp) => {
       this.productListData = resp;
+      this.cdr.markForCheck();
     });
   }
 
   fetchMembership() {
     this.gradingService.getMembership().subscribe((resp) => {
       this.membershipData = resp;
+      this.cdr.markForCheck();
     });
   }
 
@@ -231,6 +241,7 @@ export class CalificationsListEditModalComponent implements OnInit {
     this.gradingService.getAll().subscribe((resp) => {
       if (resp !== null) {
         this.calificationList = resp;
+        this.cdr.markForCheck();
       }
     });
   }

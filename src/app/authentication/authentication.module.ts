@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationRoutingModule } from './authentication-routing.module';
 import { FeatherModule } from 'angular-feather';
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { MatSelectCountryModule } from '@angular-material-extensions/select-country';
+import { PerfectScrollbarModule } from '@app/shared/perfect-scrollbar.module';
 import {
   Facebook,
   Twitter,
@@ -27,7 +26,7 @@ import { SigninComponent } from './signin/signin.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { MainOptionsComponent } from './main-options/main-options.component';
 import { ConpaymentConfirmationComponent } from './conpayment-confirmation/conpayment-confirmation.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { MaintenancePageComponent } from './maintenance-page/maintenance-page.component';
 
 const icons = {
@@ -60,9 +59,8 @@ const icons = {
     ReactiveFormsModule,
     AuthenticationRoutingModule,
     PerfectScrollbarModule,
-    TranslateModule,
+    TranslatePipe,
     FeatherModule.pick(icons),
-    MatSelectCountryModule.forRoot('en'),
     MatSelectModule
   ]
 

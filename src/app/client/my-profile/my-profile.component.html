@@ -43,12 +43,16 @@
                 <div class="col-md-6">
                   <div class="mt-3">
                     <span class="float-end text-muted">
-                      <div *ngIf="user.card_id_authorization == true" class="badge-outline col-green">
-                        Autorizado
-                      </div>
-                      <div *ngIf="user.card_id_authorization == false" class="badge-outline col-red">
-                        No Autorizado
-                      </div>
+                      @if (user.card_id_authorization == true) {
+                        <div class="badge-outline col-green">
+                          Autorizado
+                        </div>
+                      }
+                      @if (user.card_id_authorization == false) {
+                        <div class="badge-outline col-red">
+                          No Autorizado
+                        </div>
+                      }
                     </span>
                   </div>
                 </div>
@@ -63,12 +67,16 @@
                 <div class="col-md-6">
                   <div class="mt-3">
                     <span class="float-end text-muted">
-                      <div *ngIf="user.card_id_authorization == true" class="badge-outline col-green">
-                        Activo
-                      </div>
-                      <div *ngIf="user.card_id_authorization == false" class="badge-outline col-red">
-                        Inactivo
-                      </div>
+                      @if (user.card_id_authorization == true) {
+                        <div class="badge-outline col-green">
+                          Activo
+                        </div>
+                      }
+                      @if (user.card_id_authorization == false) {
+                        <div class="badge-outline col-red">
+                          Inactivo
+                        </div>
+                      }
                     </span>
                   </div>
                 </div>
@@ -153,45 +161,45 @@
                 </div>
 
                 <!-- <div class="col-md-6">
-                  <div class="mt-3">
-                    <span class="float-start">
-                      <i class="bi bi-diagram-3-fill"></i>
-                      Padre binario
-                    </span>
-                  </div>
+                <div class="mt-3">
+                  <span class="float-start">
+                    <i class="bi bi-diagram-3-fill"></i>
+                    Padre binario
+                  </span>
                 </div>
-                <div class="col-md-6">
-                  <div class="mt-3">
-                    <span class="float-end text-muted">
-                      {{ user.father_user && user.father_user.user_name ? user.father_user.user_name : 'N/A' }}
-                    </span>
-                  </div>
-                </div> -->
+              </div>
+              <div class="col-md-6">
+                <div class="mt-3">
+                  <span class="float-end text-muted">
+                    {{ user.father_user && user.father_user.user_name ? user.father_user.user_name : 'N/A' }}
+                  </span>
+                </div>
+              </div> -->
 
-                <!-- <div class="col-md-6">
-                  <div class="mt-3">
-                    <span class="float-start">
-                      <i class="bi bi-diagram-2-fill"></i>
-                      Lado binario
-                    </span>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mt-3">
-                    <span class="float-end text-muted">
-                      {{ user.binary_side_name }}
-                    </span>
-                  </div>
-                </div> -->
-                <div class="col-md-6 mt-3">
-                  <div ngbDropdown container="body">
-                    <button type="button" class="btn btn-primary btn-sm" ngbDropdownToggle>
-                      <i class="bi bi-gear-fill"></i>
-                      {{
-                      'ADMIN-MY-PROFILE.BTN-OPTIONS.TEXT' | translate
-                      }}
-                    </button>
-                    <div ngbDropdownMenu>
+              <!-- <div class="col-md-6">
+              <div class="mt-3">
+                <span class="float-start">
+                  <i class="bi bi-diagram-2-fill"></i>
+                  Lado binario
+                </span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mt-3">
+                <span class="float-end text-muted">
+                  {{ user.binary_side_name }}
+                </span>
+              </div>
+            </div> -->
+            <div class="col-md-6 mt-3">
+              <div ngbDropdown container="body">
+                <button type="button" class="btn btn-primary btn-sm" ngbDropdownToggle>
+                  <i class="bi bi-gear-fill"></i>
+                  {{
+                  'ADMIN-MY-PROFILE.BTN-OPTIONS.TEXT' | translate
+                  }}
+                </button>
+                <div ngbDropdownMenu>
                       <a ngbDropdownItem id="btn-change-password" (click)="
                             modalChildChangePassword.openPasswordModal(
                               modalChildChangePassword[
@@ -200,22 +208,22 @@
                               user
                             )
                           ">
-                        <i class="fa fa-key"></i>
-                        <span style="margin-left: 5px">
-                          {{
-                          'ADMIN-MY-PROFILE.LBL-CHANGE-PASSWORD.TEXT'
-                          | translate
-                          }}</span>
-                      </a>
+                    <i class="fa fa-key"></i>
+                    <span style="margin-left: 5px">
+                      {{
+                      'ADMIN-MY-PROFILE.LBL-CHANGE-PASSWORD.TEXT'
+                      | translate
+                    }}</span>
+                  </a>
                       <a ngbDropdownItem id="btn-edit-question" (click)="
                             modalChildSecretQuestion.openSecretQuestionModal(modalChildSecretQuestion['secretQuestionModal'], user)
                               ">
-                        <i class="bi bi-question-diamond-fill"></i>
-                        <span style="margin-left: 5px">{{
-                          'ADMIN-MY-PROFILE.LBL-CHANGE-SECRET-QUESTION.TEXT'
-                          | translate
-                          }}</span>
-                      </a>
+                    <i class="bi bi-question-diamond-fill"></i>
+                    <span style="margin-left: 5px">{{
+                      'ADMIN-MY-PROFILE.LBL-CHANGE-SECRET-QUESTION.TEXT'
+                      | translate
+                    }}</span>
+                  </a>
                       <a ngbDropdownItem id="btn-edit-personal-info" (click)="
                             modalChildEditPersonalInfo.openEditPersonalInfoModal(
                               modalChildEditPersonalInfo[
@@ -224,96 +232,96 @@
                               user
                             )
                           ">
-                        <i class="fas fa-edit"></i>
-                        <span style="margin-left: 5px">{{
-                          'ADMIN-MY-PROFILE.BTN-EDIT-PERSONAL-INFO.TEXT'
-                          | translate
-                          }}</span>
-                      </a>
+                    <i class="fas fa-edit"></i>
+                    <span style="margin-left: 5px">{{
+                      'ADMIN-MY-PROFILE.BTN-EDIT-PERSONAL-INFO.TEXT'
+                      | translate
+                    }}</span>
+                  </a>
 
-                      <a ngbDropdownItem id="btn-edit-personal-info"
-                        (click)="modalChildImageProfile.openImageProfileModal()">
-                        <i class="fas fa-edit"></i>
-                        <span style="margin-left: 5px">
-                          Cambiar la foto de perfil
-                        </span>
-                      </a>
-                    </div>
-                  </div>
+                  <a ngbDropdownItem id="btn-edit-personal-info"
+                    (click)="modalChildImageProfile.openImageProfileModal()">
+                    <i class="fas fa-edit"></i>
+                    <span style="margin-left: 5px">
+                      Cambiar la foto de perfil
+                    </span>
+                  </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-        <!-- <div class="col-12 col-md-12 col-lg-6">
-          <div class="card author-box">
-            <div class="card-header">
-              <h4>
-                {{
-                'ADMIN-MY-PROFILE.LBL-LAST-MOVEMENTS.TEXT' | translate
-                }}
-              </h4>
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col align-self-end">
-                  <ul class="nav justify-content-end">
-                    <li class="nav-item m-2">
-                      <button type="button" class="btn btn-primary btn-sm" (click)="clipBoardCopy()">
-                        <i class="bi bi-clipboard-check"></i>
-                        {{ 'ADMIN-MY-PROFILE.BTN-COPY.TEXT' | translate }}
-                      </button>
-                    </li>
+    <!-- <div class="col-12 col-md-12 col-lg-6">
+    <div class="card author-box">
+      <div class="card-header">
+        <h4>
+          {{
+          'ADMIN-MY-PROFILE.LBL-LAST-MOVEMENTS.TEXT' | translate
+          }}
+        </h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col align-self-end">
+            <ul class="nav justify-content-end">
+              <li class="nav-item m-2">
+                <button type="button" class="btn btn-primary btn-sm" (click)="clipBoardCopy()">
+                  <i class="bi bi-clipboard-check"></i>
+                  {{ 'ADMIN-MY-PROFILE.BTN-COPY.TEXT' | translate }}
+                </button>
+              </li>
 
-                    <li class="nav-item m-2">
-                      <button type="button" class="btn btn-primary btn-sm" (click)="onPrintPdf()">
-                        <i class="bi bi-printer"></i>
-                        {{
-                        'ADMIN-MY-PROFILE.BTN-PRINT.TEXT' | translate
-                        }}
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div class="row mt-0">
-                <ngx-datatable id="table" #table class="material" [rows]="rows" [loadingIndicator]="loadingIndicator"
-                  columnMode="force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10"
-                  [scrollbarH]="scrollBarHorizontal" [reorderable]="reorderable">
+              <li class="nav-item m-2">
+                <button type="button" class="btn btn-primary btn-sm" (click)="onPrintPdf()">
+                  <i class="bi bi-printer"></i>
+                  {{
+                  'ADMIN-MY-PROFILE.BTN-PRINT.TEXT' | translate
+                  }}
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row mt-0">
+          <ngx-datatable id="table" #table class="material" [rows]="rows" [loadingIndicator]="loadingIndicator"
+            columnMode="force" [headerHeight]="50" [footerHeight]="50" rowHeight="auto" [limit]="10"
+            [scrollbarH]="scrollBarHorizontal" [reorderable]="reorderable">
                   <ngx-datatable-column name="{{
                             'ADMIN-MY-PROFILE.COL-MOVEMENTS.TEXT' | translate
                           }}">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                      {{ row.browserInfo }}
-                    </ng-template>
-                  </ngx-datatable-column>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.browserInfo }}
+              </ng-template>
+            </ngx-datatable-column>
                   <ngx-datatable-column name="{{
                             'ADMIN-MY-PROFILE.COL-IP.TEXT' | translate
                           }}">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                      {{ row.ipAddress }}
-                    </ng-template>
-                  </ngx-datatable-column>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.ipAddress }}
+              </ng-template>
+            </ngx-datatable-column>
                   <ngx-datatable-column name="{{
                             'ADMIN-MY-PROFILE.COL-DATE.TEXT' | translate
                           }}">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                      {{ row.createdAt }}
-                    </ng-template>
-                  </ngx-datatable-column>
-                </ngx-datatable>
-              </div>
-            </div>
-          </div>
-        </div> -->
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.createdAt }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
       </div>
     </div>
-  </div>
+  </div> -->
+</div>
+</div>
+</div>
 </section>
 
 <app-my-profile-edit-password-modal [getCurrentUser]="user"
-  #modalChildChangePassword></app-my-profile-edit-password-modal>
+#modalChildChangePassword></app-my-profile-edit-password-modal>
 
 <app-my-profile-edit-personal-info-modal #modalChildEditPersonalInfo [personalInfo]="user">
 </app-my-profile-edit-personal-info-modal>

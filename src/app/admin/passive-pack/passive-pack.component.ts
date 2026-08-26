@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { PaginationRequest } from '@app/core/interfaces/pagination-request';
@@ -7,8 +7,10 @@ import { InvoiceService } from '@app/core/service/invoice-service/invoice.servic
 import { map } from 'rxjs';
 
 @Component({
-  selector: 'app-passive-pack',
-  templateUrl: './passive-pack.component.html',
+    selector: 'app-passive-pack',
+    templateUrl: './passive-pack.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class PassivePackComponent implements OnInit {
   rows = [];
@@ -25,7 +27,8 @@ export class PassivePackComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -70,6 +73,7 @@ export class PassivePackComponent implements OnInit {
           this.temp = [...data];
           this.rows = data;
           this.loadingIndicator = false;
+          this.cdr.markForCheck();
         }
       });
   }
@@ -85,7 +89,7 @@ export class PassivePackComponent implements OnInit {
     });
 
     this.rows = temp;
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   openModal(content: any, size: string = 'xl') {

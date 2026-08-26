@@ -1,4 +1,4 @@
-import { Component, ViewChild, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   DatatableComponent,
   ColumnMode,
@@ -25,9 +25,11 @@ import { PrivilegeService } from '@app/core/service/privilege-service/privilege.
 const header = ['Id', 'Rol', 'Descripción', 'Usuarios Asociados', 'Permisos'];
 
 @Component({
-  selector: 'app-rol-list',
-  templateUrl: './rol-list.component.html',
-  providers: [ToastrService],
+    selector: 'app-rol-list',
+    templateUrl: './rol-list.component.html',
+    providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class RolListComponent implements OnInit {
   countUsers = [];
@@ -56,7 +58,8 @@ export class RolListComponent implements OnInit {
     private clipboardService: ClipboardService,
     private printService: PrintService,
     private privilegeService: PrivilegeService,
-    private userService: UserService
+    private userService: UserService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -97,8 +100,10 @@ export class RolListComponent implements OnInit {
       next: (roles: Rol[]) => {
         this.temp = [...roles];
         this.rows = roles;
+        this.cdr.markForCheck();
         setTimeout(() => {
           this.loadingIndicator = false;
+          this.cdr.markForCheck();
         }, 500);
       },
       error: (err) => {
@@ -200,7 +205,7 @@ export class RolListComponent implements OnInit {
     });
 
     this.rows = temp;
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   clipBoardCopy() {

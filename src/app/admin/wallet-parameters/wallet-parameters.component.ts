@@ -1,5 +1,5 @@
 import { forkJoin } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import { formatDate } from '@angular/common';
 import {
   FormBuilder,
@@ -21,8 +21,10 @@ import { WalletWithdrawalsConfiguration } from '@app/core/models/wallet-withdraw
 import { AdditionalParametersConfiguration } from '@app/core/models/additional-parameters-configuration-model/additional-parameters-configuration.model';
 import { WalletRetentionConfigService } from '@app/core/service/wallet-retention-config-service/wallet-retention-config.service';
 @Component({
-  selector: 'app-wallet-parameters',
-  templateUrl: './wallet-parameters.component.html',
+    selector: 'app-wallet-parameters',
+    templateUrl: './wallet-parameters.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class WalletParametersComponent implements OnInit {
   myForm: FormGroup;
@@ -39,7 +41,8 @@ export class WalletParametersComponent implements OnInit {
     private walletRetentionConfigService: WalletRetentionConfigService,
     private ngbDateParserFormatter: NgbDateParserFormatter,
     private toastr: ToastrService,
-    private configurationService: ConfigurationService
+    private configurationService: ConfigurationService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -93,6 +96,8 @@ export class WalletParametersComponent implements OnInit {
           activate_confirmation_mails: resp.activate_confirmation_mails,
           concept_wallet_withdrawal: resp.concept_wallet_withdrawal
         })
+        // Escribe en el formulario fuera de todo evento: con OnPush hay que marcar.
+        this.cdr.markForCheck();
       },
       error: (err) => {
         this.showError('Error!');
@@ -109,6 +114,8 @@ export class WalletParametersComponent implements OnInit {
           commission_amount: resp.commission_amount,
           activate_invoice_cancellation: resp.activate_invoice_cancellation
         });
+        // Escribe en el formulario fuera de todo evento: con OnPush hay que marcar.
+        this.cdr.markForCheck();
       },
       error: (err) => {
         this.showError('Error!');
@@ -135,6 +142,8 @@ export class WalletParametersComponent implements OnInit {
             datePickersArray.push(pickerGroup);
           });
         }
+        // Escribe en el formulario fuera de todo evento: con OnPush hay que marcar.
+        this.cdr.markForCheck();
       },
       error: (error) => {
         this.showError('Error!');
@@ -159,6 +168,8 @@ export class WalletParametersComponent implements OnInit {
             rangesArray.push(rangeGroup);
           });
         }
+        // Escribe en el formulario fuera de todo evento: con OnPush hay que marcar.
+        this.cdr.markForCheck();
       },
       error: (error) => {
         this.showError('Error!');
@@ -208,6 +219,8 @@ export class WalletParametersComponent implements OnInit {
         this.showSuccess('The wallet period and wallet retention were updated successfully!');
         this.loadWalletPeriod();
         this.loadWalletRetentionConf();
+        // Escribe en el formulario fuera de todo evento: con OnPush hay que marcar.
+        this.cdr.markForCheck();
       },
       error: (error) => {
         this.showError('Error!');
@@ -222,6 +235,8 @@ export class WalletParametersComponent implements OnInit {
       next: (value) => {
         this.showSuccess('The wallet parameters was updated successfully!');
         this.loadAdditionalParametersConfiguration();
+        // Escribe en el formulario fuera de todo evento: con OnPush hay que marcar.
+        this.cdr.markForCheck();
       },
       error: (err) => {
         this.showError('Error!');
@@ -238,6 +253,8 @@ export class WalletParametersComponent implements OnInit {
             this.showSuccess('The wallet period was deleted successfully!');
             this.loadWalletPeriod();
           }
+          // Escribe en el formulario fuera de todo evento: con OnPush hay que marcar.
+          this.cdr.markForCheck();
         },
         error: (error) => {
           this.showError('Error!');
@@ -253,6 +270,8 @@ export class WalletParametersComponent implements OnInit {
         next: (resp) => {
           this.showSuccess('The wallet retention was deleted successfully!');
           this.loadWalletRetentionConf();
+          // Escribe en el formulario fuera de todo evento: con OnPush hay que marcar.
+          this.cdr.markForCheck();
         },
         error: (err) => {
           this.showError('Error!');

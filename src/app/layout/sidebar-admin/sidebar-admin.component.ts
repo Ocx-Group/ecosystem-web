@@ -1,7 +1,8 @@
 import { UserService } from '@app/core/service/user-service/user.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { DOCUMENT } from '@angular/common';
+
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -9,17 +10,21 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  DOCUMENT,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ROUTESADMIN } from './sidebar-admin-items';
-import { AuthService } from 'src/app/core/service/authentication-service/auth.service';
+import { AuthService } from '@app/core/service/authentication-service/auth.service';
 import { User } from '@app/core/models/user-model/user.model';
 import { Subject, takeUntil } from 'rxjs';
 import { RouteInfo } from './sidebar-admin.metadata';
 
 @Component({
-  selector: 'app-sidebar-admin',
-  templateUrl: './sidebar-admin.component.html',
-  styleUrls: ['./sidebar-admin.component.sass'],
+    selector: 'app-sidebar-admin',
+    templateUrl: './sidebar-admin.component.html',
+    styleUrls: ['./sidebar-admin.component.sass'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SidebarAdminComponent implements OnInit, OnDestroy {
   public user: User = new User();
@@ -39,7 +44,8 @@ export class SidebarAdminComponent implements OnInit, OnDestroy {
     public elementRef: ElementRef,
     private authService: AuthService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private cdr: ChangeDetectorRef
   ) {
     this.routerObj = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -50,7 +56,7 @@ export class SidebarAdminComponent implements OnInit, OnDestroy {
     });
   }
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   windowResizecall() {
     if (window.innerWidth < 1025) {
       this.renderer.removeClass(this.document.body, 'side-closed');
@@ -86,6 +92,7 @@ export class SidebarAdminComponent implements OnInit, OnDestroy {
       .subscribe((user) => {
         if (user) {
           this.user = user;
+          this.cdr.markForCheck();
           this.getUserInfo();
         }
       });
@@ -171,6 +178,7 @@ export class SidebarAdminComponent implements OnInit, OnDestroy {
     this.userService.getUser(this.user).subscribe((response) => {
       if (response.success) {
         this.user = response.data;
+        this.cdr.markForCheck();
       }
     });
   }

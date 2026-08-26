@@ -4,6 +4,8 @@ import {
   OnInit,
   Output,
   ViewChild,
+  ChangeDetectionStrategy,
+  signal
 } from '@angular/core';
 import {
   AbstractControl,
@@ -19,13 +21,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-attributes-list-create-modal',
-  templateUrl: './attributes-list-create-modal.component.html',
+    selector: 'app-attributes-list-create-modal',
+    templateUrl: './attributes-list-create-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AttributesListCreateModalComponent implements OnInit {
   createAttributeForm!: FormGroup;
   submitted = false;
-  attributesType: [];
+  readonly attributesType = signal<any[]>([]);
   productAttributes: ProductAttribute = new ProductAttribute();
 
   @ViewChild('attributesCreateModal') attributesCreateModal: NgbModal;
@@ -85,7 +89,7 @@ export class AttributesListCreateModalComponent implements OnInit {
 
   getAttributesType() {
     this.productAttributeService.getAttributeType().subscribe((resp) => {
-      this.attributesType = resp;
+      this.attributesType.set(resp);
     });
   }
 

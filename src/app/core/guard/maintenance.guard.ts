@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Observable, catchError, map, of } from 'rxjs';
 import { ConfigurationService } from '../service/configuration-service/configuration.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MaintenanceGuard implements CanActivate {
+export class MaintenanceGuard  {
   constructor(private router: Router, private configurationService: ConfigurationService) {}
 
   canActivate(): Observable<boolean> {

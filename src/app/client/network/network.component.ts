@@ -1,11 +1,11 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { Subject, takeUntil } from 'rxjs';
-import { CartService } from 'src/app/core/service/cart.service/cart.service';
+import { CartService } from '@app/core/service/cart.service/cart.service';
 import Swal from 'sweetalert2';
 
 import { Grading } from '@app/core/models/grading-model/grading.model';
@@ -28,8 +28,10 @@ import { TruncateDecimalsPipe } from "@app/shared/truncate-decimals.pipe";
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-network',
-  templateUrl: './network.component.html'
+    selector: 'app-network',
+    templateUrl: './network.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class NetworkComponent implements OnInit {
   isCollapsed = true;
@@ -70,6 +72,7 @@ export class NetworkComponent implements OnInit {
     private truncatedDecimals: TruncateDecimalsPipe,
     private pagaditoService: PagaditoService,
     private productService: ProductService,
+    private cdr: ChangeDetectorRef,
   ) {
   }
 
@@ -82,15 +85,22 @@ export class NetworkComponent implements OnInit {
         this.affiliateService.changeId(this.user.id);
         this.gradingService.getAll().pipe(takeUntil(this.destroy$)).subscribe((gradings: Grading[]) => {
           this.gradings = gradings;
+          // getNameGrading() se llama por celda desde la plantilla: hasta que no
+          // esten las calificaciones, toda la columna dice 'N/A'.
+          this.cdr.markForCheck();
         });
 
         this.affiliateService.GetPersonalNetwork(user.id).pipe(takeUntil(this.destroy$)).subscribe((affiliates: NetworkAffiliate[]) => {
           console.log(affiliates)
           this.temp = [...affiliates];
           this.rows = affiliates;
+          this.cdr.markForCheck();
         });
       }
       this.loadingIndicator = false;
+      // currentUserAffiliate es un BehaviorSubject: la primera emision llega
+      // sincrona, pero las siguientes no. Marcar cubre las dos.
+      this.cdr.markForCheck();
     });
 
     this.loadBalanceAvailable();
@@ -143,7 +153,7 @@ export class NetworkComponent implements OnInit {
 
   updatePageSize(event) {
     this.pageSize = Number(event.target.value);
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   updateFilter(event) {
@@ -152,7 +162,7 @@ export class NetworkComponent implements OnInit {
     this.rows = this.temp.filter(function (d) {
       return d.userName.toLowerCase().indexOf(val) !== -1 || !val;
     });
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   TransferBalanceForMembership(user) {
@@ -325,6 +335,9 @@ export class NetworkComponent implements OnInit {
           this.rowsGlobal = [];
           this.showError('Usuario no existe');
         }
+        // La busqueda arranca en un click, pero la respuesta cae un tick mas
+        // tarde: la tabla global y el aviso de usuario nuevo no se pintan solos.
+        this.cdr.markForCheck();
       },
       error: () => {
         this.showError('Error');
@@ -367,7 +380,7 @@ export class NetworkComponent implements OnInit {
 
 
   copyTableData() {
-    const rows = this.table?._internalRows ?? [];
+    const rows = this.table?._internalRows() ?? [];
     if (rows.length) {
       // Las columnas deben seguir el mismo orden que la tabla de la red personal.
       const headers = [

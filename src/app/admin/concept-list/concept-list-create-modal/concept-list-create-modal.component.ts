@@ -1,9 +1,11 @@
 import {
+  ChangeDetectorRef,
   Component,
   ViewChild,
   OnInit,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {
   AbstractControl,
@@ -21,8 +23,10 @@ import { PayConcept } from '@app/core/models/concept-model/pay-concept.model';
 import { ConceptService } from '@app/core/service/concept-service/concept.service';
 
 @Component({
-  selector: 'app-concept-list-create-modal',
-  templateUrl: './concept-list-create-modal.component.html',
+    selector: 'app-concept-list-create-modal',
+    templateUrl: './concept-list-create-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ConceptListCreateModalComponent implements OnInit {
   createConceptForm: FormGroup;
@@ -41,7 +45,8 @@ export class ConceptListCreateModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
     private paymentGroupService: PaymentGroupsService,
-    private conceptService: ConceptService
+    private conceptService: ConceptService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -82,12 +87,17 @@ export class ConceptListCreateModalComponent implements OnInit {
   fetchPayConcept() {
     this.conceptService.getPayConceptList().subscribe((resp) => {
       this.payConceptData = resp;
+      // Los tres desplegables del formulario se llenan desde ngOnInit, o sea
+      // antes de que el padre abra el modal, pero con respuestas que caen
+      // despues del primer pintado.
+      this.cdr.markForCheck();
     });
   }
 
   fetchCalculateConcept() {
     this.conceptService.getCalculateConceptList().subscribe((resp) => {
       this.calculateConceptData = resp;
+      this.cdr.markForCheck();
     });
   }
 
@@ -99,7 +109,7 @@ export class ConceptListCreateModalComponent implements OnInit {
           this.calculateGroup = [...paymentGroups];
         }
 
-        setTimeout(() => {}, 500);
+        this.cdr.markForCheck();
       });
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, signal } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { Product } from '@app/core/models/product-model/product.model';
@@ -7,12 +7,14 @@ import { ProductService } from '@app/core/service/product-service/product.servic
 
 
 @Component({
-  selector: 'app-academy',
-  templateUrl: './academy.component.html',
-  styleUrls: ['./academy.component.scss']
+    selector: 'app-academy',
+    templateUrl: './academy.component.html',
+    styleUrls: ['./academy.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AcademyComponent implements OnInit {
-  products: Product[] = []
+  readonly products = signal<Product[]>([]);
 
   constructor(private productService: ProductService, private toast: ToastrService, private cartService: CartService) { }
 
@@ -25,16 +27,16 @@ export class AcademyComponent implements OnInit {
   }
 
   showError(message: string) {
-    this.showError(message);
+    this.toast.error(message);
   }
 
   loadProduct() {
     this.productService.getAllTradingAcademy().subscribe({
       next: (value: Product[]) => {
-        this.products = value;
-        this.products.forEach((item: any) => {
+        value.forEach((item: any) => {
           Object.assign(item, { quantity: 1, total: item.salePrice });
         });
+        this.products.set(value);
       },
       error: (err) => {
         this.showError('Error');

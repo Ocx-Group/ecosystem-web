@@ -37,140 +37,161 @@
                             (keyup)="updateFilter($event)" aria-label="Search box" placeholder="{{
                                 'BILLING-PURCHASES-PAGE.SEARCH.TEXT' | translate
                               }}" />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="col align-self-end">
-                    <ul class="nav justify-content-end">
-                      <li class="nav-item m-2" (click)="copyTableData()">
-                        <button type="button" class="btn btn-primary">
-                          <i class="bi bi-clipboard-check"></i>
-                          {{ 'BILLING-PURCHASES-PAGE.COPY.TEXT' | translate }}
-                        </button>
-                      </li>
+                    <div class="col align-self-end">
+                      <ul class="nav justify-content-end">
+                        <li class="nav-item m-2" (click)="copyTableData()">
+                          <button type="button" class="btn btn-primary">
+                            <i class="bi bi-clipboard-check"></i>
+                            {{ 'BILLING-PURCHASES-PAGE.COPY.TEXT' | translate }}
+                          </button>
+                        </li>
 
-                      <li class="nav-item m-2" (click)="downloadPDF()">
-                        <button type="button" class="btn btn-primary">
-                          <i class="bi bi-printer"></i>
-                          {{ 'BILLING-PURCHASES-PAGE.PDF.TEXT' | translate }}
-                        </button>
-                      </li>
-                    </ul>
+                        <li class="nav-item m-2" (click)="downloadPDF()">
+                          <button type="button" class="btn btn-primary">
+                            <i class="bi bi-printer"></i>
+                            {{ 'BILLING-PURCHASES-PAGE.PDF.TEXT' | translate }}
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-                <ngx-datatable id="htmlTable" #table class="material" [rows]="rows"
-                  [loadingIndicator]="loadingIndicator" columnMode="force" [headerHeight]="50" [footerHeight]="50"
-                  rowHeight="auto" [limit]="10" [scrollbarH]="scrollBarHorizontal" [reorderable]="reorderable">
+                  <ngx-datatable id="htmlTable" #table class="material" [rows]="rows"
+                    [loadingIndicator]="loadingIndicator" columnMode="force" [headerHeight]="50" [footerHeight]="50"
+                    rowHeight="auto" [limit]="10" [scrollbarH]="scrollBarHorizontal" [reorderable]="reorderable">
                   <ngx-datatable-column name="{{
                       'BILLING-PURCHASES-PAGE.ROW-NO-BILL.TEXT' | translate
                     }}">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                      <div class="col-blue cursor-pointer" (click)="onPrintInvoice(row)">
-                        {{ row.id }}
-                      </div>
-                    </ng-template>
-                  </ngx-datatable-column>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class="col-blue cursor-pointer" (click)="onPrintInvoice(row)">
+                          {{ row.id }}
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
                   <ngx-datatable-column name="{{
                       'BILLING-PURCHASES-PAGE.ROW-DATE.TEXT' | translate
                     }}">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                      {{ row.date }}
-                    </ng-template>
-                  </ngx-datatable-column>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.date }}
+                      </ng-template>
+                    </ngx-datatable-column>
                   <ngx-datatable-column name="{{
                       'BILLING-PURCHASES-PAGE.ROW-BILL-STATE.TEXT' | translate
                     }}">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                      <div *ngIf="row.status == true" class="badge-outline col-green">
-                        {{ 'BILLING-PURCHASES-PAGE.ROW-ACTIVE.TEXT' | translate }}
-                      </div>
-                      <div *ngIf="row.status == false" class="badge-outline col-red">
-                        {{ 'BILLING-PURCHASES-PAGE.ROW-CANCELLED.TEXT' | translate }}
-                      </div>
-                    </ng-template>
-                  </ngx-datatable-column>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        @if (row.status == true) {
+                          <div class="badge-outline col-green">
+                            {{ 'BILLING-PURCHASES-PAGE.ROW-ACTIVE.TEXT' | translate }}
+                          </div>
+                        }
+                        @if (row.status == false) {
+                          <div class="badge-outline col-red">
+                            {{ 'BILLING-PURCHASES-PAGE.ROW-CANCELLED.TEXT' | translate }}
+                          </div>
+                        }
+                      </ng-template>
+                    </ngx-datatable-column>
                   <ngx-datatable-column name="{{
                       'BILLING-PURCHASES-PAGE.ROW-PAID.TEXT' | translate
                     }}">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                      <div *ngIf="row.state == true" class="badge-outline col-green">
-                        {{ 'BILLING-PURCHASES-PAGE.ROW-PAID.TEXT' | translate }}
-                      </div>
-                      <div *ngIf="row.state == false" class="badge-outline col-red">
-                        {{ 'BILLING-PURCHASES-PAGE.ROW-NOT-PAID.TEXT' | translate }}
-                      </div>
-                    </ng-template>
-                  </ngx-datatable-column>
-                  <ngx-datatable-column name="{{ 'BILLING-PURCHASES-PAGE.ROW-MODEL.TEXT' | translate }}">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                      <ng-container *ngIf="row.invoicesDetails && row.invoicesDetails.length > 0; else noInvoiceDetail">
-                        <ng-container *ngFor="let detail of row.invoicesDetails">
-                          <div *ngIf="detail.paymentGroupId == 8" class="badge-outline col-blue">
-                            {{ 'BILLING-PURCHASES-PAGE.MODEL-1B.TEXT' | translate }}
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        @if (row.state == true) {
+                          <div class="badge-outline col-green">
+                            {{ 'BILLING-PURCHASES-PAGE.ROW-PAID.TEXT' | translate }}
                           </div>
-                          <div *ngIf="detail.paymentGroupId == 7" class="badge-outline col-blue">
-                            {{ 'BILLING-PURCHASES-PAGE.MODEL-1A.TEXT' | translate }}
+                        }
+                        @if (row.state == false) {
+                          <div class="badge-outline col-red">
+                            {{ 'BILLING-PURCHASES-PAGE.ROW-NOT-PAID.TEXT' | translate }}
                           </div>
-                          <div *ngIf="detail.paymentGroupId == 2" class="badge-outline col-blue">
-                            {{ 'BILLING-PURCHASES-PAGE.MODEL-2.TEXT' | translate }}
+                        }
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="{{ 'BILLING-PURCHASES-PAGE.ROW-MODEL.TEXT' | translate }}">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        @if (row.invoicesDetails && row.invoicesDetails.length > 0) {
+                          @for (detail of row.invoicesDetails; track detail) {
+                            @if (detail.paymentGroupId == 8) {
+                              <div class="badge-outline col-blue">
+                                {{ 'BILLING-PURCHASES-PAGE.MODEL-1B.TEXT' | translate }}
+                              </div>
+                            }
+                            @if (detail.paymentGroupId == 7) {
+                              <div class="badge-outline col-blue">
+                                {{ 'BILLING-PURCHASES-PAGE.MODEL-1A.TEXT' | translate }}
+                              </div>
+                            }
+                            @if (detail.paymentGroupId == 2) {
+                              <div class="badge-outline col-blue">
+                                {{ 'BILLING-PURCHASES-PAGE.MODEL-2.TEXT' | translate }}
+                              </div>
+                            }
+                            @if (detail.paymentGroupId == 6) {
+                              <div class="badge-outline col-blue">
+                                {{ 'BILLING-PURCHASES-PAGE.TRADING-ACADEMY.TEXT' | translate }}
+                              </div>
+                            }
+                            @if (detail.paymentGroupId == 5) {
+                              <div class="badge-outline col-blue">
+                                {{ 'BILLING-PURCHASES-PAGE.FUNDING-ACCOUNTS.TEXT' | translate }}
+                              </div>
+                            }
+                            @if (detail.paymentGroupId == 1) {
+                              <div class="badge-outline col-blue">
+                                {{ 'BILLING-PURCHASES-PAGE.MEMBERSHIP.TEXT' | translate }}
+                              </div>
+                            }
+                            @if (detail.paymentGroupId == 9) {
+                              <div class="badge-outline col-blue">
+                                {{ 'BILLING-PURCHASES-PAGE.ALTERNATIVE-HEALTH.TEXT' | translate }}
+                              </div>
+                            }
+                          }
+                        } @else {
+                          <div class="badge-outline col-blue">
+                            {{ 'BILLING-PURCHASES-PAGE.RECURRING-MODEL.TEXT' | translate }}
                           </div>
-                          <div *ngIf="detail.paymentGroupId == 6" class="badge-outline col-blue">
-                            {{ 'BILLING-PURCHASES-PAGE.TRADING-ACADEMY.TEXT' | translate }}
-                          </div>
-                          <div *ngIf="detail.paymentGroupId == 5" class="badge-outline col-blue">
-                            {{ 'BILLING-PURCHASES-PAGE.FUNDING-ACCOUNTS.TEXT' | translate }}
-                          </div>
-                          <div *ngIf="detail.paymentGroupId == 1" class="badge-outline col-blue">
-                            {{ 'BILLING-PURCHASES-PAGE.MEMBERSHIP.TEXT' | translate }}
-                          </div>
-                          <div *ngIf="detail.paymentGroupId == 9" class="badge-outline col-blue">
-                            {{ 'BILLING-PURCHASES-PAGE.ALTERNATIVE-HEALTH.TEXT' | translate }}
-                          </div>
-                        </ng-container>
-                      </ng-container>
-                      <ng-template #noInvoiceDetail>
-                        <div class="badge-outline col-blue">
-                          {{ 'BILLING-PURCHASES-PAGE.RECURRING-MODEL.TEXT' | translate }}
+                        }
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="{{ 'BILLING-PURCHASES-PAGE.TOTAL-AMOUNT.TEXT' | translate }}">
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        <div class="col-red">
+                          {{row.totalInvoice}}
                         </div>
                       </ng-template>
-                    </ng-template>
-                  </ngx-datatable-column>
-                  <ngx-datatable-column name="{{ 'BILLING-PURCHASES-PAGE.TOTAL-AMOUNT.TEXT' | translate }}">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                      <div class="col-red">
-                        {{row.totalInvoice}}
-                      </div>
-                    </ng-template>
-                  </ngx-datatable-column>
-                  <ngx-datatable-column name="{{ 'BILLING-PURCHASES-PAGE.ROW-DETAIL.TEXT' | translate }}"
-                    sortable="false">
-                    <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                      <div ngbDropdown container="body">
-                        <button type="button" class="btn btn-outline-primary btn-sm" ngbDropdownToggle>
-                          {{ 'BILLING-PURCHASES-PAGE.ACTIONS.TEXT' | translate }}
-                        </button>
-                        <div ngbDropdownMenu>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="{{ 'BILLING-PURCHASES-PAGE.ROW-DETAIL.TEXT' | translate }}"
+                      sortable="false">
+                      <ng-template let-value="value" let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                        <div ngbDropdown container="body">
+                          <button type="button" class="btn btn-outline-primary btn-sm" ngbDropdownToggle>
+                            {{ 'BILLING-PURCHASES-PAGE.ACTIONS.TEXT' | translate }}
+                          </button>
+                          <div ngbDropdownMenu>
                           <a ngbDropdownItem id="btn-delete" (click)="
                           modalChildDetail.billingPurchasesOpenModal(
                             modalChildDetail['billingPurchasesDetailModal'],
                             row
                           )
                         ">
-                            <i class="bi bi-person-badge"></i>
-                            <span class="ms-2">{{ 'BILLING-PURCHASES-PAGE.BTN-SEE-DETAILS.TEXT' | translate }}</span>
-                          </a>
+                              <i class="bi bi-person-badge"></i>
+                              <span class="ms-2">{{ 'BILLING-PURCHASES-PAGE.BTN-SEE-DETAILS.TEXT' | translate }}</span>
+                            </a>
+                          </div>
                         </div>
-                      </div>
-                    </ng-template>
-                  </ngx-datatable-column>
-                </ngx-datatable>
+                      </ng-template>
+                    </ngx-datatable-column>
+                  </ngx-datatable>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-<app-billing-purchases-detail-modal #modalChildDetail></app-billing-purchases-detail-modal>
+  </section>
+  <app-billing-purchases-detail-modal #modalChildDetail></app-billing-purchases-detail-modal>

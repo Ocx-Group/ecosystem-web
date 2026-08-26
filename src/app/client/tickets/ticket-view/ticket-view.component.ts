@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {takeUntil} from "rxjs/operators";
 import Swal from "sweetalert2";
 import {Subject, Subscription} from "rxjs";
@@ -10,20 +10,16 @@ import {TicketMessageRequest} from '@app/core/models/ticket-model/ticket-message
 import {Ticket} from '@app/core/models/ticket-model/ticket.model';
 
 @Component({
-  selector: 'app-ticket-view',
-  templateUrl: './ticket-view.component.html',
-  styleUrls: ['./ticket-view.component.scss']
+    selector: 'app-ticket-view',
+    templateUrl: './ticket-view.component.html',
+    styleUrls: ['./ticket-view.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class TicketViewComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   ticket: Ticket;
-  config = {
-    wheelSpeed: 0.5,
-    swipeEasing: true,
-    minScrollbarLength: 20,
-    maxScrollbarLength: 50,
-  };
   user: UserAffiliate;
   newMessage: string;
   ticketMessage: TicketMessageRequest = new TicketMessageRequest();
@@ -83,6 +79,9 @@ export class TicketViewComponent implements OnInit, OnDestroy {
         } else {
           console.log('No ticket received or connection not established');
         }
+        // processMessageSender ya hace detectChanges por cada mensaje, pero un
+        // ticket sin mensajes no pasa por ahi y la cabecera se quedaria vacia.
+        this.cdr.markForCheck();
       },
       error: (err) => {
         console.error('Error recibiendo ticket:', err);

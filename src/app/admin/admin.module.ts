@@ -2,13 +2,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarModule } from '@app/shared/perfect-scrollbar.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { NgxGaugeModule } from 'ngx-gauge';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { FeatherModule } from 'angular-feather';
 import { Search } from 'angular-feather/icons';
 import { ClipboardModule } from '@angular/cdk/clipboard';
@@ -54,7 +54,6 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { ResultsEcopoolComponent } from './results-ecopool/results-ecopool.component';
 import { AuthorizeReturnsComponent } from './authorize-returns/authorize-returns.component';
 import { WalkwaysBenchesComponent } from './walkways-benches/walkways-benches.component';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { SettingsComponent } from './settings/settings.component';
 import { BrandingComponent } from './branding/branding.component';
 import { CommissionsConfigurationComponent } from './commissions-configuration/commissions-configuration.component';
@@ -112,7 +111,7 @@ const icons = {
     ReactiveFormsModule,
     NgbModule,
     AdminRoutingModule,
-    TranslateModule,
+    TranslatePipe,
     MyProfileModule,
     UnilevelTreeModule,
     ForceGenealogicalTreeModule,
@@ -136,7 +135,6 @@ const icons = {
     NgApexchartsModule,
     NgxGaugeModule,
     NgxDropzoneModule,
-    CKEditorModule,
     ChangeModelModule,
     SharedModule,
     NgOptimizedImage,

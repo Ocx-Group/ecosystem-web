@@ -7,6 +7,7 @@ import {
   OnInit,
   TemplateRef,
   ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import Swal from 'sweetalert2';
 
@@ -26,9 +27,11 @@ import { PagaditoService } from '@app/core/service/pagadito-service/pagadito.ser
 
 
 @Component({
-  selector: 'app-membership-manager',
-  templateUrl: './membership-manager.component.html',
-  styleUrls: ['./membership-manager-component.scss'],
+    selector: 'app-membership-manager',
+    templateUrl: './membership-manager.component.html',
+    styleUrls: ['./membership-manager-component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class MembershipManagerComponent implements OnInit, OnDestroy {
   payMethodSelected: number;

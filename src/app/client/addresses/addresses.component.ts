@@ -1,12 +1,14 @@
 import { AffiliateAddressService } from '@app/core/service/affiliate-address-service/affiliate-address.service';
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { AuthService } from '@app/core/service/authentication-service/auth.service';
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
 
 @Component({
-  selector: 'app-addresses',
-  templateUrl: './addresses.component.html',
+    selector: 'app-addresses',
+    templateUrl: './addresses.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AddressesComponent implements OnInit {
   user: UserAffiliate = new UserAffiliate();
@@ -18,7 +20,9 @@ export class AddressesComponent implements OnInit {
 
   @ViewChild('table') table: DatatableComponent;
 
-  constructor(private affiliateAddressService: AffiliateAddressService, private auth: AuthService) {
+  constructor(private affiliateAddressService: AffiliateAddressService, private auth: AuthService,
+    private cdr: ChangeDetectorRef
+  ) {
 
   }
 
@@ -46,7 +50,7 @@ export class AddressesComponent implements OnInit {
     });
 
     this.rows = temp;
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   loadAddressesByAffiliate() {
@@ -56,6 +60,7 @@ export class AddressesComponent implements OnInit {
           this.rows = [...value.data]
           this.temp = value.data;
           this.loadingIndicator = false;
+          this.cdr.markForCheck();
         }
       },
       error: (err) => {

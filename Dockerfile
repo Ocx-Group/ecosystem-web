@@ -1,5 +1,5 @@
 # Usa una imagen de Node para construir la app
-FROM node:18-alpine AS build
+FROM node:22-alpine AS build
 
 # Configura el directorio de trabajo en el contenedor
 WORKDIR /app
@@ -23,7 +23,7 @@ FROM nginx:1.27-alpine
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 # Copia los archivos de construcción al contenedor de Nginx
-COPY --from=build /app/dist/main /usr/share/nginx/html
+COPY --from=build /app/dist/main/browser /usr/share/nginx/html
 
 # Expone el puerto 80
 EXPOSE 80

@@ -1,9 +1,11 @@
 import {
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   OnInit,
   Output,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -15,15 +17,16 @@ import {
 import Swal from 'sweetalert2';
 
 import { ToastrService } from 'ngx-toastr';
-import { _ParseAST } from '@angular/compiler';
 
 import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.service';
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
 
 @Component({
-  selector: 'app-authorize-affiliates-edit-modal',
-  templateUrl: './authorize-affiliates-edit-modal.component.html',
-  providers: [ToastrService],
+    selector: 'app-authorize-affiliates-edit-modal',
+    templateUrl: './authorize-affiliates-edit-modal.component.html',
+    providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AuthorizeAffiliatesEditModalComponent implements OnInit {
   user = new UserAffiliate();
@@ -35,7 +38,8 @@ export class AuthorizeAffiliatesEditModalComponent implements OnInit {
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private affiliateService: AffiliateService
+    private affiliateService: AffiliateService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   editOpenModal(content, affiliate: UserAffiliate) {
@@ -44,6 +48,9 @@ export class AuthorizeAffiliatesEditModalComponent implements OnInit {
       size: 'xl',
     });
     this.user = affiliate;
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   ngOnInit(): void {

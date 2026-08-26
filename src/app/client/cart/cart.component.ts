@@ -1,7 +1,7 @@
 import { CreateChannelResponse } from './../../core/models/coinpay-model/create-channel-response.model';
 import { CreatePagaditoTransactionRequest } from '@app/core/models/pagadito-model/create-pagadito-transaction-request.model';
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { CartService } from 'src/app/core/service/cart.service/cart.service';
+import { ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { CartService } from '@app/core/service/cart.service/cart.service';
 import { NavigationStart, Event as NavigationEvent, Router } from '@angular/router';
 import QRCode from 'qrcode';
 import Swal from 'sweetalert2';
@@ -31,9 +31,11 @@ import { environment } from '@environments/environment';
 
 
 @Component({
-  selector: 'app-cart',
-  templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.scss']
+    selector: 'app-cart',
+    templateUrl: './cart.component.html',
+    styleUrls: ['./cart.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CartComponent implements OnInit, OnDestroy {
   today: Date;
@@ -76,7 +78,8 @@ export class CartComponent implements OnInit, OnDestroy {
     private walletModel1AService: WalletModel1AService,
     private walletModel1BService: WalletModel1BService,
     private affiliateService: AffiliateService,
-    private pagaditoService: PagaditoService
+    private pagaditoService: PagaditoService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -182,6 +185,15 @@ export class CartComponent implements OnInit, OnDestroy {
     this.totalTax = totalTax;
     this.subTotal = subTotal;
     this.total = grandTotal;
+
+    // Punto unico por el que pasa todo lo que pinta el carrito: la lista, los
+    // importes, el modelo y las tres banderas de metodos de pago. Cualquier
+    // cambio del carrito pasa por el BehaviorSubject del CartService, cuya
+    // suscripcion de ngOnInit acaba llamando aqui. Las mutaciones nacidas de un
+    // click ya ensucian la vista solas; esta marca es para las que no: el
+    // emptycart() que hace showCoinPaymentConfirmation tras abrir la pasarela,
+    // y el del polling de CoinPay.
+    this.cdr.markForCheck();
   }
 
   showBalanceConfirmation(): Promise<boolean> {
@@ -329,6 +341,9 @@ export class CartComponent implements OnInit, OnDestroy {
         this.userReceivesPurchase = user;
         if (this.userReceivesPurchase && this.userReceivesPurchase.id) {
           this.showReversePaymentOnly = true;
+          // showReversePaymentOnly decide que botones de pago se ven y es lo
+          // unico visible que no pasa por setValuesToPaid.
+          this.cdr.markForCheck();
           resolve(true);
         } else {
           resolve(false);

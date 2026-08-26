@@ -1,8 +1,10 @@
-import { Component, ViewChild, HostListener } from '@angular/core';
+import { Component, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 @Component({
-  selector: 'app-procurement-ecopool',
-  templateUrl: './procurement-ecopool.component.html'
+    selector: 'app-procurement-ecopool',
+    templateUrl: './procurement-ecopool.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class ProcurementEcopoolComponent  {
   rows = [];
@@ -55,7 +57,7 @@ export class ProcurementEcopoolComponent  {
     // update the rows
     this.rows = temp;
     // Whenever the filter changes, always go back to the first page
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
 }

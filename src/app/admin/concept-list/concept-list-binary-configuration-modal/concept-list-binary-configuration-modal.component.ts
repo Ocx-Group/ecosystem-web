@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -10,9 +10,11 @@ import {
 } from '@angular/forms';
 
 @Component({
-  selector: 'app-concept-list-binary-configuration-modal',
-  templateUrl: './concept-list-binary-configuration-modal.component.html',
-  styleUrls: ['./concept-list.scss'],
+    selector: 'app-concept-list-binary-configuration-modal',
+    templateUrl: './concept-list-binary-configuration-modal.component.html',
+    styleUrls: ['./concept-list.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ConceptListBinaryConfigurationModalComponent implements OnInit {
   //configBinaryForm: FormGroup;

@@ -4,6 +4,7 @@ import {
   OnInit,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import {
   AbstractControl,
@@ -18,8 +19,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PaymentGroupsService } from '@app/core/service/payment-groups-service/payment-groups.service';
 import { PaymentGroup } from '@app/core/models/payment-group-model/payment.group.model';
 @Component({
-  selector: 'app-calculation-groups-create-modal',
-  templateUrl: './calculation-groups-create-modal.component.html',
+    selector: 'app-calculation-groups-create-modal',
+    templateUrl: './calculation-groups-create-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CalculationGroupsCreateModalComponent implements OnInit {
   createCalculationForm: FormGroup;

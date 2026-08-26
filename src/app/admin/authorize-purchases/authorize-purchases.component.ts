@@ -1,4 +1,4 @@
-import { Component, ViewChild, HostListener } from '@angular/core';
+import { Component, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
@@ -27,9 +27,11 @@ const header = [
 ];
 
 @Component({
-  selector: 'app-authorize-purchases',
-  templateUrl: './authorize-purchases.component.html',
-  providers: [ToastrService],
+    selector: 'app-authorize-purchases',
+    templateUrl: './authorize-purchases.component.html',
+    providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class AuthorizePurchasesComponent {
   alerts: Alert[];
@@ -87,7 +89,7 @@ export class AuthorizePurchasesComponent {
     });
 
     this.rows = temp;
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   close(alert: Alert) {

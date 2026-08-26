@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+
 import {
   Component,
   Inject,
@@ -8,17 +8,19 @@ import {
   Renderer2,
   HostListener,
   ChangeDetectionStrategy,
+  DOCUMENT
 } from '@angular/core';
 
-import { RightSidebarService } from 'src/app/core/service/rightsidebar-service/rightsidebar.service';
+import { RightSidebarService } from '@app/core/service/rightsidebar-service/rightsidebar.service';
 import { ConfigService } from '../../config/config.service';
 import { LogoService } from '@app/core/service/logo-service/logo.service';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'app-right-sidebar',
-  templateUrl: './right-sidebar.component.html',
-  styleUrls: ['./right-sidebar.component.sass'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-right-sidebar',
+    templateUrl: './right-sidebar.component.html',
+    styleUrls: ['./right-sidebar.component.sass'],
+    standalone: false
 })
 export class RightSidebarComponent implements OnInit, AfterViewInit {
   selectedBgColor = 'white';

@@ -1,12 +1,14 @@
 import { Response } from './../../../core/models/response-model/response.model';
 import { map } from 'rxjs/operators';
 import {
+  ChangeDetectorRef,
   Component,
   ViewChild,
   HostListener,
   OnInit,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -23,9 +25,11 @@ import { MenuConfiguration } from '@app/core/models/menu-configuration-model/men
 import { Privilege } from '@app/core/models/privilege-model/privilege.model';
 
 @Component({
-  selector: 'app-rol-list-permissions-modal',
-  templateUrl: './rol-list-permissions-modal.component.html',
-  providers: [ToastrService],
+    selector: 'app-rol-list-permissions-modal',
+    templateUrl: './rol-list-permissions-modal.component.html',
+    providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class RolListPermissionsModalComponent implements OnInit {
   public idRole: number;
@@ -47,7 +51,8 @@ export class RolListPermissionsModalComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private privilegeService: PrivilegeService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {}
@@ -76,6 +81,7 @@ export class RolListPermissionsModalComponent implements OnInit {
         this.rows = menuConfiguration;
         setTimeout(() => {
           this.loadingIndicator = false;
+          this.cdr.markForCheck();
         }, 500);
       },
       error: (err) => {
@@ -92,7 +98,7 @@ export class RolListPermissionsModalComponent implements OnInit {
         return d.name?.toLowerCase().indexOf(val) !== -1 || !val;
       });
       this.rows = temp;
-      this.table.offset = 0;
+      this.table.offset.set(0);
     }
   }
 
@@ -136,6 +142,9 @@ export class RolListPermissionsModalComponent implements OnInit {
     });
     this.title = rol.name;
     this.idRole = rol.id;
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   closeModals() {

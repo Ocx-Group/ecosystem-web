@@ -1,4 +1,4 @@
-import { Component, ViewChild, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import Swal from 'sweetalert2';
@@ -11,9 +11,11 @@ import { ToastrService } from 'ngx-toastr';
 const header = ['Nombre del Incentivo', 'Descripción', 'Estado de Incentivo','Fecha de Registro'];
 
 @Component({
-  selector: 'app-incentives-list',
-  templateUrl: './incentives-list.component.html',
-  providers: [ToastrService],
+    selector: 'app-incentives-list',
+    templateUrl: './incentives-list.component.html',
+    providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class IncentivesListComponent implements OnInit {
   rows = [];
@@ -29,7 +31,8 @@ export class IncentivesListComponent implements OnInit {
     private incentiveService: IncentiveService,
     private printService: PrintService,
     private clipboardService: ClipboardService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +60,7 @@ export class IncentivesListComponent implements OnInit {
     // update the rows
     this.rows = temp;
     // Whenever the filter changes, always go back to the first page
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   createOpenModal(content) {
@@ -76,10 +79,12 @@ export class IncentivesListComponent implements OnInit {
       if (resp !== null) {
         this.temp = [...resp];
         this.rows = resp;
+        this.cdr.markForCheck();
       }
 
       setTimeout(() => {
         this.loadingIndicator = false;
+        this.cdr.markForCheck();
       }, 500);
     });
   }

@@ -2,12 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TicketViewComponent } from './ticket-view.component';
 
+import { testImports, testProviders } from '@app/testing/testing';
 describe('TicketViewComponent', () => {
   let component: TicketViewComponent;
   let fixture: ComponentFixture<TicketViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [...testImports],
+      providers: [...testProviders],
       declarations: [ TicketViewComponent ]
     })
     .compileComponents();

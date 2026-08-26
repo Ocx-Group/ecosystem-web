@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -17,8 +17,10 @@ import { Ticket } from '@app/core/models/ticket-model/ticket.model';
 
 
 @Component({
-  selector: 'app-tickets',
-  templateUrl: './tickets.component.html'
+    selector: 'app-tickets',
+    templateUrl: './tickets.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class TicketsComponent implements OnInit, AfterViewInit, OnDestroy {
   user: UserAffiliate = new UserAffiliate();

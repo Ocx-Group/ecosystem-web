@@ -1,29 +1,43 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es2015",
+    "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"
     ],
     "lib": [
-      "es2018",
+      "ES2022",
       "dom"
     ],
     "paths": {
-      "@app/*": ["src/app/*"],
-      "@environments/*": ["src/environments/*"]
-    }
+      "@app/*": [
+        "./src/app/*"
+      ],
+      "@environments/*": [
+        "./src/environments/*"
+      ]
+    },
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "useDefineForClassFields": false,
+    "strict": true,
+    // Fase 1 de la adopcion de strict: activadas strictFunctionTypes,
+    // strictBindCallApply, noImplicitThis y alwaysStrict, que costaban 3
+    // errores. Las tres que faltan son proyectos aparte: strictNullChecks
+    // son 269 errores mas, noImplicitAny otros 424 y
+    // strictPropertyInitialization otros 337.
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictPropertyInitialization": false
   },
   "angularCompilerOptions": {
-    "enableIvy": true,
-    "allowEmptyCodegenFiles": true
+    "strictTemplates": true
   }
 }

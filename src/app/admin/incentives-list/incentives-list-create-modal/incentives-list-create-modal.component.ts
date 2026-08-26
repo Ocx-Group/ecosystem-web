@@ -4,6 +4,8 @@ import {
   OnInit,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy,
+  signal
 } from '@angular/core';
 import {
   AbstractControl,
@@ -19,14 +21,16 @@ import { GradingService } from '@app/core/service/grading-service/grading.servic
 import { IncentiveService } from '@app/core/service/incentive-service/incentive.service';
 
 @Component({
-  selector: 'app-incentives-list-create-modal',
-  templateUrl: './incentives-list-create-modal.component.html',
+    selector: 'app-incentives-list-create-modal',
+    templateUrl: './incentives-list-create-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class IncentivesListCreateModalComponent implements OnInit {
   createIncentivesForm!: FormGroup;
-  productListData!: [];
-  membershipData!: [];
-  calificationList!: [];
+  readonly productListData = signal<any[]>([]);
+  readonly membershipData = signal<any[]>([]);
+  readonly calificationList = signal<any[]>([]);
   submitted = false;
   active = 1;
   incentive: Incentive = new Incentive();
@@ -87,20 +91,20 @@ export class IncentivesListCreateModalComponent implements OnInit {
   }
   fetchProductList() {
     this.gradingService.getProductList().subscribe((resp) => {
-      this.productListData = resp;
+      this.productListData.set(resp);
     });
   }
 
   fetchMembership() {
     this.gradingService.getMembership().subscribe((resp) => {
-      this.membershipData = resp;
+      this.membershipData.set(resp);
     });
   }
 
   fetchCalificationList() {
     this.gradingService.getAll().subscribe((resp) => {
       if (resp !== null) {
-        this.calificationList = resp;
+        this.calificationList.set(resp);
       }
     });
   }

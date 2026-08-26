@@ -1,9 +1,11 @@
 import {
+  ChangeDetectorRef,
   Component,
   ViewChild,
   OnInit,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -21,8 +23,10 @@ import { PaymentGroupsService } from '@app/core/service/payment-groups-service/p
 import { ConceptService } from '@app/core/service/concept-service/concept.service';
 
 @Component({
-  selector: 'app-concept-list-edit-modal',
-  templateUrl: './concept-list-edit-modal.component.html',
+    selector: 'app-concept-list-edit-modal',
+    templateUrl: './concept-list-edit-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ConceptListEditModalComponent implements OnInit {
   editConceptForm: FormGroup;
@@ -42,7 +46,8 @@ export class ConceptListEditModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
     private paymentGroupService: PaymentGroupsService,
-    private conceptService: ConceptService
+    private conceptService: ConceptService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -68,6 +73,9 @@ export class ConceptListEditModalComponent implements OnInit {
       ignore_activation: this.conceptValue.ignoreActivationOrder,
       active: this.conceptValue.active,
     });
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   closeModals() {
@@ -98,12 +106,14 @@ export class ConceptListEditModalComponent implements OnInit {
   fetchPayConcept() {
     this.conceptService.getPayConceptList().subscribe((resp) => {
       this.payConceptData = resp;
+      this.cdr.markForCheck();
     });
   }
 
   fetchCalculateConcept() {
     this.conceptService.getCalculateConceptList().subscribe((resp) => {
       this.calculateConceptData = resp;
+      this.cdr.markForCheck();
     });
   }
 
@@ -113,6 +123,7 @@ export class ConceptListEditModalComponent implements OnInit {
       .subscribe((paymentGroups: PaymentGroup[]) => {
         if (paymentGroups !== null) {
           this.calculateGroup = [...paymentGroups];
+          this.cdr.markForCheck();
         }
 
         setTimeout(() => {}, 500);

@@ -1,4 +1,4 @@
-import { Component, ViewChild, HostListener, OnInit } from '@angular/core';
+import { Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -8,8 +8,10 @@ import { ClipboardService } from 'ngx-clipboard';
 import { PrintService } from '@app/core/service/print-service/print.service';
 
 @Component({
-  selector:'app-news-admin',
-  templateUrl:'./walkways-benches.component.html'
+    selector: 'app-news-admin',
+    templateUrl: './walkways-benches.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class WalkwaysBenchesComponent {
   rows = [];

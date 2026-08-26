@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 
 @Component({
-  selector: 'app-billing-purchase',
-  templateUrl: './billing-purchase.component.html',
-  styleUrls: ['./billing-purchase.component.scss'],
+    selector: 'app-billing-purchase',
+    templateUrl: './billing-purchase.component.html',
+    styleUrls: ['./billing-purchase.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class BillingPurchaseComponent implements OnInit {
   public searchTerm!: string;

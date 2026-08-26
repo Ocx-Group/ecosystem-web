@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup } from '@angular/forms';
 import { ClipboardService } from 'ngx-clipboard';
@@ -7,9 +7,11 @@ import { ToastrService } from 'ngx-toastr';
 import { User } from '@app/core/models/user-model/user.model';
 
 @Component({
-  selector: 'app-users-list-detail-modal',
-  templateUrl: './users-list-detail-modal.component.html',
-  providers: [ToastrService],
+    selector: 'app-users-list-detail-modal',
+    templateUrl: './users-list-detail-modal.component.html',
+    providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class UsersListDetailModalComponent {
   rows = [];
@@ -24,7 +26,8 @@ export class UsersListDetailModalComponent {
   constructor(
     private modalService: NgbModal,
     private toastr: ToastrService,
-    private clipboardService: ClipboardService
+    private clipboardService: ClipboardService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   detailOpenModal(content, user: User) {
@@ -33,6 +36,9 @@ export class UsersListDetailModalComponent {
       size: 'xl',
     });
     this.user = user;
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   clipBoardCopy() {

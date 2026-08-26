@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
-  selector: 'app-commissions-balance',
-  templateUrl: './commissions-balance.component.html'
+    selector: 'app-commissions-balance',
+    templateUrl: './commissions-balance.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class CommissionsBalanceComponent implements OnInit {
   rows = [];
@@ -56,7 +58,7 @@ export class CommissionsBalanceComponent implements OnInit {
     // update the rows
     this.rows = temp;
     // Whenever the filter changes, always go back to the first page
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
 

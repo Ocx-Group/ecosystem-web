@@ -5,18 +5,21 @@ import {
   TemplateRef,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { MyTreeNode } from '@app/core/models/unilevel-tree-model/tree-node';
 
 @Component({
-  selector: 'app-unilevel-tree-component',
-  exportAs: 'orgChart',
-  templateUrl: './unilevel-tree-component.component.html',
-  styleUrls: ['./unilevel-tree-component.component.scss'],
-  host: {
-    '[class.ng13-org-chart-zoom-out]': 'zoomOut',
-  },
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-unilevel-tree-component',
+    exportAs: 'orgChart',
+    templateUrl: './unilevel-tree-component.component.html',
+    styleUrls: ['./unilevel-tree-component.component.scss'],
+    host: {
+        '[class.ng13-org-chart-zoom-out]': 'zoomOut',
+    },
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class UnilevelTreeComponentComponent {
   @Input('data') data: MyTreeNode | undefined;

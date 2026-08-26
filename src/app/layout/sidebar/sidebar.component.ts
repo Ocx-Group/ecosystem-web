@@ -1,6 +1,7 @@
 import {Router, NavigationEnd} from '@angular/router';
-import {DOCUMENT} from '@angular/common';
+
 import {
+  ChangeDetectorRef,
   Component,
   Inject,
   ElementRef,
@@ -8,10 +9,12 @@ import {
   Renderer2,
   HostListener,
   OnDestroy,
+  DOCUMENT,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import {ROUTES} from './sidebar-items';
-import {AuthService} from 'src/app/core/service/authentication-service/auth.service';
+import {AuthService} from '@app/core/service/authentication-service/auth.service';
 import {Subject, takeUntil} from 'rxjs';
 import {UserAffiliate} from '@app/core/models/user-affiliate-model/user.affiliate.model';
 import {AffiliateService} from '@app/core/service/affiliate-service/affiliate.service';
@@ -19,9 +22,11 @@ import {GradingService} from '@app/core/service/grading-service/grading.service'
 import {Grading} from '@app/core/models/grading-model/grading.model';
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.sass'],
+    selector: 'app-sidebar',
+    templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.sass'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   public user: UserAffiliate = new UserAffiliate();
@@ -42,7 +47,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private affiliateService: AffiliateService,
     private gradingService: GradingService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.routerObj = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -53,7 +59,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     });
   }
 
-  @HostListener('window:resize', ['$event'])
+  @HostListener('window:resize')
   windowResizecall() {
     if (window.innerWidth < 1025) {
       this.renderer.removeClass(this.document.body, 'side-closed');
@@ -89,6 +95,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .subscribe((user) => {
         if (user) {
           this.user = user;
+          this.cdr.markForCheck();
           this.refreshUserInfoData(this.user.id);
         }
       });
@@ -155,6 +162,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.affiliateService.getAffiliateById(id).subscribe({
       next: (value) => {
         this.user = value.data;
+        this.cdr.markForCheck();
         this.getGradingInfo(this.user.external_grading_before_id);
       },
       error: () => {
@@ -167,6 +175,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.gradingService.getGradingById(id).subscribe((response) => {
       if (response.success) {
         this.grading = response.data;
+        this.cdr.markForCheck();
       }
     });
   }

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy, signal} from '@angular/core';
 import { WalletWait } from '@app/core/models/wallet-wait-model/wallet-wait.model';
 import { PrintService } from '@app/core/service/print-service/print.service';
 import { WalletWaitService } from '@app/core/service/wallet-wait-service/wallet-wait.service';
@@ -19,13 +19,15 @@ const header = [
 ];
 
 @Component({
-  selector: 'app-wallet-refill',
-  templateUrl: './wallet-refill.component.html',
+    selector: 'app-wallet-refill',
+    templateUrl: './wallet-refill.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class WalletRefillComponent implements OnInit {
-  rows = [];
+  readonly rows = signal<any[]>([]);
   temp = [];
-  loadingIndicator = true;
+  readonly loadingIndicator = signal<boolean>(true);
   reorderable = true;
   scrollBarHorizontal = window.innerWidth < 1200;
   @ViewChild('table') table: DatatableComponent;
@@ -52,8 +54,8 @@ export class WalletRefillComponent implements OnInit {
     this.walletWaitService.getAllWalletsWait().subscribe({
       next: (resp) => {
         this.temp = [...resp];
-        this.rows = resp;
-        this.loadingIndicator = false;
+        this.rows.set(resp);
+        this.loadingIndicator.set(false);
       },
       error: (err) => {
         this.showError('Error!');
@@ -75,8 +77,8 @@ export class WalletRefillComponent implements OnInit {
     const temp = this.temp.filter(function (d) {
       return d.name.toLowerCase().indexOf(val) !== -1 || !val;
     });
-    this.rows = temp;
-    this.table.offset = 0;
+    this.rows.set(temp);
+    this.table.offset.set(0);
   }
 
   clipBoardCopy() {}

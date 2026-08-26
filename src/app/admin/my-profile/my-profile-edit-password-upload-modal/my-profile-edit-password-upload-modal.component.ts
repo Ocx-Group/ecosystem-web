@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   AbstractControl,
   FormGroup,
@@ -9,8 +9,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-my-profile-edit-password-upload-modal',
-  templateUrl: './my-profile-edit-password-upload-modal.component.html',
+    selector: 'app-my-profile-edit-password-upload-modal',
+    templateUrl: './my-profile-edit-password-upload-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class MyProfileEditPasswordUploadModalComponent implements OnInit {
   editPasswordUploadForm: FormGroup;

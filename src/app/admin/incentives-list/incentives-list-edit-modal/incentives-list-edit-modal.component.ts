@@ -1,9 +1,11 @@
 import {
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   OnInit,
   Output,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -19,15 +21,17 @@ import { GradingService } from '@app/core/service/grading-service/grading.servic
 import { IncentiveService } from '@app/core/service/incentive-service/incentive.service';
 
 @Component({
-  selector: 'app-incentives-list-edit-modal',
-  templateUrl: './incentives-list-edit-modal.component.html',
+    selector: 'app-incentives-list-edit-modal',
+    templateUrl: './incentives-list-edit-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class IncentivesListEditModalComponent implements OnInit {
   editIncentivesForm!: FormGroup;
   incentive: Incentive = new Incentive();
-  productListData!: [];
-  membershipData!: [];
-  calificationList!: [];
+  productListData: any[] = [];
+  membershipData: any[] = [];
+  calificationList: any[] = [];
   submitted = false;
   active = 1;
 
@@ -40,7 +44,8 @@ export class IncentivesListEditModalComponent implements OnInit {
     private gradingService: GradingService,
     private incentiveService: IncentiveService,
     private modalService: NgbModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -90,6 +95,9 @@ export class IncentivesListEditModalComponent implements OnInit {
       network_leaders_qualifier: incentive.network_leaders_qualifier,
       leader_by_matrix: incentive.leader_by_matrix.toString(),
     });
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   showSuccess(message) {
@@ -103,12 +111,14 @@ export class IncentivesListEditModalComponent implements OnInit {
   fetchProductList() {
     this.gradingService.getProductList().subscribe((resp) => {
       this.productListData = resp;
+      this.cdr.markForCheck();
     });
   }
 
   fetchMembership() {
     this.gradingService.getMembership().subscribe((resp) => {
       this.membershipData = resp;
+      this.cdr.markForCheck();
     });
   }
 
@@ -116,6 +126,7 @@ export class IncentivesListEditModalComponent implements OnInit {
     this.gradingService.getAll().subscribe((resp) => {
       if (resp !== null) {
         this.calificationList = resp;
+        this.cdr.markForCheck();
       }
     });
   }

@@ -1,10 +1,12 @@
 import { PaymentGroup } from '@app/core/models/payment-group-model/payment.group.model';
 import {
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Output,
   ViewChild,
   OnInit,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -17,9 +19,11 @@ import { ToastrService } from 'ngx-toastr';
 import { PaymentGroupsService } from '@app/core/service/payment-groups-service/payment-groups.service';
 
 @Component({
-  selector: 'app-calculation-groups-edit-modal',
-  templateUrl: './calculation-groups-edit-modal.component.html',
-  providers: [ToastrService],
+    selector: 'app-calculation-groups-edit-modal',
+    templateUrl: './calculation-groups-edit-modal.component.html',
+    providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CalculationGroupsEditModalComponent implements OnInit {
   editCalculationForm: FormGroup;
@@ -34,7 +38,8 @@ export class CalculationGroupsEditModalComponent implements OnInit {
     private paymentGroupService: PaymentGroupsService,
     private toastr: ToastrService,
     private modalService: NgbModal,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {}
 
   get edit_calculation_controls(): { [key: string]: AbstractControl } {
@@ -62,6 +67,9 @@ export class CalculationGroupsEditModalComponent implements OnInit {
       calculation_name: paymentGroup.name,
       description: paymentGroup.description,
     });
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   updateCalculationGroup() {

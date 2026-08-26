@@ -1,10 +1,13 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { PageLoaderComponent } from './page-loader.component';
+import { testImports, testProviders } from '@app/testing/testing';
 describe('PageLoaderComponent', () => {
   let component: PageLoaderComponent;
   let fixture: ComponentFixture<PageLoaderComponent>;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [...testImports],
+      providers: [...testProviders],
       declarations: [PageLoaderComponent]
     }).compileComponents();
   }));

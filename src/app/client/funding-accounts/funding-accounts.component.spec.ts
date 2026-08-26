@@ -2,12 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FundingAccountsComponent } from './funding-accounts.component';
 
+import { testImports, testProviders } from '@app/testing/testing';
 describe('FundingAccountsComponent', () => {
   let component: FundingAccountsComponent;
   let fixture: ComponentFixture<FundingAccountsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [...testImports],
+      providers: [...testProviders],
       declarations: [ FundingAccountsComponent ]
     })
     .compileComponents();

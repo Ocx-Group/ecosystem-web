@@ -1,4 +1,4 @@
-import { Component, ViewChild, HostListener } from '@angular/core';
+import { Component, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -9,8 +9,10 @@ import {
 } from '@angular/forms';
 
 @Component({
-  selector: 'app-request-wallet',
-  templateUrl: './request-wallet.component.html'
+    selector: 'app-request-wallet',
+    templateUrl: './request-wallet.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class RequestWalletComponent {
   rows = [];
@@ -65,7 +67,7 @@ export class RequestWalletComponent {
     // update the rows
     this.rows = temp;
     // Whenever the filter changes, always go back to the first page
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   addRow(content) {

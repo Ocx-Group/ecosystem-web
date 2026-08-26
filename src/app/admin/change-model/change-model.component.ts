@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -10,9 +10,11 @@ import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-change-model',
-  templateUrl: './change-model.component.html',
-  styleUrls: ['./change-model.component.css']
+    selector: 'app-change-model',
+    templateUrl: './change-model.component.html',
+    styleUrls: ['./change-model.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class ChangeModelComponent implements OnInit, AfterViewInit {
   rows = [];
@@ -50,7 +52,7 @@ export class ChangeModelComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onSelect({ selected }) {
+  onSelect({ selected }: any) {
     this.selectedInvoices.splice(0, this.selectedInvoices.length);
     this.selectedInvoices.push(...selected);
   }
@@ -99,7 +101,7 @@ export class ChangeModelComponent implements OnInit, AfterViewInit {
   }
 
   copyTableData() {
-    const rows = this.table._internalRows;
+    const rows = this.table._internalRows();
     if (rows && rows.length) {
       const headers = Object.keys(rows[0]);
 
@@ -139,7 +141,7 @@ export class ChangeModelComponent implements OnInit, AfterViewInit {
     });
 
     this.rows = temp;
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   loadAllInvoicesForModelOneAndTwo() {

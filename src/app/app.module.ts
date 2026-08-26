@@ -14,11 +14,11 @@ import {
   PerfectScrollbarModule,
   PERFECT_SCROLLBAR_CONFIG,
   PerfectScrollbarConfigInterface,
-} from 'ngx-perfect-scrollbar';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+} from '@app/shared/perfect-scrollbar.module';
+import { TranslatePipe, provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
-import { HTTP_INTERCEPTORS, HttpClientModule, HttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { firebaseConfig } from '@environments/environment';
@@ -47,76 +47,64 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   wheelPropagation: false,
 };
 
-export function createTranslateLoader(http: HttpClient): any {
-  return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
-}
-
 export function initializeBranding(brandingService: BrandingService): () => Promise<void> {
   return () => brandingService.load();
 }
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    HeaderAdminComponent,
-    PageLoaderComponent,
-    SidebarComponent,
-    SidebarAdminComponent,
-    RightSidebarComponent,
-    AuthLayoutComponent,
-    MainLayoutComponent,
-    AdminLayoutComponent,
-    FooterComponent,
-    LogoComponent,
-    TermsConditionsModalComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    PerfectScrollbarModule,
-    LoadingBarRouterModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: createTranslateLoader,
-        deps: [HttpClient],
-      },
-    }),
-    // core & shared
-    CoreModule,
-    ToastrModule.forRoot(),
-    SharedModule,
-    NgbModule,
-    ClipboardModule,
-    MembershipManagerModule,
-    provideFirebaseApp(() => initializeApp(firebaseConfig)),
-    ClientModule,
-    NgxDropzoneModule,
-    ImageProfileModalComponent,
-  ],
-  providers: [
-    { provide: LocationStrategy, useClass: PathLocationStrategy },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: RuntimeTenantInterceptor,
-      multi: true,
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeBranding,
-      deps: [BrandingService],
-      multi: true,
-    },
-    {
-      provide: PERFECT_SCROLLBAR_CONFIG,
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
-    },
-  ],
-  exports: [LogoComponent],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HeaderComponent,
+        HeaderAdminComponent,
+        PageLoaderComponent,
+        SidebarComponent,
+        SidebarAdminComponent,
+        RightSidebarComponent,
+        AuthLayoutComponent,
+        MainLayoutComponent,
+        AdminLayoutComponent,
+        FooterComponent,
+        LogoComponent,
+        TermsConditionsModalComponent
+    ],
+    exports: [LogoComponent],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        PerfectScrollbarModule,
+        LoadingBarRouterModule,
+        TranslatePipe,
+        // core & shared
+        CoreModule,
+        ToastrModule.forRoot(),
+        SharedModule,
+        NgbModule,
+        ClipboardModule,
+        MembershipManagerModule,
+        ClientModule,
+        NgxDropzoneModule,
+        ImageProfileModalComponent], providers: [
+        provideTranslateService({
+            loader: provideTranslateHttpLoader({ prefix: 'assets/i18n/', suffix: '.json' }),
+        }),
+        // @angular/fire 20 devuelve EnvironmentProviders: va en providers, no en imports
+        provideFirebaseApp(() => initializeApp(firebaseConfig)),
+        { provide: LocationStrategy, useClass: PathLocationStrategy },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: RuntimeTenantInterceptor,
+            multi: true,
+        },
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeBranding,
+            deps: [BrandingService],
+            multi: true,
+        },
+        {
+            provide: PERFECT_SCROLLBAR_CONFIG,
+            useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+        },
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
+    ] })
 export class AppModule { }

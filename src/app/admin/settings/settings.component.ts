@@ -1,12 +1,14 @@
 import { ConfigurationService } from '@app/core/service/configuration-service/configuration.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { GeneralConfiguration } from '@app/core/models/general-configuration/general-configuration.model';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
+    selector: 'app-settings',
+    templateUrl: './settings.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SettingsComponent implements OnInit {
   generalConfigurationForm: FormGroup;
@@ -19,6 +21,7 @@ export class SettingsComponent implements OnInit {
     private fb: FormBuilder,
     private configurationService: ConfigurationService,
     private toastrService: ToastrService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
@@ -44,7 +47,9 @@ export class SettingsComponent implements OnInit {
         } else {
           console.error('Error al cargar la configuración general')
         }
-
+        // El subscribe llega fuera de todo evento: sin esto, con OnPush la
+        // plantilla no vuelve a leer el estado del formulario.
+        this.cdr.markForCheck();
       }, error: (err) => {
         console.error('Error', err)
       },

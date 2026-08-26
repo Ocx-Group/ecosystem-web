@@ -1,13 +1,15 @@
-import { Component, ViewChild, HostListener } from '@angular/core';
+import { Component, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
 
 
 @Component({
-  selector: 'app-commissions-paid',
-  templateUrl: './commissions-paid.component.html',
-  providers: [ToastrService],
+    selector: 'app-commissions-paid',
+    templateUrl: './commissions-paid.component.html',
+    providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class CommissionsPaidComponent {
   rows = [];
@@ -60,7 +62,7 @@ export class CommissionsPaidComponent {
     // update the rows
     this.rows = temp;
     // Whenever the filter changes, always go back to the first page
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   clipBoardCopy() {

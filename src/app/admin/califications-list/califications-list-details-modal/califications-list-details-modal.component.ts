@@ -1,24 +1,27 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Grading } from '@app/core/models/grading-model/grading.model';
 import { GradingService } from '@app/core/service/grading-service/grading.service';
 
 @Component({
-  selector: 'app-califications-list-details-modal',
-  templateUrl: './califications-list-details-modal.component.html',
+    selector: 'app-califications-list-details-modal',
+    templateUrl: './califications-list-details-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CalificationsListDetailsModalComponent implements OnInit {
   active = 1;
   gradingData: Grading = new Grading();
-  calificationList!: [];
-  productListData!: [];
-  membershipData!: [];
+  calificationList: any[] = [];
+  productListData: any[] = [];
+  membershipData: any[] = [];
   @ViewChild('calificationDetailsModal') calificationDetailsModal: NgbModal;
 
   constructor(
     private modalService: NgbModal,
-    private gradingService: GradingService
+    private gradingService: GradingService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -32,12 +35,16 @@ export class CalificationsListDetailsModalComponent implements OnInit {
       ariaLabelledBy: 'modal-basic-title',
       size: 'xl',
     });
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   fetchCalificationList() {
     this.gradingService.getAll().subscribe((resp) => {
       if (resp !== null) {
         this.calificationList = resp;
+        this.cdr.markForCheck();
       }
     });
   }
@@ -45,12 +52,14 @@ export class CalificationsListDetailsModalComponent implements OnInit {
   fetchProductList() {
     this.gradingService.getProductList().subscribe((resp) => {
       this.productListData = resp;
+      this.cdr.markForCheck();
     });
   }
 
   fetchMembership() {
     this.gradingService.getMembership().subscribe((resp) => {
       this.membershipData = resp;
+      this.cdr.markForCheck();
     });
   }
 }

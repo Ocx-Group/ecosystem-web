@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-services-and-products',
-  templateUrl: './services-and-products.component.html',
-  styleUrls: ['./services-and-products.component.sass']
+    selector: 'app-services-and-products',
+    templateUrl: './services-and-products.component.html',
+    styleUrls: ['./services-and-products.component.sass'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ServicesAndProductsComponent implements OnInit {
   active: any;

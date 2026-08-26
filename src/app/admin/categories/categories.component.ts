@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
@@ -10,8 +10,10 @@ import { PrintService } from '@app/core/service/print-service/print.service';
 
 const header = ['Nombre de Categoría', 'Descripción', 'Categoría Padre'];
 @Component({
-  selector: 'app-categories',
-  templateUrl: './categories.component.html',
+    selector: 'app-categories',
+    templateUrl: './categories.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CategoriesComponent implements OnInit {
   rows = [];
@@ -27,7 +29,8 @@ export class CategoriesComponent implements OnInit {
     private modalService: NgbModal,
     private productCategoryService: ProductCategoryService,
     private toastr: ToastrService,
-    private printService: PrintService
+    private printService: PrintService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -54,7 +57,7 @@ export class CategoriesComponent implements OnInit {
     });
 
     this.rows = temp;
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   createOpenModal(content) {
@@ -69,6 +72,7 @@ export class CategoriesComponent implements OnInit {
       this.temp = [...resp];
       this.rows = resp;
       this.loadingIndicator = false;
+      this.cdr.markForCheck();
     });
   }
 

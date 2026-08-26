@@ -2,12 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Page404Component } from './page404.component';
 
+import { testImports, testProviders } from '@app/testing/testing';
 describe('Page404Component', () => {
   let component: Page404Component;
   let fixture: ComponentFixture<Page404Component>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [...testImports],
+      providers: [...testProviders],
       declarations: [ Page404Component ]
     })
     .compileComponents();

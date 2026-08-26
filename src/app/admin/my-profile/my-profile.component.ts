@@ -1,4 +1,4 @@
-import { Component, HostListener, ViewChild, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, ViewChild, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
@@ -11,8 +11,10 @@ import { ToastrService } from 'ngx-toastr';
 const header = ['Movimientos', 'IP', 'Fecha'];
 
 @Component({
-  selector: 'app-my-profile',
-  templateUrl: './my-profile.component.html',
+    selector: 'app-my-profile',
+    templateUrl: './my-profile.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class MyProfileComponent implements OnInit {
   public user: User = new User();
@@ -29,6 +31,7 @@ export class MyProfileComponent implements OnInit {
     private printService: PrintService,
     private clipboardService: ClipboardService,
     private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   @ViewChild('table') table: DatatableComponent;
@@ -60,7 +63,7 @@ export class MyProfileComponent implements OnInit {
     // update the rows
     this.rows = temp;
     // Whenever the filter changes, always go back to the first page
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   getCurrentUser() {
@@ -73,6 +76,7 @@ export class MyProfileComponent implements OnInit {
     this.userService.getUser(this.userCookie).subscribe((response) => {
       if (response.success) {
         this.user = response.data;
+        this.cdr.markForCheck();
       }
     });
   }

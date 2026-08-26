@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
-  selector: 'app-inducements',
-  templateUrl: './inducements.component.html',
+    selector: 'app-inducements',
+    templateUrl: './inducements.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class InducementsComponent implements OnInit {
   rows = [];
@@ -56,7 +58,7 @@ export class InducementsComponent implements OnInit {
     // update the rows
     this.rows = temp;
     // Whenever the filter changes, always go back to the first page
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   ngOnInit(): void {}

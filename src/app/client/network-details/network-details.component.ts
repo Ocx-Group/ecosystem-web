@@ -1,5 +1,5 @@
-import { Component, OnInit, Renderer2, Inject, OnDestroy } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, OnInit, Renderer2, Inject, OnDestroy, DOCUMENT, ChangeDetectionStrategy, signal } from '@angular/core';
+
 import { ToastrService } from 'ngx-toastr';
 
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
@@ -8,13 +8,15 @@ import { WalletService } from '@app/core/service/wallet-service/wallet.service';
 import {StatisticsInformation} from "@app/core/models/wallet-model/statisticsInformation";
 
 @Component({
-  selector: 'app-network-details',
-  templateUrl: './network-details.component.html',
-  styleUrls: ['./network-details.component.scss']
+    selector: 'app-network-details',
+    templateUrl: './network-details.component.html',
+    styleUrls: ['./network-details.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class NetworkDetailsComponent implements OnInit, OnDestroy {
   user: UserAffiliate = new UserAffiliate();
-  information: StatisticsInformation = new StatisticsInformation();
+  readonly information = signal<StatisticsInformation>(new StatisticsInformation());
 
   constructor(
     private walletService: WalletService,
@@ -37,7 +39,7 @@ export class NetworkDetailsComponent implements OnInit, OnDestroy {
   loadInformation() {
     this.walletService.getStatisticsInformationByAffiliateId(this.user.id).subscribe({
       next: (value) => {
-        this.information = value;
+        this.information.set(value);
       },
       error: (err) => {
         this.showError('Error');

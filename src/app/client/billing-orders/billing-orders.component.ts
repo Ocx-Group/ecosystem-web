@@ -1,9 +1,11 @@
-import { Component, OnInit,ViewChild, HostListener  } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
-  selector: 'app-billing-orders',
-  templateUrl: './billing-orders.component.html'
+    selector: 'app-billing-orders',
+    templateUrl: './billing-orders.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class BillingOrdersComponent implements OnInit {
 
@@ -57,7 +59,7 @@ export class BillingOrdersComponent implements OnInit {
     // update the rows
     this.rows = temp;
     // Whenever the filter changes, always go back to the first page
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
 

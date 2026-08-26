@@ -1,5 +1,5 @@
 import { CreateAffiliate } from './../../core/models/user-affiliate-model/create-affiliate.model';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -20,9 +20,11 @@ import { LogoService } from '@app/core/service/logo-service/logo.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
-  selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.sass'],
+    selector: 'app-signup',
+    templateUrl: './signup.component.html',
+    styleUrls: ['./signup.component.sass'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class SignupComponent implements OnInit {
   registerForm: FormGroup;
@@ -47,7 +49,8 @@ export class SignupComponent implements OnInit {
     private authService: AuthService,
     private toastr: ToastrService,
     private logoService: LogoService,
-    private deviceService: DeviceDetectorService
+    private deviceService: DeviceDetectorService,
+    private cdr: ChangeDetectorRef
   ) {
     this.key = this.activatedRoute.snapshot.params.key;
     this.side = this.user.side.toString();
@@ -68,6 +71,7 @@ export class SignupComponent implements OnInit {
   private fetchCountry() {
     this.affiliateService.getCountries().subscribe((data) => {
       this.listcountry = data;
+      this.cdr.markForCheck();
     });
   }
 
@@ -136,6 +140,10 @@ export class SignupComponent implements OnInit {
         if (user !== null) {
           this.sponsor = user.user_name;
           this.user = user;
+          // El nombre del patrocinador es lo unico de esta respuesta que se
+          // pinta; el resto solo alimenta el alta. El setTimeout del alta solo
+          // navega a /signin, no escribe estado.
+          this.cdr.markForCheck();
         } else {
           this.router.navigate(['/signin']);
         }

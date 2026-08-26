@@ -1,4 +1,4 @@
-import { Component, ViewChild, HostListener } from '@angular/core';
+import { Component, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
@@ -14,9 +14,11 @@ const header = [
   'Estado',
 ];
 @Component({
-  selector: 'app-purchase-order-list',
-  templateUrl: './purchase-order-list.component.html',
-  providers: [ToastrService],
+    selector: 'app-purchase-order-list',
+    templateUrl: './purchase-order-list.component.html',
+    providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class PurchaseOrderListComponent {
   rows = [];
@@ -73,7 +75,7 @@ export class PurchaseOrderListComponent {
     // update the rows
     this.rows = temp;
     // Whenever the filter changes, always go back to the first page
-    this.table.offset = 0;
+    this.table.offset.set(0);
   }
 
   clipBoardCopy() {

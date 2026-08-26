@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -33,8 +33,10 @@ import { PaymentGroupsService } from '@app/core/service/payment-groups-service/p
  * the admin session.
  */
 @Component({
-  selector: 'app-calculate-commissions',
-  templateUrl: './calculate-commissions.component.html',
+    selector: 'app-calculate-commissions',
+    templateUrl: './calculate-commissions.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CalculateCommissionsComponent implements OnInit {
   settingsForm: FormGroup;
@@ -79,6 +81,7 @@ export class CalculateCommissionsComponent implements OnInit {
     private readonly paymentGroupsService: PaymentGroupsService,
     private readonly toastrService: ToastrService,
     private readonly translate: TranslateService,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -135,17 +138,28 @@ export class CalculateCommissionsComponent implements OnInit {
 
   loadPaymentGroups(): void {
     this.paymentGroupsService.getAll().subscribe({
-      next: groups => (this.paymentGroups = (groups as PaymentGroup[]) || []),
+      next: groups => {
+        this.paymentGroups = (groups as PaymentGroup[]) || [];
+        this.cdr.markForCheck();
+      },
       // A failure here only costs the operator the friendly names in the dropdown, so
       // it must not block the screen.
-      error: () => (this.paymentGroups = []),
+      error: () => {
+        this.paymentGroups = [];
+        this.cdr.markForCheck();
+      },
     });
   }
 
   loadSettings(): void {
     this.loadingSettings = true;
     this.settingsService.getCurrent()
-      .pipe(finalize(() => (this.loadingSettings = false)))
+      .pipe(finalize(() => {
+        this.loadingSettings = false;
+        // finalize corre despues de next y de error, asi que esta marca cubre
+        // tambien lo que applySettings deja escrito.
+        this.cdr.markForCheck();
+      }))
       .subscribe({
         next: settings => this.applySettings(settings),
         error: error => this.reportError(error, 'CALCULATE-COMMISSIONS.ERR-LOAD.TEXT'),
@@ -175,7 +189,10 @@ export class CalculateCommissionsComponent implements OnInit {
 
     this.savingSettings = true;
     this.settingsService.updateCurrent(request)
-      .pipe(finalize(() => (this.savingSettings = false)))
+      .pipe(finalize(() => {
+        this.savingSettings = false;
+        this.cdr.markForCheck();
+      }))
       .subscribe({
         next: settings => {
           this.applySettings(settings);
@@ -221,6 +238,9 @@ export class CalculateCommissionsComponent implements OnInit {
   private executeLiquidation(simulation: boolean): void {
     this.processing = true;
     this.result = null;
+    // Se entra aqui desde el .then del Swal de confirmacion, ya fuera del click:
+    // sin marcar, el boton no llega a mostrarse en estado ocupado.
+    this.cdr.markForCheck();
 
     Swal.fire({
       title: this.translate.instant('CALCULATE-COMMISSIONS.PROCESSING-TITLE.TEXT'),
@@ -237,7 +257,10 @@ export class CalculateCommissionsComponent implements OnInit {
       paymentGroupId: toNullableId(this.runForm.get('paymentGroupId')?.value) ?? undefined,
       dryRun: simulation,
     })
-      .pipe(finalize(() => (this.processing = false)))
+      .pipe(finalize(() => {
+        this.processing = false;
+        this.cdr.markForCheck();
+      }))
       .subscribe({
         next: result => {
           this.result = result;

@@ -15,7 +15,33 @@
 
 /*                 [1. External Import ]                   			*/
 /* Importing Bootstrap SCSS file. */
-@import '~perfect-scrollbar/css/perfect-scrollbar.css';
+/* Barra de scroll nativa: sustituye a perfect-scrollbar (ver
+   app/shared/perfect-scrollbar.module.ts). La aplica la directiva
+   [perfectScrollbar] mediante la clase .ps-scroll. */
+.ps-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.35) transparent;
+
+  &::-webkit-scrollbar {
+    width: 11px;
+    height: 11px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.35);
+    border: 3px solid transparent;
+    border-radius: 6px;
+    background-clip: content-box;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.55);
+  }
+}
 
 
 /*                 [2. Fonts]                   				*/

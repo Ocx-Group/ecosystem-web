@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../service/authentication-service/auth.service';
 
@@ -10,7 +10,7 @@ import { AuthService } from '../service/authentication-service/auth.service';
  * screen and only discover the restriction through a 403.
  */
 @Injectable({ providedIn: 'root' })
-export class BrandAdministratorGuard implements CanActivate {
+export class BrandAdministratorGuard  {
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router,

@@ -1,9 +1,11 @@
 import {
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   OnInit,
   Output,
   ViewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -18,9 +20,11 @@ import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
 
 @Component({
-  selector: 'app-affiliates-list-edit-modal',
-  templateUrl: './affiliates-list-edit-modal.component.html',
-  providers: [ToastrService],
+    selector: 'app-affiliates-list-edit-modal',
+    templateUrl: './affiliates-list-edit-modal.component.html',
+    providers: [ToastrService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AffiliatesListEditModalComponent implements OnInit {
   editAffiliateForm: FormGroup;
@@ -35,7 +39,8 @@ export class AffiliatesListEditModalComponent implements OnInit {
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private affiliateService: AffiliateService
+    private affiliateService: AffiliateService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   editOpenModal(content, affiliate: UserAffiliate) {
@@ -46,6 +51,9 @@ export class AffiliatesListEditModalComponent implements OnInit {
     this.affiliate = affiliate;
     this.fetchCountry();
     this.getUserInfo(this.affiliate.id);
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   setValues(affiliate: UserAffiliate) {
@@ -99,6 +107,7 @@ export class AffiliatesListEditModalComponent implements OnInit {
   private fetchCountry() {
     this.affiliateService.getCountries().subscribe((data) => {
       this.listCountry = data;
+      this.cdr.markForCheck();
     });
   }
 

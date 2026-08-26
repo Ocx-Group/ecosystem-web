@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -13,14 +13,16 @@ import { ProductAttributeService } from '@app/core/service/product-attribute/pro
 
 
 @Component({
-  selector: 'app-attributes-list-edit-modal',
-  templateUrl: './attributes-list-edit-modal.component.html',
+    selector: 'app-attributes-list-edit-modal',
+    templateUrl: './attributes-list-edit-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AttributesListEditModalComponent implements OnInit {
   editAttributeForm!: FormGroup;
   submitted = false;
   productAttribute: ProductAttribute = new ProductAttribute();
-  attributesType: [];
+  attributesType: any[] = [];
 
   @ViewChild('attributesEditModal') attributesEditModal: NgbModal;
   @Output('loadAttributesList') loadAttributesList: EventEmitter<any> =
@@ -30,7 +32,8 @@ export class AttributesListEditModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
     private productAttributeService: ProductAttributeService,
-    private toastr:ToastrService
+    private toastr:ToastrService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +57,7 @@ export class AttributesListEditModalComponent implements OnInit {
   getAttributesType() {
     this.productAttributeService.getAttributeType().subscribe((resp) => {
       this.attributesType = resp;
+      this.cdr.markForCheck();
     });
   }
 
@@ -88,6 +92,9 @@ export class AttributesListEditModalComponent implements OnInit {
       description: this.productAttribute.description,
       position: this.productAttribute.position,
     });
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   closeModals() {

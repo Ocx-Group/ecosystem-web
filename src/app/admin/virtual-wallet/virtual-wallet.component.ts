@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-  selector: 'app-virtual-wallet',
-  templateUrl: './virtual-wallet.component.html'
+    selector: 'app-virtual-wallet',
+    templateUrl: './virtual-wallet.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class VirtualWalletComponent implements OnInit {
 

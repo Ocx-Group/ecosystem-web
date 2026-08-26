@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {concatAll, from} from 'rxjs';
@@ -15,9 +15,11 @@ import {TicketImagesRequest} from "@app/core/models/ticket-model/ticket-images-r
 import {ObjectStorageService} from '@app/core/service/object-storage-service/object-storage.service';
 
 @Component({
-  selector: 'app-create-ticket-modal',
-  templateUrl: './create-ticket-modal.component.html',
-  styleUrls: ['./create-ticket-modal.component.scss']
+    selector: 'app-create-ticket-modal',
+    templateUrl: './create-ticket-modal.component.html',
+    styleUrls: ['./create-ticket-modal.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    standalone: false
 })
 export class CreateTicketModalComponent implements OnInit {
   createTicketForm: FormGroup;

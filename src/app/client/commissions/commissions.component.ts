@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 interface Alert {
   type: string;
   message: string;
@@ -17,8 +17,10 @@ const ALERTS: Alert[] = [
 ];
 
 @Component({
-  selector: 'app-commissions',
-  templateUrl: './commissions.component.html',
+    selector: 'app-commissions',
+    templateUrl: './commissions.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CommissionsComponent implements OnInit {
   alerts: Alert[];

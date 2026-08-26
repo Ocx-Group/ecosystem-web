@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
@@ -8,8 +8,10 @@ import { ProductInventory } from '@app/core/models/product-inventory-model/produ
 
 const header = ['Ingreso', 'Egreso', 'Soporte', 'Nota', 'Tipo', 'Fecha'];
 @Component({
-  selector: 'app-products-and-services-movements-modal',
-  templateUrl: './products-and-services-movements-modal.component.html',
+    selector: 'app-products-and-services-movements-modal',
+    templateUrl: './products-and-services-movements-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ProductsAndServicesMovementsModalComponent implements OnInit {
   rows = [];
@@ -24,7 +26,8 @@ export class ProductsAndServicesMovementsModalComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private printService: PrintService,
-    private productInventoryService: ProductInventoryService
+    private productInventoryService: ProductInventoryService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   @ViewChild('movementsProductsModal') movementsProductsModal: NgbModal;
@@ -47,6 +50,9 @@ export class ProductsAndServicesMovementsModalComponent implements OnInit {
       ariaLabelledBy: 'modal-basic-title',
       size: 'xl',
     });
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   loadMovementsList(id: number) {
@@ -57,6 +63,7 @@ export class ProductsAndServicesMovementsModalComponent implements OnInit {
           this.temp = [...resp];
           this.rows = resp;
           this.loadingIndicator = false;
+          this.cdr.markForCheck();
         }
       });
   }

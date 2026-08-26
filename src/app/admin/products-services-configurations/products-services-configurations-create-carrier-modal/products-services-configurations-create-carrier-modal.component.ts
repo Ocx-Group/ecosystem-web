@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -8,12 +8,13 @@ import {
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-products-services-configurations-create-carrier-modal',
-  templateUrl:
-    './products-services-configurations-create-carrier-modal.component.html',
-  styleUrls: [
-    'products-services-configurations-create-carrier-modal.component.scss',
-  ],
+    selector: 'app-products-services-configurations-create-carrier-modal',
+    templateUrl: './products-services-configurations-create-carrier-modal.component.html',
+    styleUrls: [
+        'products-services-configurations-create-carrier-modal.component.scss',
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ProductsServicesConfigurationsCreateCarrierModalComponent {
   title = 'angular13bestcode';

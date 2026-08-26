@@ -1,10 +1,12 @@
 import {
+  ChangeDetectorRef,
   Component,
   ViewChild,
   Output,
   EventEmitter,
   HostListener,
   OnInit,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -15,8 +17,10 @@ import { ConceptConfigurationService } from '@app/core/service/concept-configura
 import { GradingService } from '@app/core/service/grading-service/grading.service';
 
 @Component({
-  selector: 'app-concept-list-details-modal',
-  templateUrl: './concept-list-details-modal.component.html',
+    selector: 'app-concept-list-details-modal',
+    templateUrl: './concept-list-details-modal.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ConceptListDetailsModalComponent implements OnInit {
   detailsConceptForm: FormGroup;
@@ -29,12 +33,13 @@ export class ConceptListDetailsModalComponent implements OnInit {
   scrollBarHorizontal = window.innerWidth < 1200;
   conceptListModel: ConceptList = new ConceptList();
   conceptLevels: ConceptList = new ConceptList();
-  calificationList!: [];
+  calificationList: any[] = [];
 
   constructor(
     private modalService: NgbModal,
     private conceptConfigurationService: ConceptConfigurationService,
-    private gradingService: GradingService
+    private gradingService: GradingService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -69,14 +74,19 @@ export class ConceptListDetailsModalComponent implements OnInit {
           this.temp = [...resp];
           this.rows = resp;
           this.loadingIndicator = false;
+          this.cdr.markForCheck();
         }
       });
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   fetchCalificationList() {
     this.gradingService.getAll().subscribe((resp) => {
       if (resp !== null) {
         this.calificationList = resp;
+        this.cdr.markForCheck();
       }
     });
   }
