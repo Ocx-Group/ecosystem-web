@@ -29,9 +29,9 @@ import { IncentiveService } from '@app/core/service/incentive-service/incentive.
 export class IncentivesListEditModalComponent implements OnInit {
   editIncentivesForm!: FormGroup;
   incentive: Incentive = new Incentive();
-  productListData!: [];
-  membershipData!: [];
-  calificationList!: [];
+  productListData: any[] = [];
+  membershipData: any[] = [];
+  calificationList: any[] = [];
   submitted = false;
   active = 1;
 

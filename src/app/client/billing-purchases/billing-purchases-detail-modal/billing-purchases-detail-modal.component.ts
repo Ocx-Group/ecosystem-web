@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Invoice } from '@app/core/models/invoice-model/invoice.model';
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
 import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.service';
@@ -8,14 +15,14 @@ import { ToastrService } from 'ngx-toastr';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 
 @Component({
-    selector: 'app-billing-purchases-detail-modal',
-    templateUrl: './billing-purchases-detail-modal.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-billing-purchases-detail-modal',
+  templateUrl: './billing-purchases-detail-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class BillingPurchasesDetailModalComponent implements OnInit, OnDestroy {
-  private invoice: Invoice = new Invoice();
-  private user: UserAffiliate = new UserAffiliate();
+  protected invoice: Invoice = new Invoice();
+  protected user: UserAffiliate = new UserAffiliate();
   countries = [];
   private suscription: Subscription;
   private destroy$ = new Subject();
@@ -28,17 +35,16 @@ export class BillingPurchasesDetailModalComponent implements OnInit, OnDestroy {
   billingPurchasesDetailModal: NgbModal;
 
   constructor(
-    private modalService: NgbModal,
-    private auth: AuthService,
-    private affiliateService: AffiliateService,
-    private toastr: ToastrService,
-    private cdr: ChangeDetectorRef
-  ) { }
+    private readonly modalService: NgbModal,
+    private readonly auth: AuthService,
+    private readonly affiliateService: AffiliateService,
+    private readonly toastr: ToastrService,
+    private readonly cdr: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
     this.getAllCountries();
     this.getCurrentUser();
-
   }
 
   getAllCountries() {
@@ -62,7 +68,7 @@ export class BillingPurchasesDetailModalComponent implements OnInit, OnDestroy {
         countryName = item.name;
         return true;
       }
-    })
+    });
 
     return countryName;
   }
@@ -86,12 +92,10 @@ export class BillingPurchasesDetailModalComponent implements OnInit, OnDestroy {
     this.totalDiscount = invoice.invoicesDetails[0].productDiscount;
     this.totalTax = invoice.invoicesDetails[0].productIva;
     const subTotal = invoice.invoicesDetails.reduce((accumulator, item) => {
-      return accumulator + (item.productPrice * item.productQuantity);
+      return accumulator + item.productPrice * item.productQuantity;
     }, 0);
 
-
     this.subTotal = subTotal;
-
 
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',

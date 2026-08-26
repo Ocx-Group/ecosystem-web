@@ -11,9 +11,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class IncentivesListDetailsModalComponent implements OnInit {
   incentive: Incentive = new Incentive();
-  calificationList!: [];
-  productListData!: [];
-  membershipData!: [];
+  calificationList: any[] = [];
+  productListData: any[] = [];
+  membershipData: any[] = [];
   active = 1;
 
   @ViewChild('incentiveDetailsModal') incentiveDetailsModal: NgbModal;

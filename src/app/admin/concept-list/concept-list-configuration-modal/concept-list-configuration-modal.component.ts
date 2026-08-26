@@ -21,7 +21,7 @@ export class ConceptListConfigurationModalComponent implements OnInit {
   dataObject: ConceptLevel[] = [];
   conceptLevel: ConceptLevel = new ConceptLevel();
   concept: ConceptList = new ConceptList();
-  calificationList!: [];
+  calificationList: any[] = [];
 
   @ViewChild('configurationModal') configurationModal: NgbModal;
 

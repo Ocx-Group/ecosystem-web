@@ -5,8 +5,5 @@
     "types": []
   },
   "exclude": ["test.ts", "**/*.spec.ts"],
-  "files": ["main.ts", "polyfills.ts"],
-  "angularCompilerOptions": {
-    "strictTemplates": false
-  }
+  "files": ["main.ts", "polyfills.ts"]
 }
