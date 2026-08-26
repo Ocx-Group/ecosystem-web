@@ -4,7 +4,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
     selector: 'app-savings-plans-one-b',
     templateUrl: './savings-plans-one-b.component.html',
     styleUrls: ['./savings-plans-one-b.component.sass'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class SavingsPlansOneBComponent {

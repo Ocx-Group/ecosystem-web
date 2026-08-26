@@ -5,7 +5,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
     selector: 'app-billing-purchase',
     templateUrl: './billing-purchase.component.html',
     styleUrls: ['./billing-purchase.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class BillingPurchaseComponent implements OnInit {

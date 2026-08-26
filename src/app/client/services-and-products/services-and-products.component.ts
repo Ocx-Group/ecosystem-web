@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
     selector: 'app-services-and-products',
     templateUrl: './services-and-products.component.html',
     styleUrls: ['./services-and-products.component.sass'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class ServicesAndProductsComponent implements OnInit {

@@ -5,7 +5,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
     selector: 'app-funding-accounts',
     templateUrl: './funding-accounts.component.html',
     styleUrls: ['./funding-accounts.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class FundingAccountsComponent implements OnInit {

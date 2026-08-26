@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { Product } from '@app/core/models/product-model/product.model';
 import { ToastrService } from 'ngx-toastr';
@@ -9,7 +9,7 @@ import { ProductService } from '@app/core/service/product-service/product.servic
     selector: 'app-products',
     templateUrl: './products.component.html',
     styleUrls: ['./products.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class ProductsComponent implements OnInit {
@@ -22,7 +22,8 @@ export class ProductsComponent implements OnInit {
   constructor(
     private cartService: CartService,
     private productService: ProductService,
-    private toatr: ToastrService
+    private toatr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -54,6 +55,7 @@ export class ProductsComponent implements OnInit {
     this.productService.getAllEcoPooles().subscribe((ecopools: Product) => {
       this.productList = ecopools;
       this.filterCategory = ecopools;
+      this.cdr.markForCheck();
       this.productList.forEach((item: any) => {
         Object.assign(item, { quantity: 1, total: item.salePrice });
       });
@@ -64,6 +66,7 @@ export class ProductsComponent implements OnInit {
     this.productService.getAllServices().subscribe((services: Product) => {
       this.productList = services;
       this.filterCategory = services;
+      this.cdr.markForCheck();
       this.productList.forEach((item: any) => {
         Object.assign(item, { quantity: 1, total: item.salePrice });
       });
@@ -74,6 +77,7 @@ export class ProductsComponent implements OnInit {
     this.productService.getAllTradingAcademy().subscribe((suscriptions: Product) => {
       this.productList = suscriptions;
       this.filterCategory = suscriptions;
+      this.cdr.markForCheck();
       this.productList.forEach((item: any) => {
         Object.assign(item, { quantity: 1, total: item.salePrice });
       });
@@ -84,6 +88,7 @@ export class ProductsComponent implements OnInit {
     this.productService.getAllFundingAccounts().subscribe((fundingAccounts: Product) => {
       this.productList = fundingAccounts;
       this.filterCategory = fundingAccounts;
+      this.cdr.markForCheck();
       this.productList.forEach((item: any) => {
         Object.assign(item, { quantity: 1, total: item.salePrice });
       });
@@ -94,6 +99,7 @@ export class ProductsComponent implements OnInit {
     this.productService.getAllSavingsPlans().subscribe((savingsPlans: Product) => {
       this.productList = savingsPlans;
       this.filterCategory = savingsPlans;
+      this.cdr.markForCheck();
       this.productList.forEach((item: any) => {
         Object.assign(item, { quantity: 1, total: item.salePrice });
       });
@@ -104,6 +110,7 @@ export class ProductsComponent implements OnInit {
     this.productService.getAllSavingsPlansOneB().subscribe((savingsPlans: Product) => {
       this.productList = savingsPlans;
       this.filterCategory = savingsPlans;
+      this.cdr.markForCheck();
       this.productList.forEach((item: any) => {
         Object.assign(item, { quantity: 1, total: item.salePrice });
       });
@@ -114,6 +121,7 @@ export class ProductsComponent implements OnInit {
     this.productService.getAllAlternativeHealth().subscribe((alternativeHealth: Product) => {
       this.productList = alternativeHealth;
       this.filterCategory = alternativeHealth;
+      this.cdr.markForCheck();
       this.productList.forEach((item: any) => {
         Object.assign(item, { quantity: 1, total: item.salePrice });
       });
@@ -124,6 +132,7 @@ export class ProductsComponent implements OnInit {
     this.productService.getAllAlternativeHealthForEurope().subscribe((alternativeHealth: Product) => {
       this.productList = alternativeHealth;
       this.filterCategory = alternativeHealth;
+      this.cdr.markForCheck();
       this.productList.forEach((item: any) => {
         Object.assign(item, { quantity: 1, total: item.salePrice });
       });
