@@ -25,7 +25,7 @@
               </div>
               <div class="chat-box">
                 <div class="card-body chat-content" style="position: relative; max-height: 400px;" #scrollMe
-                  [perfectScrollbar]="config">
+                  perfectScrollbar>
                   @for (message of messages; track message) {
                     <div class="chat-item"
                       [ngClass]="{'chat-right': !isAdmin(message.userId), 'chat-left': isAdmin(message.userId)}">

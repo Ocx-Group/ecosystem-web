@@ -20,12 +20,6 @@ export class TicketViewAdminComponent implements OnInit, OnDestroy {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   user: any;
   ticket: Ticket;
-  config = {
-    wheelSpeed: 0.5,
-    swipeEasing: true,
-    minScrollbarLength: 20,
-    maxScrollbarLength: 50,
-  };
   newMessage: string;
   ticketMessage: TicketMessageRequest = new TicketMessageRequest();
   messages: Set<TicketMessageRequest> = new Set();

@@ -20,12 +20,6 @@ export class TicketViewComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   ticket: Ticket;
-  config = {
-    wheelSpeed: 0.5,
-    swipeEasing: true,
-    minScrollbarLength: 20,
-    maxScrollbarLength: 50,
-  };
   user: UserAffiliate;
   newMessage: string;
   ticketMessage: TicketMessageRequest = new TicketMessageRequest();

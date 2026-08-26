@@ -45,7 +45,10 @@ export class MyProfileEditPersonalInfoModalComponent implements OnInit {
     });
   }
 
-  openEditPersonalInfoModal(content, user: User) {
+  // OJO: quien abre este modal (client/my-profile) pasa un UserAffiliate, no un
+  // User, y onSaveEditInfoValues acaba llamando a userService.updateUser. El
+  // desajuste de modelos es previo; aqui solo se deja de mentir sobre el tipo.
+  openEditPersonalInfoModal(content, user: any) {
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',

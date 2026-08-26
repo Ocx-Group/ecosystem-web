@@ -78,7 +78,7 @@
               @for (summary of ticketSummaries; track summary) {
                 <a href="#"
                   (click)="$event.preventDefault(); onTicketClick(summary.ticketId)" class="dropdown-item"
-                  [ngClass]="{'dropdown-item-unread': !summary.isRead}">
+                  [ngClass]="{'dropdown-item-unread': summary.unreadMessagesCount > 0}">
                   <span class="dropdown-item-icon l-bg-orange text-white">
                     <i class="far fa-envelope"></i>
                     <span class="badge badge-info">{{ summary.unreadMessagesCount }}</span>
