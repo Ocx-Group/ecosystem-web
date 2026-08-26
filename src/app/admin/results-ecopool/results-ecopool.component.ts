@@ -1,12 +1,12 @@
 import { ResultsEcoPool } from './../../core/models/results-ecopool-model/results-ecopool.model';
-import { Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ResultsEcoPoolService } from '@app/core/service/results-ecopool-service/results-ecopool.service';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 @Component({
     selector: 'app-results-ecopool',
     templateUrl: './results-ecopool.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class ResultsEcopoolComponent implements OnInit {
@@ -21,7 +21,10 @@ export class ResultsEcopoolComponent implements OnInit {
 
   @ViewChild('table') table: DatatableComponent;
 
-  constructor(private resultsEcoPoolService: ResultsEcoPoolService) {
+  constructor(
+    private resultsEcoPoolService: ResultsEcoPoolService,
+    private cdr: ChangeDetectorRef
+  ) {
 
   }
 
@@ -79,6 +82,9 @@ export class ResultsEcopoolComponent implements OnInit {
         this.temp = [...value];
         this.rows = value;
         this.loadingIndicator = false;
+        // El setTimeout de onPage solo hace console.log; lo unico asincrono que
+        // escribe estado en este fichero es esta carga.
+        this.cdr.markForCheck();
       },
       error: (err) => {
 
