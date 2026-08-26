@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { PaginationRequest } from '@app/core/interfaces/pagination-request';
@@ -9,7 +9,7 @@ import { map } from 'rxjs';
 @Component({
     selector: 'app-passive-pack',
     templateUrl: './passive-pack.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class PassivePackComponent implements OnInit {
@@ -27,7 +27,8 @@ export class PassivePackComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -72,6 +73,7 @@ export class PassivePackComponent implements OnInit {
           this.temp = [...data];
           this.rows = data;
           this.loadingIndicator = false;
+          this.cdr.markForCheck();
         }
       });
   }

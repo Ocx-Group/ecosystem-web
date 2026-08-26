@@ -1,5 +1,5 @@
 import { map } from 'rxjs/operators';
-import { Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
@@ -36,7 +36,7 @@ const header = [
     selector: 'app-authorize-affiliates',
     templateUrl: './authorize-affiliates.component.html',
     providers: [ToastrService],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class AuthorizeAffiliatesComponent implements OnInit {
@@ -61,6 +61,7 @@ export class AuthorizeAffiliatesComponent implements OnInit {
     private printService: PrintService,
     private affiliateService: AffiliateService,
     private modalService: NgbModal,
+    private cdr: ChangeDetectorRef
   ) {
     this.alerts = Array.from(ALERTS);
   }
@@ -74,9 +75,11 @@ export class AuthorizeAffiliatesComponent implements OnInit {
       if (affiliates !== null) {
         this.temp = [...affiliates];
         this.rows = affiliates;
+        this.cdr.markForCheck();
       }
       setTimeout(() => {
         this.loadingIndicator = false;
+        this.cdr.markForCheck();
       }, 500);
     });
   }
@@ -169,6 +172,7 @@ export class AuthorizeAffiliatesComponent implements OnInit {
 
     req.onload = () => {
       cb(JSON.parse(req.response));
+      this.cdr.markForCheck();
     };
 
     req.send();

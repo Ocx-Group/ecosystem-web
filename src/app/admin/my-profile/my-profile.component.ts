@@ -1,4 +1,4 @@
-import { Component, HostListener, ViewChild, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, ViewChild, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
@@ -13,7 +13,7 @@ const header = ['Movimientos', 'IP', 'Fecha'];
 @Component({
     selector: 'app-my-profile',
     templateUrl: './my-profile.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class MyProfileComponent implements OnInit {
@@ -31,6 +31,7 @@ export class MyProfileComponent implements OnInit {
     private printService: PrintService,
     private clipboardService: ClipboardService,
     private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   @ViewChild('table') table: DatatableComponent;
@@ -75,6 +76,7 @@ export class MyProfileComponent implements OnInit {
     this.userService.getUser(this.userCookie).subscribe((response) => {
       if (response.success) {
         this.user = response.data;
+        this.cdr.markForCheck();
       }
     });
   }

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
@@ -10,7 +10,7 @@ import { ProductConfiguration } from '@app/core/models/product-configuration-mod
 @Component({
     selector: 'app-products-services-configurations',
     templateUrl: './products-services-configurations.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class ProductsServicesConfigurationsComponent implements OnInit {
@@ -32,6 +32,7 @@ export class ProductsServicesConfigurationsComponent implements OnInit {
     private configurationService: ConfigurationService,
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {

@@ -1,5 +1,5 @@
 import { BalanceInformation } from '@app/core/models/wallet-model/balance-information.model';
-import { Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 import { WalletRequestService } from '@app/core/service/wallet-request/wallet-request.service';
@@ -14,7 +14,7 @@ import { WalletWithdrawalsConfiguration } from '@app/core/models/wallet-withdraw
 @Component({
     selector: 'app-requests',
     templateUrl: './requests.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class RequestsComponent implements OnInit {
@@ -34,7 +34,8 @@ export class RequestsComponent implements OnInit {
     private authService: AuthService,
     private toastr: ToastrService,
     private configurationService: ConfigurationService,
-    private walletService: WalletService
+    private walletService: WalletService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -54,6 +55,7 @@ export class RequestsComponent implements OnInit {
             this.rows = resp;
           }
           this.loadingIndicator = false;
+          this.cdr.markForCheck();
         },
         error: (err) => {
           this.showError('Error');
@@ -64,6 +66,7 @@ export class RequestsComponent implements OnInit {
   setAvailableBalance() {
     this.walletService.getBalanceInformationByAffiliateId(this.user.id).subscribe(balanceInfo => {
       this.balanceInfo = balanceInfo;
+      this.cdr.markForCheck();
     });
 
   }
@@ -73,6 +76,7 @@ export class RequestsComponent implements OnInit {
       next: (resp) => {
         this.walletWithdrawalsConfig.minimum_amount = resp.minimum_amount;
         this.walletWithdrawalsConfig.maximum_amount = resp.maximum_amount;
+        this.cdr.markForCheck();
       },
       error: (err) => {
         this.showError('Error');
@@ -107,6 +111,7 @@ export class RequestsComponent implements OnInit {
     this.authService.currentUserAffiliate.subscribe({
       next: (value) => {
         this.user = value;
+        this.cdr.markForCheck();
       }
     });
   }

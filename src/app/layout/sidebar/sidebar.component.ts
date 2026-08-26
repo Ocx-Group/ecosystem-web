@@ -1,6 +1,7 @@
 import {Router, NavigationEnd} from '@angular/router';
 
 import {
+  ChangeDetectorRef,
   Component,
   Inject,
   ElementRef,
@@ -9,7 +10,7 @@ import {
   HostListener,
   OnDestroy,
   DOCUMENT,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import {ROUTES} from './sidebar-items';
@@ -24,7 +25,7 @@ import {Grading} from '@app/core/models/grading-model/grading.model';
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.sass'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class SidebarComponent implements OnInit, OnDestroy {
@@ -46,7 +47,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private affiliateService: AffiliateService,
     private gradingService: GradingService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     this.routerObj = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -93,6 +95,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .subscribe((user) => {
         if (user) {
           this.user = user;
+          this.cdr.markForCheck();
           this.refreshUserInfoData(this.user.id);
         }
       });
@@ -159,6 +162,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.affiliateService.getAffiliateById(id).subscribe({
       next: (value) => {
         this.user = value.data;
+        this.cdr.markForCheck();
         this.getGradingInfo(this.user.external_grading_before_id);
       },
       error: () => {
@@ -171,6 +175,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.gradingService.getGradingById(id).subscribe((response) => {
       if (response.success) {
         this.grading = response.data;
+        this.cdr.markForCheck();
       }
     });
   }

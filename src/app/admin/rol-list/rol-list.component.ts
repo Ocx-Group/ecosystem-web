@@ -1,4 +1,4 @@
-import { Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   DatatableComponent,
   ColumnMode,
@@ -28,7 +28,7 @@ const header = ['Id', 'Rol', 'Descripción', 'Usuarios Asociados', 'Permisos'];
     selector: 'app-rol-list',
     templateUrl: './rol-list.component.html',
     providers: [ToastrService],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class RolListComponent implements OnInit {
@@ -58,7 +58,8 @@ export class RolListComponent implements OnInit {
     private clipboardService: ClipboardService,
     private printService: PrintService,
     private privilegeService: PrivilegeService,
-    private userService: UserService
+    private userService: UserService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -99,8 +100,10 @@ export class RolListComponent implements OnInit {
       next: (roles: Rol[]) => {
         this.temp = [...roles];
         this.rows = roles;
+        this.cdr.markForCheck();
         setTimeout(() => {
           this.loadingIndicator = false;
+          this.cdr.markForCheck();
         }, 500);
       },
       error: (err) => {

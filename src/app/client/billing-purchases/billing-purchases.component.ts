@@ -1,12 +1,13 @@
 import { WalletRequestRevertTransaction } from './../../core/models/wallet-request-request-model/wallet-request-revert-transaction.model';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 import {
+  ChangeDetectorRef,
   Component,
   ViewChild,
   HostListener,
   OnInit,
   OnDestroy,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import Swal from 'sweetalert2';
@@ -27,7 +28,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-filter',
     templateUrl: './billing-purchases.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class BillingPurchasesComponent implements OnInit, OnDestroy {
@@ -51,7 +52,8 @@ export class BillingPurchasesComponent implements OnInit, OnDestroy {
     private printService: PrintService,
     private walletRequestService: WalletRequestService,
     private configurationService: ConfigurationService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -65,6 +67,7 @@ export class BillingPurchasesComponent implements OnInit, OnDestroy {
           this.rows = [];
           this.temp = [];
           this.loadingIndicator = false;
+          this.cdr.markForCheck();
         }
       });
     this.loadWithdrawalConfiguration();
@@ -113,6 +116,7 @@ export class BillingPurchasesComponent implements OnInit, OnDestroy {
       error: (err) => {
         this.loadingIndicator = false;
         this.rows = [];
+        this.cdr.markForCheck();
         this.temp = [];
         this.showError('Error');
       },

@@ -25,7 +25,7 @@ am4core.useTheme(am5themes_Animated);
     selector: 'app-main',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class HomeComponent {
@@ -110,6 +110,7 @@ export class HomeComponent {
       )
       .subscribe(({ user, canSee }) => {
         this.canSeePaymentModels = canSee;
+        this.cdr.markForCheck();
         this.resetComponent();
         this.loadUserData(user.id);
       });
@@ -490,6 +491,7 @@ export class HomeComponent {
       next: (value) => {
         if (value) {
           this.maps = value.data;
+          this.cdr.markForCheck();
           console.log(value.data);
           this.setMapInfo();
         }
@@ -532,6 +534,7 @@ export class HomeComponent {
       this.walletService.getBalanceInformationByAffiliateId(id).subscribe({
         next: (value: BalanceInformation) => {
           this.balanceInformation = value;
+          this.cdr.markForCheck();
           resolve();
         },
         error: (err) => {
@@ -549,6 +552,7 @@ export class HomeComponent {
         .subscribe({
           next: (value: BalanceInformationModel1A) => {
             this.balanceInformationModel1A = value;
+            this.cdr.markForCheck();
             resolve();
           },
           error: (err) => {
@@ -573,6 +577,7 @@ export class HomeComponent {
         .subscribe({
           next: (value: BalanceInformationModel1B) => {
             this.balanceInformationModel1B = value;
+            this.cdr.markForCheck();
             resolve();
           },
           error: (err) => {

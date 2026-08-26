@@ -1,5 +1,5 @@
 
-import { Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
@@ -34,7 +34,7 @@ const header = [
     selector: 'app-affiliates-list',
     templateUrl: './affiliates-list.component.html',
     providers: [ToastrService],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class AffiliatesListComponent implements OnInit {
@@ -60,7 +60,8 @@ export class AffiliatesListComponent implements OnInit {
     private printService: PrintService,
     private walletService: WalletService,
     private walletModel1AService: WalletModel1AService,
-    private walletModel1BService: WalletModel1BService
+    private walletModel1BService: WalletModel1BService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -69,6 +70,7 @@ export class AffiliatesListComponent implements OnInit {
       .subscribe(term => {
         this.searchTerm = term;
         this.currentPage = 1;
+        this.cdr.markForCheck();
         this.loadAffiliateList();
       });
 
@@ -114,6 +116,7 @@ export class AffiliatesListComponent implements OnInit {
       error: error => {
         console.error(error);
         this.loadingIndicator = false;
+        this.cdr.markForCheck();
         this.showError('Error al cargar los datos');
       },
     });

@@ -1,5 +1,5 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, HostListener, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
@@ -16,7 +16,7 @@ const header = ['Grupo de Calculo', 'Descripción', 'Fecha de Registro'];
     selector: 'app-calculation-groups',
     templateUrl: './calculation-groups.component.html',
     providers: [ToastrService],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class CalculationGroupsComponent implements OnInit {
@@ -35,7 +35,8 @@ export class CalculationGroupsComponent implements OnInit {
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
     private printService: PrintService,
-    private clipboardService: ClipboardService
+    private clipboardService: ClipboardService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -99,9 +100,11 @@ export class CalculationGroupsComponent implements OnInit {
         if (paymentGroups !== null) {
           this.temp = [...paymentGroups];
           this.rows = paymentGroups;
+          this.cdr.markForCheck();
         }
         setTimeout(() => {
           this.loadingIndicator = false;
+          this.cdr.markForCheck();
         }, 500);
       });
   }

@@ -2,6 +2,7 @@ import { UserService } from '@app/core/service/user-service/user.service';
 import { NavigationEnd, Router } from '@angular/router';
 
 import {
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -10,7 +11,7 @@ import {
   OnInit,
   Renderer2,
   DOCUMENT,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ROUTESADMIN } from './sidebar-admin-items';
 import { AuthService } from '@app/core/service/authentication-service/auth.service';
@@ -22,7 +23,7 @@ import { RouteInfo } from './sidebar-admin.metadata';
     selector: 'app-sidebar-admin',
     templateUrl: './sidebar-admin.component.html',
     styleUrls: ['./sidebar-admin.component.sass'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class SidebarAdminComponent implements OnInit, OnDestroy {
@@ -43,7 +44,8 @@ export class SidebarAdminComponent implements OnInit, OnDestroy {
     public elementRef: ElementRef,
     private authService: AuthService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private cdr: ChangeDetectorRef
   ) {
     this.routerObj = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -90,6 +92,7 @@ export class SidebarAdminComponent implements OnInit, OnDestroy {
       .subscribe((user) => {
         if (user) {
           this.user = user;
+          this.cdr.markForCheck();
           this.getUserInfo();
         }
       });
@@ -175,6 +178,7 @@ export class SidebarAdminComponent implements OnInit, OnDestroy {
     this.userService.getUser(this.user).subscribe((response) => {
       if (response.success) {
         this.user = response.data;
+        this.cdr.markForCheck();
       }
     });
   }

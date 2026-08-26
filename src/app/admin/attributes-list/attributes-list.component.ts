@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import Swal from 'sweetalert2';
@@ -11,7 +11,7 @@ const header = ['Nombre', 'Descripción', 'No. Valores', 'Posición'];
 @Component({
     selector: 'app-attributes-list',
     templateUrl: './attributes-list.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class AttributesListComponent implements OnInit {
@@ -27,7 +27,8 @@ export class AttributesListComponent implements OnInit {
     private modalService: NgbModal,
     private productAttributeService: ProductAttributeService,
     private toastr: ToastrService,
-    private printService: PrintService
+    private printService: PrintService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -70,6 +71,7 @@ export class AttributesListComponent implements OnInit {
         this.temp = [...resp];
         this.rows = resp;
         this.loadingIndicator = false;
+        this.cdr.markForCheck();
       }
     });
   }
