@@ -3,7 +3,7 @@ import { forkJoin } from 'rxjs';
 import Swal from 'sweetalert2';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 
 import { WalletRequestRequest } from '@app/core/models/wallet-request-request-model/wallet-request-request.model';
@@ -18,7 +18,7 @@ import { CoinPayWithdrawal } from '@app/core/models/coinpay-model/coinpay-withdr
 @Component({
     selector: 'app-wallet-removal',
     templateUrl: './wallet-removal.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class WalletRemovalComponent implements OnInit {
@@ -38,7 +38,8 @@ export class WalletRemovalComponent implements OnInit {
     private toastr: ToastrService,
     private configurationService: ConfigurationService,
     private coinPaymentService: CoinpaymentService,
-    private coinpayService: CoinpayService
+    private coinpayService: CoinpayService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -80,6 +81,9 @@ export class WalletRemovalComponent implements OnInit {
     this.rows = filteredData;
     this.loadingIndicator = false;
     this.rows.reverse();
+    // El forkJoin de loadData cae despues del primer pintado: sin marcar, la
+    // tabla se queda con el spinner y sin filas.
+    this.cdr.markForCheck();
   }
 
   showSuccess(message) {
@@ -364,5 +368,9 @@ export class WalletRemovalComponent implements OnInit {
 
   resetWalletRequest() {
     this.selectedRows = [];
+    // Unico punto por el que pasan las tres respuestas que limpian la seleccion
+    // (denegar, CoinPayment y pago administrativo). Tambien cubre el reset de
+    // proccessOptionValue, que se hace en el mismo tick y gobierna los radios.
+    this.cdr.markForCheck();
   }
 }
