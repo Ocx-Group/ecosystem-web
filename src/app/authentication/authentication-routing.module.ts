@@ -13,8 +13,6 @@ import { MainOptionsComponent } from './main-options/main-options.component';
 import { ConpaymentConfirmationComponent } from './conpayment-confirmation/conpayment-confirmation.component';
 import { AuthGuard } from '@app/core/guard/auth.guard';
 import { MaintenancePageComponent } from './maintenance-page/maintenance-page.component';
-import { environment } from '@environments/environment';
-import { AuthGuardAdmin } from '@app/core/guard/auth.guard.admin';
 import { MaintenanceGuard } from '@app/core/guard/maintenance.guard';
 
 const routes: Routes = [
@@ -38,11 +36,11 @@ const routes: Routes = [
   {
     path: 'signin',
     component: SigninComponent,
-    canActivate: [MaintenanceGuard]
+    canActivate: [MaintenanceGuard],
   },
   {
     path: 'signup/:key',
-    component: SignupComponent
+    component: SignupComponent,
   },
   {
     path: 'forgot',
@@ -67,11 +65,11 @@ const routes: Routes = [
   {
     path: 'conpayment-confirmation',
     component: ConpaymentConfirmationComponent,
-    canActivate: [AuthGuard]
-  }
+    canActivate: [AuthGuard],
+  },
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AuthenticationRoutingModule { }
+export class AuthenticationRoutingModule {}
