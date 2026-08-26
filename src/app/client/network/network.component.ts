@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
@@ -30,7 +30,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
     selector: 'app-network',
     templateUrl: './network.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class NetworkComponent implements OnInit {
@@ -72,6 +72,7 @@ export class NetworkComponent implements OnInit {
     private truncatedDecimals: TruncateDecimalsPipe,
     private pagaditoService: PagaditoService,
     private productService: ProductService,
+    private cdr: ChangeDetectorRef,
   ) {
   }
 
@@ -84,15 +85,22 @@ export class NetworkComponent implements OnInit {
         this.affiliateService.changeId(this.user.id);
         this.gradingService.getAll().pipe(takeUntil(this.destroy$)).subscribe((gradings: Grading[]) => {
           this.gradings = gradings;
+          // getNameGrading() se llama por celda desde la plantilla: hasta que no
+          // esten las calificaciones, toda la columna dice 'N/A'.
+          this.cdr.markForCheck();
         });
 
         this.affiliateService.GetPersonalNetwork(user.id).pipe(takeUntil(this.destroy$)).subscribe((affiliates: NetworkAffiliate[]) => {
           console.log(affiliates)
           this.temp = [...affiliates];
           this.rows = affiliates;
+          this.cdr.markForCheck();
         });
       }
       this.loadingIndicator = false;
+      // currentUserAffiliate es un BehaviorSubject: la primera emision llega
+      // sincrona, pero las siguientes no. Marcar cubre las dos.
+      this.cdr.markForCheck();
     });
 
     this.loadBalanceAvailable();
@@ -327,6 +335,9 @@ export class NetworkComponent implements OnInit {
           this.rowsGlobal = [];
           this.showError('Usuario no existe');
         }
+        // La busqueda arranca en un click, pero la respuesta cae un tick mas
+        // tarde: la tabla global y el aviso de usuario nuevo no se pintan solos.
+        this.cdr.markForCheck();
       },
       error: () => {
         this.showError('Error');
