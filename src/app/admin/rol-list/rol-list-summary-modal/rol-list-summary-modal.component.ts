@@ -1,5 +1,5 @@
 import { UserService } from '@app/core/service/user-service/user.service';
-import { Component, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
     selector: 'app-rol-list-summary-modal',
     templateUrl: './rol-list-summary-modal.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class RolListSummaryModalComponent {
@@ -26,7 +26,8 @@ export class RolListSummaryModalComponent {
   constructor(
     private modalService: NgbModal,
     private userService: UserService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   summaryOpenModal(content, rol: Rol) {
@@ -39,6 +40,9 @@ export class RolListSummaryModalComponent {
     this.rolData.description = rol.description;
     user.rol_id = rol.id;
     this.getUsersByRolId(user);
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   getUsersByRolId(user: User) {
@@ -48,6 +52,7 @@ export class RolListSummaryModalComponent {
         this.rows = result;
         setTimeout(() => {
           this.loadingIndicator = false;
+          this.cdr.markForCheck();
         }, 500);
       },
       error: (err) => {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Invoice } from '@app/core/models/invoice-model/invoice.model';
 import { UserAffiliate } from '@app/core/models/user-affiliate-model/user.affiliate.model';
 import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.service';
@@ -10,7 +10,7 @@ import { Subject, Subscription, takeUntil } from 'rxjs';
 @Component({
     selector: 'app-billing-purchases-detail-modal',
     templateUrl: './billing-purchases-detail-modal.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class BillingPurchasesDetailModalComponent implements OnInit, OnDestroy {
@@ -31,7 +31,8 @@ export class BillingPurchasesDetailModalComponent implements OnInit, OnDestroy {
     private modalService: NgbModal,
     private auth: AuthService,
     private affiliateService: AffiliateService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -68,6 +69,7 @@ export class BillingPurchasesDetailModalComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((user) => {
         this.user = user;
+        this.cdr.markForCheck();
       });
   }
 
@@ -94,5 +96,8 @@ export class BillingPurchasesDetailModalComponent implements OnInit, OnDestroy {
       centered: true,
     });
     this.invoice = invoice;
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -17,7 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
     selector: 'app-attributes-list-details-modal',
     templateUrl: './attributes-list-details-modal.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class AttributesListDetailsModalComponent implements OnInit {
@@ -40,7 +40,8 @@ export class AttributesListDetailsModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private productAttributeService: ProductAttributeService,
     private productAttributeValueService: ProductAttributeValueService,
-    private toastr:ToastrService
+    private toastr:ToastrService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -75,6 +76,7 @@ export class AttributesListDetailsModalComponent implements OnInit {
         this.attributesList = resp;
 
         this.loadingIndicator = false;
+        this.cdr.markForCheck();
       }
     });
   }
@@ -87,6 +89,7 @@ export class AttributesListDetailsModalComponent implements OnInit {
           this.temp = [...resp];
           this.rows = resp;
           this.loadingIndicator = false;
+          this.cdr.markForCheck();
         }
       });
   }
@@ -110,6 +113,9 @@ export class AttributesListDetailsModalComponent implements OnInit {
       ariaLabelledBy: 'modal-basic-title',
       size: 'xl',
     });
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   onAddRowSave() {

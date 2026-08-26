@@ -1,6 +1,6 @@
 import { UpdatePassword } from './../../../core/models/user-model/update.password.model';
 import { ToastrService } from 'ngx-toastr';
-import { Component, Input, ViewChild, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, ViewChild, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   AbstractControl,
@@ -16,7 +16,7 @@ import { UserService } from '@app/core/service/user-service/user.service';
     selector: 'app-my-profile-edit-password-modal',
     templateUrl: './my-profile-edit-password-modal.component.html',
     providers: [ToastrService],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class MyProfileEditPasswordModalComponent implements OnInit {
@@ -30,7 +30,8 @@ export class MyProfileEditPasswordModalComponent implements OnInit {
     private modalService: NgbModal,
     private userService: UserService,
     private formBuilder: FormBuilder,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   @ViewChild('changePasswordModal') changePasswordModal: NgbModal;
@@ -49,6 +50,9 @@ export class MyProfileEditPasswordModalComponent implements OnInit {
       confirm_password: '',
     });
     this.user.id = user.id;
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   loadValidations() {

@@ -1,4 +1,4 @@
-import { EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Component, ViewChild, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -16,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
     selector: 'app-rol-list-edit-modal',
     templateUrl: './rol-list-edit-modal.component.html',
     providers: [ToastrService],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class RolListEditModalComponent implements OnInit {
@@ -31,7 +31,8 @@ export class RolListEditModalComponent implements OnInit {
     private modalService: NgbModal,
     private rolService: RolService,
     private toastr: ToastrService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {}
   get update_rol_controls(): { [key: string]: AbstractControl } {
     return this.updateRolForm.controls;
@@ -57,6 +58,9 @@ export class RolListEditModalComponent implements OnInit {
       rol_name: rol.name,
       description: rol.description,
     });
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   showError(message) {

@@ -1,5 +1,5 @@
 import { ConceptConfigurationService } from '@app/core/service/concept-configuration-service/concept-configuration.service';
-import { Component, ViewChild, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 @Component({
     selector: 'app-concept-list-configuration-modal',
     templateUrl: './concept-list-configuration-modal.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class ConceptListConfigurationModalComponent implements OnInit {
@@ -30,7 +30,8 @@ export class ConceptListConfigurationModalComponent implements OnInit {
     private modalService: NgbModal,
     private gradingService: GradingService,
     private conceptConfigurationService: ConceptConfigurationService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -58,8 +59,12 @@ export class ConceptListConfigurationModalComponent implements OnInit {
       .subscribe((resp) => {
         if (resp !== null) {
           this.dataObject = resp;
+          this.cdr.markForCheck();
         }
       });
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   showSuccess(message) {
@@ -89,6 +94,7 @@ export class ConceptListConfigurationModalComponent implements OnInit {
     this.gradingService.getAll().subscribe((resp) => {
       if (resp !== null) {
         this.calificationList = resp;
+        this.cdr.markForCheck();
       }
     });
   }
@@ -130,6 +136,7 @@ export class ConceptListConfigurationModalComponent implements OnInit {
       .subscribe((resp) => {
         if (resp !== null) {
           this.dataObject = resp;
+          this.cdr.markForCheck();
         }
       });
   }
