@@ -2,14 +2,16 @@ import {RightSidebarService} from '@app/core/service/rightsidebar-service/rights
 import {AuthService} from '@app/core/service/authentication-service/auth.service';
 
 import {
+  ChangeDetectorRef,
   Component,
   Inject,
   ElementRef,
   OnInit,
   Renderer2,
-  AfterViewInit, OnDestroy,
+  AfterViewInit,
+  OnDestroy,
   DOCUMENT,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {Router} from '@angular/router';
 import {ConfigService} from '@app/config/config.service';
@@ -28,7 +30,7 @@ const document: any = window.document;
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -58,6 +60,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
     private configureWalletService: ConfigureWalletService,
     private cartService: CartService,
     private ticketHubService: TicketHubService,
+    private cdr: ChangeDetectorRef
   ) {
     this.ticketHubService.connectionEstablished.subscribe((isConnected) => {
       if (isConnected) {
@@ -66,6 +69,10 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
           map(summaries => summaries.reduce((acc, summary) => acc + summary.unreadMessagesCount, 0))
         );
         this.onLoadTickets(this.authService.currentUserAffiliateValue.id);
+        // ticketSummaries$ y unreadCount$ se asignan aqui, despues del primer
+        // pintado. Sin marcar, el async pipe no llega a leerlos y el contador
+        // de tickets se queda a cero para siempre.
+        this.cdr.markForCheck();
       } else {
         console.error('Waiting for connection to be established...');
       }
@@ -83,6 +90,7 @@ export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.cartService.productList.subscribe((items: any) => {
       this.totalItem = items.reduce((total: number, item: any) => total + item.quantity, 0);
+      this.cdr.markForCheck();
     });
 
     this.langStoreValue = localStorage.getItem('lang');

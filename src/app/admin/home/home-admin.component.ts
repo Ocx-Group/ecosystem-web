@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -143,7 +143,7 @@ export type ChartOptions = {
 @Component({
     selector: 'app-home-admin',
     templateUrl: './home-admin.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class HomeAdminComponent implements OnInit {
@@ -165,7 +165,8 @@ export class HomeAdminComponent implements OnInit {
     private walletService: WalletService,
     private affiliateService: AffiliateService,
     private toastr: ToastrService,
-    private invoiceService: InvoiceService
+    private invoiceService: InvoiceService,
+    private cdr: ChangeDetectorRef
   ) {
     this.pieChartOptions = {
       series: [],
@@ -333,6 +334,7 @@ export class HomeAdminComponent implements OnInit {
         this.commissionsPaid = value.data.commissionsPaid;
         this.walletProfit = value.data.walletProfit;
         this.totalReverseBalance = value.data.totalReverseBalance;
+        this.cdr.markForCheck();
         this.initChartReport3();
       },
       error: (err) => {
@@ -438,6 +440,7 @@ export class HomeAdminComponent implements OnInit {
     this.affiliateService.getLastRegisteredAffiliates().subscribe({
       next: (value) => {
         this.lastRegisteredUsers = value.data;
+        this.cdr.markForCheck();
       },
       error: () => {
         this.showError('Error');
