@@ -45,6 +45,9 @@ export class BillingPurchasesDetailModalComponent implements OnInit, OnDestroy {
     this.affiliateService.getCountries().subscribe({
       next: (resp) => {
         this.countries = resp;
+        // La plantilla no nombra countries: interpola getCountryName(id), que lo
+        // lee por dentro. Buscar el campo en el HTML no lo encuentra.
+        this.cdr.markForCheck();
       },
       error: (err) => {
         this.toastr.error('error');
