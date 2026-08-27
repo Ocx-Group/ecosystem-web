@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, ChangeDetectionStrategy } from '@angular/core';
 import { MyTreeNodeClient } from '@app/core/models/unilevel-tree-model/tree-node';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -10,7 +10,7 @@ import {UserAffiliate} from "@app/core/models/user-affiliate-model/user.affiliat
     selector: 'app-view-unilevel-tree',
     templateUrl: './view-unilevel-tree.component.html',
     styleUrls: ['./view-unilevel-tree.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class ViewUnilevelTreeComponent {
@@ -37,7 +37,8 @@ export class ViewUnilevelTreeComponent {
   constructor(
     private authService: AuthService,
     private spinnerService: NgxSpinnerService,
-    private affiliateService: AffiliateService
+    private affiliateService: AffiliateService,
+    private cdr: ChangeDetectorRef
   ) {
     this.typeSelected = 'cube-transition';
   }
@@ -63,9 +64,11 @@ export class ViewUnilevelTreeComponent {
             if (users !== null) {
               console.log(users);
               this.tree = users;
+              this.cdr.markForCheck();
               setTimeout(() => {
                 this.spinnerService.hide();
                 this.showDiv = true;
+                this.cdr.markForCheck();
               }, 500);
             }
           },
@@ -80,9 +83,11 @@ export class ViewUnilevelTreeComponent {
             if (users !== null) {
               console.log(users);
               this.tree = users;
+              this.cdr.markForCheck();
               setTimeout(() => {
                 this.spinnerService.hide();
                 this.showDiv = true;
+                this.cdr.markForCheck();
               }, 500);
             }
           },
@@ -97,9 +102,11 @@ export class ViewUnilevelTreeComponent {
             if (users !== null) {
               console.log(users);
               this.tree = users;
+              this.cdr.markForCheck();
               setTimeout(() => {
                 this.spinnerService.hide();
                 this.showDiv = true;
+                this.cdr.markForCheck();
               }, 500);
             }
           },
@@ -114,9 +121,11 @@ export class ViewUnilevelTreeComponent {
             if (users !== null) {
               console.log(users);
               this.tree = users;
+              this.cdr.markForCheck();
               setTimeout(() => {
                 this.spinnerService.hide();
                 this.showDiv = true;
+                this.cdr.markForCheck();
               }, 500);
             }
           },
