@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild, ChangeDetectionStrategy} from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TicketCategories} from "@app/core/models/ticket-categories-model/ticket-categories.model";
 import {TicketRequest} from "@app/core/models/ticket-model/ticketRequest.model";
@@ -18,7 +18,7 @@ import {ObjectStorageService} from "@app/core/service/object-storage-service/obj
     selector: 'app-create-admin-modal',
     templateUrl: './create-admin-modal.component.html',
     styleUrls: ['./create-admin-modal.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class CreateAdminModalComponent implements OnInit {
@@ -41,6 +41,7 @@ export class CreateAdminModalComponent implements OnInit {
               private toast: ToastrService,
               private ticketHubService: TicketHubService,
               private affiliateService: AffiliateService,
+    private cdr: ChangeDetectorRef
   ) {
   }
 
@@ -73,6 +74,7 @@ export class CreateAdminModalComponent implements OnInit {
     this.ticketCategoriesService.getAll().subscribe({
       next: (value: TicketCategories[]) => {
         this.categories = value;
+        this.cdr.markForCheck();
       },
       error: () => {
         this.showError('Error al cargar las categorías.');
@@ -82,6 +84,9 @@ export class CreateAdminModalComponent implements OnInit {
 
   openModal() {
     this.modalService.open(this.createTicketModal, {size: 'lg', centered: true});
+    // Al modal lo abre el padre desde su plantilla: ese click ensucia la
+    // vista del PADRE, no la de este componente.
+    this.cdr.markForCheck();
   }
 
   createTicket(): void {

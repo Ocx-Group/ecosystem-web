@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LogoService } from '@app/core/service/logo-service/logo.service';
 declare var particlesJS: any;
@@ -7,13 +7,15 @@ declare var particlesJS: any;
     selector: 'app-main-options',
     templateUrl: './main-options.component.html',
     styleUrls: ['./main-options.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class MainOptionsComponent implements OnInit {
   userName: string;
   logoUrl = '';
-  constructor(private router: Router, private activateRoute: ActivatedRoute, private logoService: LogoService) {
+  constructor(private router: Router, private activateRoute: ActivatedRoute, private logoService: LogoService,
+    private cdr: ChangeDetectorRef
+  ) {
     this.userName = activateRoute.snapshot.paramMap.get('userName');
   }
 

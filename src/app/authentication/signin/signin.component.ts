@@ -1,5 +1,5 @@
 import { AuthService } from '@app/core/service/authentication-service/auth.service';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Response } from '@app/core/models/response-model/response.model';
@@ -15,7 +15,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
   selector: 'app-signin',
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 export class SigninComponent implements OnInit {
@@ -44,6 +44,7 @@ export class SigninComponent implements OnInit {
     private readonly logoService: LogoService,
     private readonly translate: TranslateService,
     private readonly deviceService: DeviceDetectorService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -113,6 +114,7 @@ export class SigninComponent implements OnInit {
         return;
       }
       this.loading = true;
+      this.cdr.markForCheck();
 
       this.authService.loginUser(signin).subscribe((response: Response) => {
         if (response.success) {
@@ -125,6 +127,7 @@ export class SigninComponent implements OnInit {
           this.showError(response.message);
         }
         this.loading = false;
+        this.cdr.markForCheck();
       });
     });
   }
@@ -156,6 +159,7 @@ export class SigninComponent implements OnInit {
           error: () => {
             this.showError('No fue posible iniciar sesión con Google.');
             this.loading = false;
+            this.cdr.markForCheck();
           },
         });
     });

@@ -2,12 +2,13 @@ import { MembershipManagerService } from '@app/core/service/membership-manager-s
 import { BalanceInformation } from '@app/core/models/wallet-model/balance-information.model';
 import { WalletService } from '@app/core/service/wallet-service/wallet.service';
 import {
+  ChangeDetectorRef,
   Component,
   OnDestroy,
   OnInit,
   TemplateRef,
   ViewChild,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import Swal from 'sweetalert2';
 
@@ -30,7 +31,7 @@ import { PagaditoService } from '@app/core/service/pagadito-service/pagadito.ser
     selector: 'app-membership-manager',
     templateUrl: './membership-manager.component.html',
     styleUrls: ['./membership-manager-component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class MembershipManagerComponent implements OnInit, OnDestroy {
@@ -55,7 +56,8 @@ export class MembershipManagerComponent implements OnInit, OnDestroy {
     private affiliateService: AffiliateService,
     private router: Router,
     private membershipManagerService: MembershipManagerService,
-    private pagaditoService: PagaditoService
+    private pagaditoService: PagaditoService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -63,6 +65,7 @@ export class MembershipManagerComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((user) => {
         this.user = user;
+        this.cdr.markForCheck();
       });
 
     this.membershipManagerService.showModal$
@@ -95,6 +98,7 @@ export class MembershipManagerComponent implements OnInit, OnDestroy {
       next: (resp) => {
         this.memberships = resp;
         this.currentMembership = this.memberships[0];
+        this.cdr.markForCheck();
       },
       error: (err) => { },
     });
@@ -122,6 +126,7 @@ export class MembershipManagerComponent implements OnInit, OnDestroy {
     this.walletService.getBalanceInformationByAffiliateId(this.user.id).subscribe({
       next: (value) => {
         this.balanceInformation.availableBalance = value.availableBalance;
+        this.cdr.markForCheck();
       },
       error: (err) => {
 
@@ -180,6 +185,7 @@ export class MembershipManagerComponent implements OnInit, OnDestroy {
     this.affiliateService.getAffiliateById(id).subscribe({
       next: (value) => {
         this.user = value.data;
+        this.cdr.markForCheck();
         this.auth.setUserAffiliateValue(value.data);
       },
       error: (err) => {

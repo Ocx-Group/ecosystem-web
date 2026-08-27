@@ -1,4 +1,4 @@
-import { Component, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -11,7 +11,7 @@ import {
 @Component({
     selector: 'app-request-wallet',
     templateUrl: './request-wallet.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class RequestWalletComponent {
@@ -25,12 +25,15 @@ export class RequestWalletComponent {
 
   @ViewChild('table') table: DatatableComponent;
 
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: NgbModal,
+    private cdr: ChangeDetectorRef
+  ) {
     this.fetch((data) => {
       this.temp = [...data];
       this.rows = data;
       setTimeout(() => {
         this.loadingIndicator = false;
+        this.cdr.markForCheck();
       }, 500);
     });
   }
@@ -51,6 +54,7 @@ export class RequestWalletComponent {
 
     req.onload = () => {
       cb(JSON.parse(req.response));
+      this.cdr.markForCheck();
     };
 
     req.send();

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -14,13 +14,15 @@ import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.
     selector: 'app-forgot',
     templateUrl: './forgot.component.html',
     styleUrls: ['./forgot.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class ForgotComponent implements OnInit {
   forgotPassword!: FormGroup;
   submitted = false;
-  constructor(private readonly affiliateService: AffiliateService) {}
+  constructor(private readonly affiliateService: AffiliateService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.initForgotPassword();

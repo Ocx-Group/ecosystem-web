@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import {takeUntil} from "rxjs/operators";
 import {Subject} from "rxjs";
 import {Router} from "@angular/router";
@@ -16,7 +16,7 @@ import {CreateAdminModalComponent} from "@app/admin/tickets/create-admin-modal/c
 @Component({
     selector: 'app-tickets-admin',
     templateUrl: './tickets-admin.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class TicketsAdminComponent implements OnInit {
@@ -36,7 +36,9 @@ export class TicketsAdminComponent implements OnInit {
               private ticketCategoryService: TicketCategoriesService,
               private router: Router,
               private modalService: NgbModal,
-              private toast: ToastrService) {
+              private toast: ToastrService,
+    private cdr: ChangeDetectorRef
+  ) {
   }
 
   async ngOnInit(): Promise<void> {
@@ -64,6 +66,9 @@ export class TicketsAdminComponent implements OnInit {
     ).subscribe({
       next: (value) => {
         this.categories = value;
+        // La plantilla no nombra categories: interpola getCategoryName(id),
+        // que lo lee por dentro.
+        this.cdr.markForCheck();
       },
       error: () => {
         this.showError('Error al cargar las categorías')
@@ -83,6 +88,7 @@ export class TicketsAdminComponent implements OnInit {
       next: (tickets) => {
         this.tickets = tickets;
         this.loadingIndicator = false;
+        this.cdr.markForCheck();
       },
       error: () => {
         this.showError('Error al cargar los tickets');
@@ -135,6 +141,7 @@ export class TicketsAdminComponent implements OnInit {
           this.ticketHubService.deleteTickets(idsToDelete).then(() => {
             this.tickets = this.tickets.filter(ticket => !idsToDelete.includes(ticket.id));
             this.selectedTickets = [];
+            this.cdr.markForCheck();
             this.showSuccess('Tickets eliminados exitosamente');
           }).catch(() => {
             this.showError('Error eliminando tickets');

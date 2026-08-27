@@ -16,7 +16,7 @@ import { TreeNode } from '@app/core/models/unilevel-tree-model/tree-node';
         '[class.ng13-org-chart-zoom-out]': 'zoomOut',
     },
     encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class ForceGenealogicalTreeComponent {

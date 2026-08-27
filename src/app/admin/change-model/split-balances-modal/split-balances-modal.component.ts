@@ -1,5 +1,5 @@
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 
 import { InvoiceModelOneTwo } from '@app/core/models/invoice-model/invoice-model-one-two';
 import { InvoiceService } from '@app/core/service/invoice-service/invoice.service';
@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
     selector: 'app-split-balances-modal',
     templateUrl: './split-balances-modal.component.html',
     styleUrls: ['./split-balances-modal.component.sass'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class SplitBalancesModalComponent implements OnInit {
@@ -23,7 +23,9 @@ export class SplitBalancesModalComponent implements OnInit {
   model2Amount: number = 0;
   remainingTotal: number = 0;
 
-  constructor(private modalService: NgbModal, private invoiceService: InvoiceService) { }
+  constructor(private modalService: NgbModal, private invoiceService: InvoiceService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit() {
 

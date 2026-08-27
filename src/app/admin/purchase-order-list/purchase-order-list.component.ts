@@ -1,4 +1,4 @@
-import { Component, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
@@ -17,7 +17,7 @@ const header = [
     selector: 'app-purchase-order-list',
     templateUrl: './purchase-order-list.component.html',
     providers: [ToastrService],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class PurchaseOrderListComponent {
@@ -32,13 +32,15 @@ export class PurchaseOrderListComponent {
   constructor(
     private toastr: ToastrService,
     private clipboardService: ClipboardService,
-    private printService: PrintService
+    private printService: PrintService,
+    private cdr: ChangeDetectorRef
   ) {
     this.fetch((data) => {
       this.temp = [...data];
       this.rows = data;
       setTimeout(() => {
         this.loadingIndicator = false;
+        this.cdr.markForCheck();
       }, 500);
     });
   }
@@ -59,6 +61,7 @@ export class PurchaseOrderListComponent {
 
     req.onload = () => {
       cb(JSON.parse(req.response));
+      this.cdr.markForCheck();
     };
 
     req.send();

@@ -11,7 +11,7 @@ interface MyTreeNode extends TreeNode {
     selector: 'app-page-force-genealogical-tree',
     templateUrl: './page-force-genealogical-tree.component.html',
     styleUrls: ['./page-force-genealogical-tree.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class PageForceGenealogicalTreeComponent {

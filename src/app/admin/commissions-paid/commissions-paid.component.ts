@@ -1,4 +1,4 @@
-import { Component, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { ToastrService } from 'ngx-toastr';
 import { ClipboardService } from 'ngx-clipboard';
@@ -8,7 +8,7 @@ import { ClipboardService } from 'ngx-clipboard';
     selector: 'app-commissions-paid',
     templateUrl: './commissions-paid.component.html',
     providers: [ToastrService],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class CommissionsPaidComponent {
@@ -20,12 +20,15 @@ export class CommissionsPaidComponent {
 
   @ViewChild('table') table: DatatableComponent;
 
-  constructor(private toastr: ToastrService, private clipboardService: ClipboardService) {
+  constructor(private toastr: ToastrService, private clipboardService: ClipboardService,
+    private cdr: ChangeDetectorRef
+  ) {
     this.fetch((data) => {
       this.temp = [...data];
       this.rows = data;
       setTimeout(() => {
         this.loadingIndicator = false;
+        this.cdr.markForCheck();
       }, 500);
     });
   }
@@ -46,6 +49,7 @@ export class CommissionsPaidComponent {
 
     req.onload = () => {
       cb(JSON.parse(req.response));
+      this.cdr.markForCheck();
     };
 
     req.send();

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, AfterViewInit, Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
     selector: 'app-change-model',
     templateUrl: './change-model.component.html',
     styleUrls: ['./change-model.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class ChangeModelComponent implements OnInit, AfterViewInit {
@@ -27,7 +27,9 @@ export class ChangeModelComponent implements OnInit, AfterViewInit {
   selectedInvoices: InvoiceModelOneTwo[] = [];
   @ViewChild(SplitBalancesModalComponent) private splitBalanceModalComponent: SplitBalancesModalComponent;
 
-  constructor(private invoiceService: InvoiceService, private toastr: ToastrService) { }
+  constructor(private invoiceService: InvoiceService, private toastr: ToastrService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit() {
     this.loadAllInvoicesForModelOneAndTwo();
@@ -149,6 +151,7 @@ export class ChangeModelComponent implements OnInit, AfterViewInit {
       next: (result: InvoiceModelOneTwo[]) => {
         this.temp = [...result];
         this.rows = result;
+        this.cdr.markForCheck();
       },
       error: (error: any) => {
         console.log(error);
