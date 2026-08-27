@@ -54,23 +54,23 @@
         <div class="sn-field" [class.sn-field--error]="submitted && Email.errors"
           [class.sn-field--active]="Email.value">
           <label class="sn-field__label" for="email">
-            {{username}} <span class="sn-field__required">*</span>
+            {{ 'SIGNIN.USER-NAME.TEXT' | translate }} <span class="sn-field__required">*</span>
           </label>
           <div class="sn-field__control">
             <span class="sn-field__icon">
               <i class="bi bi-person"></i>
             </span>
-            <input id="email" type="email" class="sn-field__input" formControlName="email" [placeholder]="username"
+            <input id="email" type="email" class="sn-field__input" formControlName="email" [placeholder]="'SIGNIN.USER-NAME.TEXT' | translate"
               autocomplete="username" />
             </div>
             @if (Email.errors?.['required'] && (Email.dirty || Email.touched)) {
               <div class="sn-field__feedback">
-                <i class="bi bi-exclamation-circle"></i> {{userNameIsRequerid}}
+                <i class="bi bi-exclamation-circle"></i> {{ 'SIGNIN.USER-NAME-IS-REQUIRED.TEXT' | translate }}
               </div>
             }
             @if (Email.errors?.['email'] && (Email.dirty || Email.touched)) {
               <div class="sn-field__feedback">
-                <i class="bi bi-exclamation-circle"></i> {{userNameErrorMessage}}
+                <i class="bi bi-exclamation-circle"></i> {{ 'SIGNIN.USER-NAME-MESSAGE-ERROR.TEXT' | translate }}
               </div>
             }
           </div>
@@ -78,14 +78,14 @@
           <!-- Password -->
           <div class="sn-field" [class.sn-field--error]="submitted && Pwd.errors" [class.sn-field--active]="Pwd.value">
             <label class="sn-field__label" for="pwd">
-              {{password}} <span class="sn-field__required">*</span>
+              {{ 'SIGNIN.PASSWORD.TEXT' | translate }} <span class="sn-field__required">*</span>
             </label>
             <div class="sn-field__control">
               <span class="sn-field__icon">
                 <i class="bi bi-lock"></i>
               </span>
               <input id="pwd" [type]="showPassword ? 'text' : 'password'" class="sn-field__input sn-field__input--padded"
-                formControlName="pwd" [placeholder]="password" />
+                formControlName="pwd" [placeholder]="'SIGNIN.PASSWORD.TEXT' | translate" />
                 <button type="button" class="sn-field__eye" (click)="togglePasswordVisibility()"
                   (keydown)="onKeyDown($event)"
                   [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
@@ -94,13 +94,13 @@
               </div>
               @if (Pwd.errors?.['required'] && (Pwd.dirty || Pwd.touched)) {
                 <div class="sn-field__feedback">
-                  <i class="bi bi-exclamation-circle"></i> {{passwordIsRequerid}}
+                  <i class="bi bi-exclamation-circle"></i> {{ 'SIGNIN.PASS-IS-REQUIRED.TEXT' | translate }}
                 </div>
               }
               @if ((Pwd.errors?.['minlength'] || Pwd.errors?.['maxlength']) && (Pwd.dirty || Pwd.touched)) {
                 <div class="sn-field__feedback"
                   >
-                  <i class="bi bi-exclamation-circle"></i> {{passwordErrorMessage}}
+                  <i class="bi bi-exclamation-circle"></i> {{ 'SIGNIN.PASS-MESSAGE-ERROR.TEXT' | translate }}
                 </div>
               }
             </div>
@@ -108,7 +108,7 @@
             <!-- Forgot link -->
             <div class="sn-actions">
               <a routerLink="/forgot" class="sn-link">
-                <i class="bi bi-key"></i> {{forgot}}
+                <i class="bi bi-key"></i> {{ 'SIGNIN.FORGOT-PASS.TEXT' | translate }}
               </a>
             </div>
 
@@ -124,7 +124,7 @@
               @if (!loading) {
                 <span class="sn-btn__content">
                   <i class="bi bi-box-arrow-in-right"></i>
-                  {{signin}}
+                  {{ 'SIGNIN.TITLE.TEXT' | translate }}
                 </span>
               }
               @if (loading) {
