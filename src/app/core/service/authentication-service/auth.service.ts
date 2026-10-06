@@ -242,6 +242,7 @@ export class AuthService {
     this.cartService.removeAllCart();
     localStorage.removeItem('currentUserAdmin');
     localStorage.removeItem('currentUserAffiliate');
+    localStorage.removeItem('zoomAnnouncementShown');
     this.currentUserAffiliateSubject.next(null);
     this.currentUserAdminSubject.next(null);
 

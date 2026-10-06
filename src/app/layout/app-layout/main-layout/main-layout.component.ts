@@ -10,6 +10,7 @@ import { AffiliateService } from '@app/core/service/affiliate-service/affiliate.
 import { ToastrService } from 'ngx-toastr';
 import { TicketHubService } from '@app/core/service/ticket-service/ticket-hub.service';
 
+export const ZOOM_ANNOUNCEMENT_KEY = 'zoomAnnouncementShown';
 
 @Component({
     selector: 'app-main-layout',
@@ -42,9 +43,63 @@ export class MainLayoutComponent implements OnInit {
 
     if (this.user.activation_date == null) {
       this.showMembershipManager();
+    } else if (this.shouldShowZoomAnnouncement()) {
+      this.showZoomAnnouncement().then(() => {
+        if (this.user.message_alert == 0) {
+          this.showAlert();
+        }
+      });
     } else if (this.user.message_alert == 0) {
       this.showAlert();
     }
+  }
+
+  private shouldShowZoomAnnouncement(): boolean {
+    const announcementEnd = new Date('2026-10-12T06:00:00Z');
+    return new Date() < announcementEnd && !localStorage.getItem(ZOOM_ANNOUNCEMENT_KEY);
+  }
+
+  showZoomAnnouncement() {
+    localStorage.setItem(ZOOM_ANNOUNCEMENT_KEY, '1');
+    const zoomUrl = 'https://us04web.zoom.us/j/7407569179?pwd=8kDn4ba7QAtaqPleqTGnfwnjPiaPFD.1';
+
+    return Swal.fire({
+      icon: 'info',
+      title: 'INFORMACIÓN ECOSYSTEM',
+      html: `
+            <p>El Zoom se llevará a cabo:</p>
+            <p>
+              📅 <strong>Fecha:</strong><br>
+              Sábado 10 de Octubre<br>
+              Domingo 11 de Octubre
+            </p>
+            <p>👉 Compartan con sus equipos.</p>
+            <p><a href="${zoomUrl}" target="_blank" rel="noopener noreferrer">Unirse al Zoom</a></p>
+            <p>🕒 <strong>Hora según tu región:</strong></p>
+            <div style="text-align: left; display: inline-block;">
+              <strong>NORTE AMÉRICA</strong><br>
+              🇺🇸 Wisconsin: 2:30pm<br>
+              🇺🇸 Florida: 3:30pm<br>
+              🇺🇸 USA Miami, NYC: 3:30pm<br>
+              <strong>CENTRO AMÉRICA</strong><br>
+              🇨🇷 Costa Rica: 1:30pm<br>
+              <strong>SUD AMÉRICA</strong><br>
+              🇪🇨 Ecuador: 2:30pm<br>
+              🇨🇴 Colombia: 2:30pm<br>
+              🇻🇪 Venezuela: 3:30pm<br>
+              🇦🇷 Argentina: 4:30pm<br>
+              🇪🇸 Madrid España: 9:30pm
+            </div>
+        `,
+      confirmButtonText: 'Unirse al Zoom',
+      confirmButtonColor: '#3085d6',
+      showCancelButton: true,
+      cancelButtonText: 'Cerrar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.open(zoomUrl, '_blank', 'noopener');
+      }
+    });
   }
 
   showMembershipManager() {
