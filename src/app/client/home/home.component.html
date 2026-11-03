@@ -10,7 +10,7 @@
   <div class="section-body">
     <div class="row">
       <ng-container>
-        <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
           <div class="card">
             <div class="card-header">
               <h4 class="badge-outline col-green">{{ 'HOME-PAGE-CLIENT.INFORMATION-R.TEXT' | translate }}</h4>
@@ -26,6 +26,15 @@
               <div class="table m-t-5">
                 <table class="table align-items-center table-row-border">
                   <tbody>
+                    <tr>
+                      <td class="col-purple">
+                        <i class="fa fa-circle col-purple msr-2 col-purple"></i>{{
+                        'HOME-PAGE-CLIENT.MODEL-REQUEST.TEXT'
+                        | translate
+                        }}
+                      </td>
+                      <td class="col-purple">USD {{ balanceInformationModel1B.reverseBalance | truncateDecimals:2 }}</td>
+                    </tr>
                     <tr>
                       <td class="col-red">
                         <i class="fa fa-circle col-red msr-2"></i>{{
@@ -64,15 +73,6 @@
                       <td class="col-green">USD {{ balanceInformationModel1B.totalAcquisitions | truncateDecimals:2 }}
                       </td>
                     </tr>
-                    <tr>
-                      <td class="col-purple">
-                        <i class="fa fa-circle col-purple msr-2 col-purple"></i>{{
-                        'HOME-PAGE-CLIENT.MODEL-REQUEST.TEXT'
-                        | translate
-                        }}
-                      </td>
-                      <td class="col-purple">USD {{ balanceInformationModel1B.reverseBalance | truncateDecimals:2 }}</td>
-                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -80,6 +80,7 @@
           </div>
         </div>
 
+        <!-- Card INFORMATION-2 oculto
         <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
           <div class="card">
             <div class="card-header">
@@ -138,6 +139,7 @@
             </div>
           </div>
         </div>
+        -->
       </ng-container>
     </div>
 
